@@ -3,5 +3,6 @@ public class test_java{
         String a;
         a = "JAI_TESTING";
         System.out.println(a);
+        System.out.println(b);
     }
 }
