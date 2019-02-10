@@ -1,4 +1,4 @@
-package com.riskgame.controllers;
+package com.riskgame.Controllers;
 
 public class MapEditController {
 }

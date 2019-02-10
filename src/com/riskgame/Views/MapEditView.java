@@ -1,4 +1,4 @@
-package com.riskgame.views;
+package com.riskgame.Views;
 
 public class MapEditView {
 }

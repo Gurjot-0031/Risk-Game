@@ -1,4 +1,5 @@
 package com.riskgame.RiskGame;
 
-public class CreateNewMap {
+public class MapEditRepository {
+
 }
