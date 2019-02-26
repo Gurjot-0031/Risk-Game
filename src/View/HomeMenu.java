@@ -27,35 +27,17 @@ public class HomeMenu {
 	private void initMapEditorMenu(JMenuBar homeMenuBar) {
 		JMenu mapEditorMenu = new JMenu("MapEditor");
 		mapEditorMenu.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				System.out.println("Mouse released");
-				objHomeController.eventTriggered("MapEditor");
-			}
 			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				return;
-			}
-			
+			@Override public void mouseReleased(MouseEvent e) {}
+			@Override public void mousePressed(MouseEvent e) {}
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Mouse clicked");
 				objHomeController.eventTriggered("MapEditor");
 				return;
 			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			@Override public void mouseEntered(MouseEvent e) {}
+			@Override public void mouseExited(MouseEvent e) {}
 		});
 		
 		homeMenuBar.add(mapEditorMenu);

@@ -1,14 +1,19 @@
 package Controller;
 
+import javax.swing.JFrame;
+
 import View.HomeMenu;
 import View.HomeView;
+import View.MapEditorView;
 
 public class HomeController {
 	
 	HomeView objHomeView;
 	HomeMenu objHomeMenu;
 	
-	private void initHomeWindow() {
+	JFrame currLoadedFrame;
+	
+	public void initHomeWindow() {
 		objHomeView = new HomeView(this);
 		objHomeView.initFrame();
 		initHomeMenu();
@@ -25,16 +30,7 @@ public class HomeController {
 		
 		switch(event) {
 			case "MapEditor":
-				
+				MapEditorView.getInstance(new MapEditorController()).loadFrame();
 		}
-	}
-
-	public static void main(String[] args) {
-		HomeController objHomeController = new HomeController();
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	objHomeController.initHomeWindow();
-            }
-        });
 	}
 }
