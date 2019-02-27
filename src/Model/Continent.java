@@ -29,7 +29,16 @@ public class Continent {
 	
 	public String checkOwner() {
 		String rt = null;
-		
+		for (java.util.Map.Entry<String, Territory> entry : this.territories.entrySet()) {
+		    String territoryName = entry.getKey();
+		    Territory territoryObj = entry.getValue();
+		    if(rt == null) {
+		    	territoryObj.getOwner();
+		    }
+		    else if(rt != territoryObj.getOwner()) {
+		    	return null;
+		    }
+		}
 		return rt;
 	}
 }
