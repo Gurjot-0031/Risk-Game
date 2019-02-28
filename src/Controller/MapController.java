@@ -31,12 +31,14 @@ public class MapController {
 			while(line != null) {
 				line = line.replaceAll("\\s", "").toLowerCase();
 				if(line.length() < 2) {
+					line = reader.readLine();
 					continue;
 				}
 				
 				if(flag == 0) {
 					if(line.equals("[map]")) {
 						this.map = new Map();
+						line = reader.readLine();
 						continue;
 					}
 					else if(line.equals("[continents]")) {
@@ -55,6 +57,13 @@ public class MapController {
 				}
 				
 				line = reader.readLine();
+			}
+			
+			if(flag != 2) {
+				System.out.println("Map not read correctly.");
+			}
+			else {
+				System.out.println("Map has been read.");
 			}
 		}
 		catch (Exception e) {
@@ -91,15 +100,23 @@ public class MapController {
 	}
 
 	public boolean processTerritoryLine(String line) {
-		String[] info = line.split("=");
+		String[] info = line.split(",");
 		if(info.length < 5) {
 			return false;
 		}
-		
+		this.map.addTerritory(info);
 		return true;
 	}
 	
 	public void loadMap() {
 		
+	}
+	
+	public String[] getContinentsArray() {
+		return this.map.getContinentsArray();
+	}
+	
+	public String[] getTerritoriesArray(String selectedContinent) {
+		return this.map.getTerritoriesArray(selectedContinent);
 	}
 }

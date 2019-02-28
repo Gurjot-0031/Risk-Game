@@ -49,7 +49,6 @@ public class Map {
 	public String checkOwner() {
 		String rt = null;
 		for (java.util.Map.Entry<String, Continent> entry : this.continents.entrySet()) {
-		    String continentName = entry.getKey();
 		    Continent continentObj = entry.getValue();
 		    if(rt == null) {
 		    	continentObj.checkOwner();
@@ -59,5 +58,29 @@ public class Map {
 		    }
 		}
 		return rt;
+	}
+	
+	public String[] getContinentsArray() {
+		String[] continentsArray = new String[this.continents.size()];
+		int ctr = 0;
+		for (java.util.Map.Entry<String, Continent> entry : this.continents.entrySet()) {
+		    String continentName = entry.getKey();
+		    continentsArray[ctr] = continentName;
+		    ctr++;
+		}
+		return continentsArray;
+	}
+	
+	public String[] getTerritoriesArray(String selectedContinent) {
+		int ctr = 0;
+		Continent tmpContinent = this.continents.get(selectedContinent);
+		String[] territoriesArray = new String[tmpContinent.territories.size()];
+
+	    for (java.util.Map.Entry<String, Territory> entry2 : tmpContinent.territories.entrySet()) {
+	    	territoriesArray[ctr] = entry2.getKey();
+	    	ctr++;
+	    }
+	    
+		return territoriesArray;
 	}
 }
