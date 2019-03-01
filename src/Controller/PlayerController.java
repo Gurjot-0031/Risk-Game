@@ -7,7 +7,7 @@ import java.util.List;
 public class PlayerController {
     private String playerName;
     private List<Territory> territoriesOwned;
-    
+
     public String getPlayerName() {
         return playerName;
     }
