@@ -14,6 +14,25 @@ public class MapEditorController {
 			case "MapEditorBrowse":
 				MapController.getInstance().readMapFile(((MapEditorEvents)event).getEventFile());
 				break;
+			case "Add Continent":
+				String[] info = event.getEventData().split(",");
+				String name = info[0];
+				int reward = Integer.parseInt(info[1]);
+				MapController.getInstance().addContinent(name, reward);
+				break;
+			case "Change Reward":
+				String[] infoC = event.getEventData().split(",");
+				String nameC = infoC[0];
+				int rewardC = Integer.parseInt(infoC[1]);
+				MapController.getInstance().changeContinentReward(nameC, rewardC);
+				break;
+			case "Delete Continent":
+				String nameD = event.getEventData();
+				MapController.getInstance().deleteContinent(nameD);
+				break;
+			case "Add Territory":
+				String infoAT = event.getEventData();
+				break;
 			default:
 				System.out.println("Unknown event received");
 		}

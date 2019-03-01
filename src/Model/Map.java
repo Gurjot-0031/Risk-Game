@@ -83,4 +83,51 @@ public class Map {
 	    
 		return territoriesArray;
 	}
+	
+	public void changeContinentReward(String name, int reward) {
+		boolean found = false;
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+	    	if(entry2.getKey().equals(name)) {
+	    		entry2.getValue().setReward(reward);
+	    		found = true;
+	    	}
+	    }
+		if(found == false) {
+			System.out.println("Could not find the continent. Cannot change reward");
+		}
+		else {
+			System.out.println("Continent reward changed");
+		}
+	}
+	
+	public void deleteContinent(String name) {
+		Continent continent = null;
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+	    	if(entry2.getKey().equals(name)) {
+	    		continent = entry2.getValue();
+	    	}
+	    }
+		if(continent == null) {
+			System.out.println("Could not find the continent. Cannot delete continent");
+		}
+		else {
+			if(continent.getNumTerritories() != 0) {
+				System.out.println("Continent still has territories in it. Delete all territories from this continent first");
+			}
+			else {
+				this.continents.remove(name);
+				System.out.println("Continent " + name + " deleted successfully");
+			}
+		}
+	}
+	
+	public String[] getAdjacents(String territory) {
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+	    	if(entry2.getValue().getTerritory(territory) != null) {
+	    		Territory tmpTerritory = entry2.getValue().getTerritory(territory);
+	    		return tmpTerritory.adjacents.toArray(new String[0]);
+	    	}
+	    }
+		return null;
+	}
 }

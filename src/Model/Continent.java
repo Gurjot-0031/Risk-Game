@@ -19,8 +19,16 @@ public class Continent {
 		return this.name;
 	}
 	
+	public void setReward(int reward) {
+		this.reward = reward;
+	}
+	
 	public int getReward() {
 		return this.reward;
+	}
+	
+	public int getNumTerritories() {
+		return territories.size();
 	}
 	
 	public void addTerritory(Territory territory) {
@@ -40,5 +48,12 @@ public class Continent {
 		    }
 		}
 		return rt;
+	}
+	
+	public Territory getTerritory(String territory) {
+		if(this.territories.containsKey(territory)) {
+			return this.territories.get(territory);
+		}
+		return null;
 	}
 }

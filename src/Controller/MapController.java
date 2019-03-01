@@ -119,4 +119,27 @@ public class MapController {
 	public String[] getTerritoriesArray(String selectedContinent) {
 		return this.map.getTerritoriesArray(selectedContinent);
 	}
+	
+	public void addContinent(String name, int reward) {
+		String continents[] = map.getContinentsArray();
+		for(int i = 0; i < continents.length; i++) {
+			if(continents[i].equals(name) == true) {
+				System.out.println("Continent already exists");
+				return;
+			}
+		}
+		map.addContinent(new Continent(name, reward));
+	}
+	
+	public void changeContinentReward(String name, int reward) {
+		map.changeContinentReward(name, reward);
+	}
+	
+	public void deleteContinent(String name) {
+		map.deleteContinent(name);
+	}
+	
+	public String[] getAdjacents(String territory) {
+		return map.getAdjacents(territory);
+	}
 }
