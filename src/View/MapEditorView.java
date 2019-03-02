@@ -143,7 +143,7 @@ public class MapEditorView {
 	public void showEditButtons(JComboBox<String> listOfTerritories, JComboBox<String> listOfAdjacents, boolean isNew) {
 
 		String[] continents = MapController.getInstance().getContinentsArray();
-		if(continents == null || continents.length < 1) {
+		if(continents == null) {
 			return;
 		}
 		
