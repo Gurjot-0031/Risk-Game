@@ -12,7 +12,9 @@ public class MapEditorController {
 		
 		switch(eventInfo) {
 			case "MapEditorBrowse":
-				MapController.getInstance().readMapFile(((MapEditorEvents)event).getEventFile());
+				if(MapController.getInstance().readMapFile(((MapEditorEvents)event).getEventFile()) == false) {
+					System.out.println("Map Read Error");
+				}
 				break;
 			case "Add Continent":
 				String[] info = event.getEventData().split(",");
@@ -52,8 +54,9 @@ public class MapEditorController {
 				break;
 			case "Save Map":
 				MapController.getInstance().saveMap();
+				break;
 			default:
-				System.out.println("Unknown event received");
+				System.out.println("Unknown event received: " + eventInfo);
 		}
 	}
 }

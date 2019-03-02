@@ -16,7 +16,8 @@ public class HomeView {
 		this.homeFrame.setJMenuBar(homeMenuBar);
 	}
 	
-	public HomeView(HomeController objHomeController) {	this.objHomeController = objHomeController;
+	public HomeView(HomeController objHomeController) {
+		this.objHomeController = objHomeController;
 	}
 	
 	public void initFrame() {

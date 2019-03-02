@@ -30,7 +30,7 @@ public class MapController {
 		this.map.setAuthor(author);
 	}
 	
-	public void readMapFile(File mapFile) {
+	public boolean readMapFile(File mapFile) {
 		BufferedReader reader;
 		int flag = 0;
 		try {
@@ -69,14 +69,18 @@ public class MapController {
 			
 			if(flag != 2) {
 				System.out.println("Map not read correctly.");
+				return false;
 			}
 			else {
 				System.out.println("Map has been read.");
 			}
 		}
 		catch (Exception e) {
+			System.out.println("Map not read correctly.");
 			System.out.println(e);
+			e.printStackTrace();
 		}
+		return true;
 	}
 	
 	public boolean processMapLine(String line) {
@@ -121,6 +125,9 @@ public class MapController {
 	}
 	
 	public String[] getContinentsArray() {
+		if(this.map == null) {
+			return null;
+		}
 		return this.map.getContinentsArray();
 	}
 	

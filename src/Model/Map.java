@@ -274,6 +274,9 @@ public class Map {
 	}
 	
 	public boolean mark_visited(String territory, HashMap<String, Boolean> visited, Continent continent) {
+		if(visited.containsKey(territory)) {
+			return true;
+		}
 		if(continent != null) {
 			if(continent.territories.get(territory) != null) {
 				visited.put(territory, true);
@@ -284,7 +287,14 @@ public class Map {
 		}
 		
 		for(String adjacent : this.getTerritory(territory).getAdjacents()) {
-			mark_visited(adjacent, visited, continent);
+			if(continent != null) {
+				if(continent.territories.get(adjacent) != null) {
+					mark_visited(adjacent, visited, continent);
+				}
+			}
+			else {
+				mark_visited(adjacent, visited, continent);
+			}
 		}
 		return true;
 	}
@@ -302,11 +312,11 @@ public class Map {
 			mark_visited(continent.territories.entrySet().iterator().next().getKey(), visitedC, continent);
 			
 			for (java.util.Map.Entry<String, Territory> entry : continent.territories.entrySet()) {
-				if(visitedC.get(entry.getKey()) != true) {
+				if(visitedC.get(entry.getKey()) == null) {
 					System.out.println("Continent " + continent.name + " inside map is not connected graph");
 					return false;
 				}
-				if(visited.get(entry.getKey()) != true) {
+				if(visited.get(entry.getKey()) == null) {
 					System.out.println("The map is not a connected graph");
 				}
 			}
@@ -318,27 +328,27 @@ public class Map {
 	public boolean saveMapToFile() {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(this.path));
-			writer.write("[map]");
+			writer.write("[map]\n");
 			if(this.author == null) {
 				System.out.println("Map has no author.");
 				writer.close();
 				return false;
 			}
-			writer.write(this.author);
-			writer.write("[continents]");
+			writer.write("author=" + this.author + "\n");
+			writer.write("[continents]\n");
 			
 			for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
-				writer.write(entry2.getValue().getName() + "=" + entry2.getValue().getReward());
+				writer.write(entry2.getValue().getName() + "=" + entry2.getValue().getReward() + "\n");
 			}
-			writer.write("[territories]");
+			writer.write("[territories]\n");
 			for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 				for (java.util.Map.Entry<String, Territory> entry3 : entry2.getValue().territories.entrySet()) {
 					Territory tmp = entry3.getValue();
-					String line = tmp.getName() + "," + tmp.getX() + "," + tmp.getY();
+					String line = tmp.getName() + "," + tmp.getX() + "," + tmp.getY() + "," + entry2.getKey();
 					for(String adjacent : tmp.getAdjacents()) {
 						line += "," + adjacent;
 					}
-					writer.write(line);
+					writer.write(line + "\n");
 				}
 			}
 		    writer.close();
@@ -365,7 +375,7 @@ public class Map {
 		if(saveMapToFile() != true) {
 			return false;
 		}
-		
+		System.out.println("Map Saved");
 		return true;
 	}
 }

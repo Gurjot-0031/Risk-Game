@@ -141,11 +141,16 @@ public class MapEditorView {
 	}
 	
 	public void showEditButtons(JComboBox<String> listOfTerritories, JComboBox<String> listOfAdjacents, boolean isNew) {
+
+		String[] continents = MapController.getInstance().getContinentsArray();
+		if(continents == null || continents.length < 1) {
+			return;
+		}
+		
 		JLabel label2 = new JLabel("List of continents");
 		mapEditorFrame.getContentPane().add(label2);
 		label2.setBounds(10, 40, 250, 20);
 		
-		String[] continents = MapController.getInstance().getContinentsArray();
 		JComboBox<String> listOfContinents = new JComboBox<String>(continents);
 		mapEditorFrame.getContentPane().add(listOfContinents);
 
