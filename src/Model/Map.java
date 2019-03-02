@@ -1,5 +1,7 @@
 package Model;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,10 +10,12 @@ public class Map {
 	String wrap;
 	String scroll;
 	String warn;
+	String path;
 	
 	HashMap<String, Continent> continents;
 	
-	public Map() {
+	public Map(String path) {
+		this.path = path;
 		this.continents = new HashMap<String, Continent>();
 	}
 	
@@ -129,5 +133,239 @@ public class Map {
 	    	}
 	    }
 		return null;
+	}
+	
+	public boolean addTerritory(String info) {
+		try {
+			String[] infoA = info.split(",");
+			String continent = infoA[0];
+			String tName = infoA[1];
+			Integer x = Integer.parseInt(infoA[2]);
+			Integer y = Integer.parseInt(infoA[3]);
+			ArrayList<String> adjacents = new ArrayList<String>();
+			
+			if(infoA.length < 5) {
+				return false;
+			}
+			
+			for(int i = 4; i < infoA.length; i++) {
+				adjacents.add(infoA[i]);
+			}
+			
+			Territory tmpTerritory = new Territory(tName, x, y, adjacents);
+			this.continents.get(continent).addTerritory(tmpTerritory);
+		}
+		catch(Exception e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean delTerritory(String info) {
+		try {
+			String[] infoA = info.split(",");
+			String continent = infoA[0];
+			String tName = infoA[1];
+			Continent tmpContinent = this.continents.get(continent);
+			boolean rt = tmpContinent.deleteTerritory(tName);
+			if(rt == false) {
+				System.out.println("Could not find the territory to be deleted");
+				return rt;
+			}
+			for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+				entry2.getValue().handleTerritoryDeletion(tName);
+		    }
+		}
+		catch(Exception e) {
+			System.out.println("Could not find the territory to be deleted");
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean addAdjacent(String info) {
+		try {
+			String[] infoA = info.split(",");
+			if(infoA.length < 3) {
+				System.out.println("Invalid information while adding adjacent");
+				return false;
+			}
+			String continent = infoA[0];
+			String tName = infoA[1];
+			Continent tmpContinent = this.continents.get(continent);
+			Territory tmpTerritory = tmpContinent.getTerritory(tName);
+			tmpTerritory.addAdjacent(infoA[2]);
+		}
+		catch(Exception e) {
+			System.out.println("Could not add adjacent");
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean deleteAdjacent(String info) {
+		try {
+			String[] infoA = info.split(",");
+			if(infoA.length < 3) {
+				System.out.println("Invalid information while deleting adjacent");
+				return false;
+			}
+			String continent = infoA[0];
+			String tName = infoA[1];
+			Continent tmpContinent = this.continents.get(continent);
+			Territory tmpTerritory = tmpContinent.getTerritory(tName);
+			tmpTerritory.removeAdjacent(infoA[2]);
+		}
+		catch(Exception e) {
+			System.out.println("Could not add adjacent");
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public boolean check_empty_continents() {
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+	    	if(entry2.getValue().getNumTerritories() < 1) {
+	    		System.out.println("Empty Continent " + entry2.getKey());
+	    		return false;
+	    	}
+	    }
+		return true;
+	}
+	
+	public Territory getTerritory(String name) {
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+			if(entry2.getValue().getTerritory(name) != null) {
+				return entry2.getValue().getTerritory(name);
+			}
+		}
+		return null;
+	}
+	
+	public boolean check_adjacency() {
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+	    	Continent continent = entry2.getValue();
+	    	
+	    	for(java.util.Map.Entry<String, Territory> entry : continent.territories.entrySet()) {
+	    		Territory territory = entry.getValue();
+	    		if(territory.getAdjacents().size() < 1) {
+	    			System.out.println("A territory with no adjacents found: " + territory.getName());
+	    			return false;
+	    		}
+	    		
+	    		ArrayList<String> adjacents = territory.getAdjacents();
+	    		for(String adjacent : adjacents) {
+	    			if(this.getTerritory(adjacent) == null) {
+	    				System.out.println("The adjacent territory " + adjacent + " does not yet exist itself");
+	    				return false;
+	    			}
+	    			else {
+	    				if(this.getTerritory(adjacent).checkAdjacent(territory.getName()) == false) {
+	    					System.out.println("Adjacency error between " + territory.getName() + " and " + adjacent);
+	    					return false;
+	    				}
+	    			}
+	    		}
+	    	}
+	    }
+		return true;
+	}
+	
+	public boolean mark_visited(String territory, HashMap<String, Boolean> visited, Continent continent) {
+		if(continent != null) {
+			if(continent.territories.get(territory) != null) {
+				visited.put(territory, true);
+			}
+		}
+		else {
+			visited.put(territory, true);
+		}
+		
+		for(String adjacent : this.getTerritory(territory).getAdjacents()) {
+			mark_visited(adjacent, visited, continent);
+		}
+		return true;
+	}
+	
+	public boolean check_connectivity() {
+		String anyTerritory = this.continents.entrySet().iterator().next().getValue().territories.entrySet().iterator().next().getKey();
+		
+		HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
+		mark_visited(anyTerritory, visited, null);
+		
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+			Continent continent = entry2.getValue();
+			
+			HashMap<String, Boolean> visitedC = new HashMap<String, Boolean>();
+			mark_visited(continent.territories.entrySet().iterator().next().getKey(), visitedC, continent);
+			
+			for (java.util.Map.Entry<String, Territory> entry : continent.territories.entrySet()) {
+				if(visitedC.get(entry.getKey()) != true) {
+					System.out.println("Continent " + continent.name + " inside map is not connected graph");
+					return false;
+				}
+				if(visited.get(entry.getKey()) != true) {
+					System.out.println("The map is not a connected graph");
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean saveMapToFile() {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(this.path));
+			writer.write("[map]");
+			if(this.author == null) {
+				System.out.println("Map has no author.");
+				writer.close();
+				return false;
+			}
+			writer.write(this.author);
+			writer.write("[continents]");
+			
+			for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+				writer.write(entry2.getValue().getName() + "=" + entry2.getValue().getReward());
+			}
+			writer.write("[territories]");
+			for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+				for (java.util.Map.Entry<String, Territory> entry3 : entry2.getValue().territories.entrySet()) {
+					Territory tmp = entry3.getValue();
+					String line = tmp.getName() + "," + tmp.getX() + "," + tmp.getY();
+					for(String adjacent : tmp.getAdjacents()) {
+						line += "," + adjacent;
+					}
+					writer.write(line);
+				}
+			}
+		    writer.close();
+		}
+		catch(Exception e) {
+			System.out.println("Error while writing map to file. Map could not be saved.");
+			System.out.println(e);
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean saveMap() {
+		if(check_empty_continents() != true) {
+			return false;
+		}
+		else if(check_adjacency() != true) {
+			return false;
+		}
+		else if(check_connectivity() != true) {
+			return false;
+		}
+		
+		if(saveMapToFile() != true) {
+			return false;
+		}
+		
+		return true;
 	}
 }

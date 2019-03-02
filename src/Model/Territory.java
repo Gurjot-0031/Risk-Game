@@ -46,4 +46,18 @@ public class Territory {
 	public String getOwner() {
 		return this.owner;
 	}
+	
+	public void removeAdjacent(String adjacent) {
+		if(this.adjacents.contains(adjacent)) {
+			this.adjacents.remove(adjacent);
+		}
+	}
+	
+	public boolean addAdjacent(String adjacent) {
+		if(this.adjacents.contains(adjacent)) {
+			return false;
+		}
+		this.adjacents.add(adjacent);
+		return true;
+	}
 }

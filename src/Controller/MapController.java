@@ -22,6 +22,14 @@ public class MapController {
 		return instance;
 	}
 	
+	public void createMapFile(String info) {
+		String[] infoA = info.split(",");
+		String author = infoA[0];
+		String path = infoA[1];
+		this.map = new Map(path);
+		this.map.setAuthor(author);
+	}
+	
 	public void readMapFile(File mapFile) {
 		BufferedReader reader;
 		int flag = 0;
@@ -37,7 +45,7 @@ public class MapController {
 				
 				if(flag == 0) {
 					if(line.equals("[map]")) {
-						this.map = new Map();
+						this.map = new Map(mapFile.getAbsolutePath());
 						line = reader.readLine();
 						continue;
 					}
@@ -141,5 +149,25 @@ public class MapController {
 	
 	public String[] getAdjacents(String territory) {
 		return map.getAdjacents(territory);
+	}
+	
+	public void addTerritory(String info) {
+		this.map.addTerritory(info);
+	}
+	
+	public void deleteTerritory(String info) {
+		this.map.delTerritory(info);
+	}
+	
+	public void addAdjacent(String info) {
+		this.map.addAdjacent(info);
+	}
+	
+	public void deleteAdjacent(String info) {
+		this.map.deleteAdjacent(info);
+	}
+	
+	public void saveMap() {
+		this.map.saveMap();
 	}
 }

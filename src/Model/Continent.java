@@ -56,4 +56,21 @@ public class Continent {
 		}
 		return null;
 	}
+	
+	public void handleTerritoryDeletion(String territory) {
+		for (java.util.Map.Entry<String, Territory> entry : this.territories.entrySet()) {
+		    Territory territoryObj = entry.getValue();
+		    territoryObj.removeAdjacent(territory);
+		}
+	}
+	
+	public boolean deleteTerritory(String territory) {
+		if(this.territories.containsKey(territory)) {
+			this.territories.remove(territory);
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
 }

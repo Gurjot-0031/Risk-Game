@@ -32,7 +32,26 @@ public class MapEditorController {
 				break;
 			case "Add Territory":
 				String infoAT = event.getEventData();
+				MapController.getInstance().addTerritory(infoAT);
 				break;
+			case "Delete Territory":
+				String infoDT = event.getEventData();
+				MapController.getInstance().deleteTerritory(infoDT);
+				break;
+			case "Add Adjacent":
+				String infoAA = event.getEventData();
+				MapController.getInstance().addAdjacent(infoAA);
+				break;
+			case "Delete Adjacent":
+				String infoDA = event.getEventData();
+				MapController.getInstance().deleteAdjacent(infoDA);
+				break;
+			case "MapEditorCreate":
+				String infoNM = event.getEventData();
+				MapController.getInstance().createMapFile(infoNM);
+				break;
+			case "Save Map":
+				MapController.getInstance().saveMap();
 			default:
 				System.out.println("Unknown event received");
 		}
