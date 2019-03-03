@@ -21,17 +21,11 @@ public class HomeView {
 	}
 	
 	public void initFrame() {
-        //JFrame.setDefaultLookAndFeelDecorated(true);
         homeFrame = new JFrame("RISK");
         homeFrame.setSize(1024, 768);
         homeFrame.setResizable(false);
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        homeFrame.getContentPane().setBackground(Color.WHITE);//.setLayout(null);
-        
-        // JLabel label = new JLabel("Hello World");
-        // homeFrame.getContentPane().add(label);
- 
-         //homeFrame.pack();
+        homeFrame.getContentPane().setBackground(Color.WHITE);
         homeFrame.setVisible(true);
     }
 	

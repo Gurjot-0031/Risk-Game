@@ -30,93 +30,19 @@ public class MapController {
 		this.map.setAuthor(author);
 	}
 	
+	public void setMap(Map map) {
+		this.map = map;
+	}
+	
 	public boolean readMapFile(File mapFile) {
-		BufferedReader reader;
-		int flag = 0;
 		try {
-			reader = new BufferedReader(new FileReader(mapFile.getAbsolutePath()));
-			String line = reader.readLine();
-			while(line != null) {
-				line = line.replaceAll("\\s", "").toLowerCase();
-				if(line.length() < 2) {
-					line = reader.readLine();
-					continue;
-				}
-				
-				if(flag == 0) {
-					if(line.equals("[map]")) {
-						this.map = new Map(mapFile.getAbsolutePath());
-						line = reader.readLine();
-						continue;
-					}
-					else if(line.equals("[continents]")) {
-						flag = 1;
-					}
-					processMapLine(line);
-				}
-				else if(flag == 1) {
-					if(line.equals("[territories]")) {
-						flag = 2;
-					}
-					processContinentLine(line);
-				}
-				else if(flag == 2) {
-					processTerritoryLine(line);
-				}
-				
-				line = reader.readLine();
-			}
-			
-			if(flag != 2) {
-				System.out.println("Map not read correctly.");
-				return false;
-			}
-			else {
-				System.out.println("Map has been read.");
-			}
+			this.map = new Map(mapFile.getAbsolutePath());
 		}
-		catch (Exception e) {
-			System.out.println("Map not read correctly.");
-			System.out.println(e);
+		catch(Exception e) {
 			e.printStackTrace();
-		}
-		return true;
-	}
-	
-	public boolean processMapLine(String line) {
-		String[] info = line.split("=");
-		if(info[0].equals("author")) {
-			this.map.setAuthor(info[1]);
-		}
-		else if(info[0].equals("wrap")) {
-			this.map.setWrap(info[1]);
-		}
-		else if(info[0].equals("scroll")) {
-			this.map.setScroll(info[1]);
-		}
-		else if(info[0].equals("warn")) {
-			this.map.setWarn(info[1]);
-		}
-		
-		return true;
-	}
-	
-	public boolean processContinentLine(String line) {
-		String[] info = line.split("=");
-		if(info.length < 2) {
+			System.out.println("Exception Handled. Map Load Failed");
 			return false;
 		}
-		Integer reward = Integer.parseInt(info[1]);
-		this.map.addContinent(new Continent(info[0], reward));
-		return true;
-	}
-
-	public boolean processTerritoryLine(String line) {
-		String[] info = line.split(",");
-		if(info.length < 5) {
-			return false;
-		}
-		this.map.addTerritory(info);
 		return true;
 	}
 	

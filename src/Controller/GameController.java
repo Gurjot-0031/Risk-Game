@@ -2,28 +2,39 @@ package Controller;
 
 import javax.swing.*;
 
-public class GameController {
-	/*
-	private static void createAndShowGUI() {
-        JFrame.setDefaultLookAndFeelDecorated(true);
+import Model.Game;
+import Model.Map;
 
-        JFrame frame = new JFrame("HelloWorldSwing");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- 
-        JLabel label = new JLabel("Hello World");
-        frame.getContentPane().add(label);
- 
-        frame.pack();
-        frame.setVisible(true);
-    }
- 
+public class GameController {
+	private static GameController instance;
 	
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
-            }
-        });
+	private GameController() {}
+	public static GameController getInstance() {
+		if(instance == null) {
+			instance = new GameController();
+		}
+		return instance;
 	}
-	*/
+	
+	public void startNewGame(String[] info) {
+		try {
+			if(info.length < 2) {
+				System.out.println("Invalid data received at HomeController:New Game");
+				System.out.println("New Game cannot be started");
+			}
+			Game.getInstance().setNumPlayers(Integer.parseInt(info[0]));
+			Map map = new Map(info[1]);
+			Game.getInstance().setMap(map);
+		}
+		catch(NumberFormatException e) {
+			System.out.println("Number of players invalid");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception Handled. New Game not started");
+			return;
+		}
+		
+		System.out.println("Starting New Game");
+	}
 }

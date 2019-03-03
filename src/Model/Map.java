@@ -1,6 +1,9 @@
 package Model;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +20,7 @@ public class Map {
 	public Map(String path) {
 		this.path = path;
 		this.continents = new HashMap<String, Continent>();
+		this.readMapFile();
 	}
 	
 	public void setAuthor(String author) {
@@ -376,6 +380,96 @@ public class Map {
 			return false;
 		}
 		System.out.println("Map Saved");
+		return true;
+	}
+	
+	
+	public boolean readMapFile() {
+		BufferedReader reader;
+		int flag = 0;
+		try {
+			reader = new BufferedReader(new FileReader(this.path));
+			String line = reader.readLine();
+			while(line != null) {
+				line = line.replaceAll("\\s", "").toLowerCase();
+				if(line.length() < 2) {
+					line = reader.readLine();
+					continue;
+				}
+				
+				if(flag == 0) {
+					if(line.equals("[map]")) {
+						line = reader.readLine();
+						continue;
+					}
+					else if(line.equals("[continents]")) {
+						flag = 1;
+					}
+					processMapLine(line);
+				}
+				else if(flag == 1) {
+					if(line.equals("[territories]")) {
+						flag = 2;
+					}
+					processContinentLine(line);
+				}
+				else if(flag == 2) {
+					processTerritoryLine(line);
+				}
+				
+				line = reader.readLine();
+			}
+			
+			if(flag != 2) {
+				System.out.println("Map not read correctly.");
+				return false;
+			}
+			else {
+				System.out.println("Map has been read.");
+			}
+		}
+		catch (Exception e) {
+			System.out.println("Map not read correctly.");
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean processMapLine(String line) {
+		String[] info = line.split("=");
+		if(info[0].equals("author")) {
+			this.setAuthor(info[1]);
+		}
+		else if(info[0].equals("wrap")) {
+			this.setWrap(info[1]);
+		}
+		else if(info[0].equals("scroll")) {
+			this.setScroll(info[1]);
+		}
+		else if(info[0].equals("warn")) {
+			this.setWarn(info[1]);
+		}
+		
+		return true;
+	}
+	
+	public boolean processContinentLine(String line) {
+		String[] info = line.split("=");
+		if(info.length < 2) {
+			return false;
+		}
+		Integer reward = Integer.parseInt(info[1]);
+		this.addContinent(new Continent(info[0], reward));
+		return true;
+	}
+
+	public boolean processTerritoryLine(String line) {
+		String[] info = line.split(",");
+		if(info.length < 5) {
+			return false;
+		}
+		this.addTerritory(info);
 		return true;
 	}
 }
