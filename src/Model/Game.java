@@ -10,7 +10,53 @@ public class Game {
 	
 	ArrayList<Player> players;
 	
-	private Game() {}
+	// 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Fortification, 4 = Attack
+	private int gamePhase;
+	private int gameTurn;
+	
+	private Game() {
+		players = new ArrayList<Player>();
+		gamePhase = 0;
+		gameTurn = 0;
+	}
+	
+	public Map getGameMap() {
+		return this.gameMap;
+	}
+	
+	public void setTurn(int turn) {
+		this.gameTurn = turn;
+	}
+	
+	public int getNumPlayers() {
+		return this.numPlayers;
+	}
+	
+	public Player getPlayerById(int id) {
+		return this.players.get(id);
+	}
+	
+	public int getGamePhase() {
+		return this.gamePhase;
+	}
+	
+	public int getGameTurn() {
+		return this.getGameTurn();
+	}
+	
+	public void nextPhase() {
+		this.gamePhase += 1;
+		if(this.gamePhase == 5) {
+			this.gamePhase = 2;
+		}
+	}
+	
+	public void nextTurn() {
+		this.gameTurn += 1;
+		if(this.gameTurn == this.numPlayers) {
+			this.gameTurn = 0;
+		}
+	}
 	
 	public static Game getInstance() {
 		if(instance == null) {

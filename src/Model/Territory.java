@@ -8,12 +8,18 @@ public class Territory {
 	int y;
 	ArrayList<String> adjacents;
 	Player owner;
+	int armies;
 	
 	public Territory(String name, int x, int y, ArrayList<String> adjacents) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.adjacents = adjacents;
+		this.armies = 0;
+	}
+	
+	public void addArmy(int num) {
+		this.armies += num;
 	}
 	
 	public String getName() {

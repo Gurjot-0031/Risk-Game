@@ -38,7 +38,7 @@ public class HomeController {
 				MapEditorView.getInstance(new MapEditorController()).loadFrame();
 				break;
 			case "New Game":
-				GameController.getInstance().startNewGame(eventData);
+				GameController.getInstance().eventTriggered(event);
 				break;
 			default:
 				System.out.println("Unknown event at Home Controller");
