@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import Model.Game;
 import Model.Map;
+import Model.Player;
 import View.GameView;
 
 public class GameController {
@@ -26,6 +27,10 @@ public class GameController {
 			Game.getInstance().setNumPlayers(Integer.parseInt(info[0]));
 			Map map = new Map(info[1]);
 			Game.getInstance().setMap(map);
+			for(int i = 0; i < Integer.parseInt(info[0]); i++) {
+				Game.getInstance().addPlayer(new Player(i, null, null));
+			}
+			Game.getInstance().assignTerritoryToPlayers();
 			GameView.getInstance().loadFrame();
 			GameView.getInstance().loadMap(map);
 		}

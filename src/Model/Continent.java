@@ -43,7 +43,7 @@ public class Continent {
 		    if(rt == null) {
 		    	territoryObj.getOwner();
 		    }
-		    else if(rt != territoryObj.getOwner()) {
+		    else if(rt != territoryObj.getOwner().getName()) {
 		    	return null;
 		    }
 		}

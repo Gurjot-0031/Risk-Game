@@ -7,7 +7,7 @@ public class Territory {
 	int x;
 	int y;
 	ArrayList<String> adjacents;
-	String owner;
+	Player owner;
 	
 	public Territory(String name, int x, int y, ArrayList<String> adjacents) {
 		this.name = name;
@@ -39,11 +39,11 @@ public class Territory {
 		return false;
 	}
 	
-	public void setOwner(String owner) {
+	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
 	
-	public String getOwner() {
+	public Player getOwner() {
 		return this.owner;
 	}
 	
