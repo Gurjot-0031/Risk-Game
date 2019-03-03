@@ -36,8 +36,33 @@ public class Game {
 		return this.players.get(id);
 	}
 	
+	public String getCurrPlayerName() {
+		return this.players.get(this.gameTurn).getName();
+	}
+	
+	public int getCurrPlayerArmies() {
+		return this.players.get(this.gameTurn).getArmies();
+	}
+	
 	public int getGamePhase() {
 		return this.gamePhase;
+	}
+	
+	public String getGamePhaseDesc() {
+		switch (this.gamePhase) {
+		case 0:
+			return "Game Phase: Initialisation";
+		case 1:
+			return "Game Phase: Setup";
+		case 2:
+			return "Game Phase: Reinforcement";
+		case 3:
+			return "Game Phase: Attack";
+		case 4:
+			return "Game Phase: Fortification";
+		default:
+			return "Invalid game Phase";
+		}
 	}
 	
 	public int getGameTurn() {

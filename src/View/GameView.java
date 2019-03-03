@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import Controller.GameController;
 import Event.GameEvents;
+import Model.Game;
 import Model.Map;
 import Model.Territory;
 
@@ -78,12 +79,16 @@ public class GameView {
 		
 		public void mouseEntered(java.awt.event.MouseEvent evt) {
 			String text = "<html>Territory: " + territory.getName() + "<br/>Owned By: " +
-					territory.getOwner().getName() + "<br/>Armies: " + territory.getArmies() + "<br/>";
+					territory.getOwner().getName() + "<br/>Armies: " + territory.getArmies() + "<br/></html>";
 	        infoLog.setText(text);
 	    }
 
 	    public void mouseExited(java.awt.event.MouseEvent evt) {
-	        infoLog.setText("Waiting for user action");
+	    	String gamePhase = Game.getInstance().getGamePhaseDesc();
+	    	String curPlayer = Game.getInstance().getCurrPlayerName();
+	    	int curPArmies = Game.getInstance().getCurrPlayerArmies();
+	        infoLog.setText("<html>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " + 
+	        		curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
 	    }
 	}
 	
@@ -97,11 +102,11 @@ public class GameView {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(this.territory.getName() + " clicked");
 			GameEvents objEvent = new GameEvents();
 			objEvent.setEventInfo("Territory Clicked");
 			objEvent.setEventData(territory.getName());
 			GameController.getInstance().eventTriggered(objEvent);
+			infoLog.setText("");
 		}
 	}
 }

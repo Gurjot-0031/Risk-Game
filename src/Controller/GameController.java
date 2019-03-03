@@ -25,15 +25,19 @@ public class GameController {
 	}
 	
 	public void gameLoop(String[] info) {
+		String clickedTerritory = null;
 		switch(Game.getInstance().getGamePhase()) {
 		case 0:
 			this.startNewGame(info);
 			Game.getInstance().nextPhase();
 			break;
 		case 1:
-			String clickedTerritory = info[0];
+			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
+		case 2:
+			clickedTerritory = info[0];
+			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 		default:
 			System.out.println("Invalid Game Phase. Critical Error");
 			return;
@@ -57,7 +61,8 @@ public class GameController {
 			int initArmies = 0;
 			switch(Game.getInstance().getNumPlayers()) {
 			case 2:
-				initArmies = 40;
+				//initArmies = 40;
+				initArmies = 25;
 				break;
 			case 3:
 				initArmies = 35;
@@ -135,6 +140,31 @@ public class GameController {
 				}
 				break;
 			case 2:
+				if(Game.getInstance().getGameTurn() == 
+						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
+					
+					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
+					}
+					
+					boolean nextPhase = false;
+					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
+						nextPhase = true;
+					}
+					
+					if(nextPhase == true) {
+						Game.getInstance().setTurn(0);
+						Game.getInstance().nextPhase();
+						return "Next Phase";
+					}
+
+					return "Event Processed";
+				}
+				break;
+				
+			case 3:
+			case 4:
+				
 				break;
 			default:
 				System.out.println("Invalid Phase");
