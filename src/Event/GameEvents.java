@@ -16,4 +16,12 @@ public class GameEvents implements IEvent {
 	public String getEventData() {
 		return this.eventData;
 	}
+	
+	public void setEventInfo(String info) {
+		this.eventInfo = info;
+	}
+	
+	public void setEventData(String data) {
+		this.eventData = data;
+	}
 }

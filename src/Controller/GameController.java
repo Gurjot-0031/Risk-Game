@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import Model.Game;
 import Model.Map;
+import View.GameView;
 
 public class GameController {
 	private static GameController instance;
@@ -25,6 +26,8 @@ public class GameController {
 			Game.getInstance().setNumPlayers(Integer.parseInt(info[0]));
 			Map map = new Map(info[1]);
 			Game.getInstance().setMap(map);
+			GameView.getInstance().loadFrame();
+			GameView.getInstance().loadMap(map);
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Number of players invalid");

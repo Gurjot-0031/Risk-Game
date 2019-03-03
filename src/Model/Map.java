@@ -472,4 +472,17 @@ public class Map {
 		this.addTerritory(info);
 		return true;
 	}
+	
+	public ArrayList<Territory> getTerritories() {
+		ArrayList<Territory> territoryList = new ArrayList<Territory>();
+		
+		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
+			for (java.util.Map.Entry<String, Territory> entry3 : entry2.getValue().territories.entrySet()) {
+				Territory tmp = entry3.getValue();
+				territoryList.add(tmp);
+			}
+		}
+		
+		return territoryList;
+	}
 }

@@ -71,11 +71,13 @@ public class HomeMenu {
 				Integer[] values = {2,3,4,5,6,7,8};
 				JComboBox<Integer> numPlayers = new JComboBox<Integer>(values);
 				
+				final JFileChooser fileChooser = new JFileChooser();
+				
 				JButton loadMap = new JButton("Choose Map");
 				loadMap.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						JFileChooser fileChooser = new JFileChooser();
+						
 						int returnValue = fileChooser.showOpenDialog(null);
 					    if (returnValue == JFileChooser.APPROVE_OPTION) 
 					    {
@@ -90,7 +92,18 @@ public class HomeMenu {
 				int result = JOptionPane.showConfirmDialog(null, configPanel, "Please Configure", 
 						JOptionPane.OK_CANCEL_OPTION);
 				if (result == JOptionPane.OK_OPTION) {
-					System.out.println("Starting new game");
+					GameEvents objEvent = new GameEvents();
+					objEvent.setEventInfo("New Game");
+					if(fileChooser.getSelectedFile() != null) {
+						String eventData = numPlayers.getSelectedItem().toString() + "," +
+								fileChooser.getSelectedFile().getAbsolutePath();
+						objEvent.setEventData(eventData);
+						objHomeController.eventTriggered(objEvent);
+						System.out.println("Starting new game");
+					}
+					else {
+						System.out.println("Cannot start new game. Invalid Configuration");
+					}
 				}
 			}
 		});
@@ -105,4 +118,5 @@ public class HomeMenu {
 		initFileMenu(homeMenuBar);
 		initMapEditorMenu(homeMenuBar);
 	}
+	
 }
