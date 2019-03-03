@@ -41,7 +41,7 @@ public class Game {
 	}
 	
 	public int getGameTurn() {
-		return this.getGameTurn();
+		return this.gameTurn;
 	}
 	
 	public void nextPhase() {
@@ -72,6 +72,8 @@ public class Game {
 		
 		for(Territory territory : territories) {
 			territory.setOwner(this.players.get(ctr));
+			territory.addArmy(1);
+			this.players.get(ctr).removeArmy(1);
 			ctr++;
 			if(ctr == this.players.size()) {
 				ctr = 0;

@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -10,11 +11,13 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import Controller.HomeController;
 import Event.GameEvents;
@@ -92,14 +95,26 @@ public class HomeMenu {
 				int result = JOptionPane.showConfirmDialog(null, configPanel, "Please Configure", 
 						JOptionPane.OK_CANCEL_OPTION);
 				if (result == JOptionPane.OK_OPTION) {
-					GameEvents objEvent = new GameEvents();
-					objEvent.setEventInfo("New Game");
 					if(fileChooser.getSelectedFile() != null) {
+						String names = "";
+						
+						for(int i = 0; i < Integer.parseInt(numPlayers.getSelectedItem().toString()); i++)
+						{
+							String name = JOptionPane.showInputDialog("Player " + i + " name: ");
+							if(name == null || name.length() < 1) {
+								System.out.println("Name cannot be empty. Try again");
+								System.out.println("*" + name + "*");
+								i--;
+								continue;
+							}
+							names += "," + name;
+						}
+						GameEvents objEvent = new GameEvents();
+						objEvent.setEventInfo("New Game");
 						String eventData = numPlayers.getSelectedItem().toString() + "," +
-								fileChooser.getSelectedFile().getAbsolutePath();
+								fileChooser.getSelectedFile().getAbsolutePath() + names;
 						objEvent.setEventData(eventData);
 						objHomeController.eventTriggered(objEvent);
-						System.out.println("Starting new game");
 					}
 					else {
 						System.out.println("Cannot start new game. Invalid Configuration");

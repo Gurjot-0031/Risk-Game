@@ -29,7 +29,10 @@ public class HomeController {
 	
 	public void eventTriggered(IEvent event) {
 		String eventInfo = event.getEventInfo();
-		String[] eventData = event.getEventData().split(",");
+		String[] eventData;
+		if(eventInfo.equals("MapEditor") == false) {
+			eventData = event.getEventData().split(",");
+		}
 		
 		System.out.println(eventInfo + "triggered at home controller");
 		

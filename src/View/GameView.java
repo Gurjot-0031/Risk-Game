@@ -64,6 +64,7 @@ public class GameView {
 			btnTerritory.addActionListener(new territoryActionListener(territory));
 			btnTerritory.addMouseListener(new territoryMouseHover(territory));
 			gameFrame.add(btnTerritory);
+			btnTerritory.setBackground(territory.getOwner().getColor());
 			btnTerritory.setBounds(territory.getX(), territory.getY(), 100, 15);
 		}
 	}
@@ -77,7 +78,7 @@ public class GameView {
 		
 		public void mouseEntered(java.awt.event.MouseEvent evt) {
 			String text = "<html>Territory: " + territory.getName() + "<br/>Owned By: " +
-					territory.getOwner().getName() + "<br/>";
+					territory.getOwner().getName() + "<br/>Armies: " + territory.getArmies() + "<br/>";
 	        infoLog.setText(text);
 	    }
 

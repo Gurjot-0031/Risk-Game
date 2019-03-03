@@ -18,6 +18,10 @@ public class Territory {
 		this.armies = 0;
 	}
 	
+	public int getArmies() {
+		return this.armies;
+	}
+	
 	public void addArmy(int num) {
 		this.armies += num;
 	}

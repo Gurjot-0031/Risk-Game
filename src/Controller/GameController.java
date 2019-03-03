@@ -1,5 +1,8 @@
 package Controller;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import Event.IEvent;
@@ -51,8 +54,35 @@ public class GameController {
 			Game.getInstance().setNumPlayers(Integer.parseInt(info[0]));
 			Map map = new Map(info[1]);
 			Game.getInstance().setMap(map);
+			int initArmies = 0;
+			switch(Game.getInstance().getNumPlayers()) {
+			case 2:
+				initArmies = 40;
+				break;
+			case 3:
+				initArmies = 35;
+				break;
+			case 4:
+				initArmies = 30;
+				break;
+			case 5:
+				initArmies = 25;
+				break;
+			case 6:
+				initArmies = 20;
+				break;
+			}
+			
+			ArrayList<Color> pColors = new ArrayList<Color>();
+			pColors.add(new Color(255,0,0));
+			pColors.add(new Color(0,255,0));
+			pColors.add(new Color(0,0,255));
+			pColors.add(new Color(255,255,0));
+			pColors.add(new Color(255,0,255));
+			pColors.add(new Color(0,255,255));
+			
 			for(int i = 0; i < Integer.parseInt(info[0]); i++) {
-				Game.getInstance().addPlayer(new Player(i, "No Name", null));
+				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
 			}
 			Game.getInstance().assignTerritoryToPlayers();
 			GameView.getInstance().loadFrame();
@@ -79,13 +109,16 @@ public class GameController {
 			case 1:
 				if(Game.getInstance().getGameTurn() == 
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
-					Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
-					Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1);
+					
+					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
+					}
 					
 					boolean nextPhase = true;
 					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
 						if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() != 0) {
 							nextPhase = false;
+							break;
 						}
 					}
 					
@@ -94,12 +127,14 @@ public class GameController {
 						Game.getInstance().nextPhase();
 						return "Next Phase";
 					}
-					
-					while(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() != 0) {
+					Game.getInstance().nextTurn();
+					while(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
 						Game.getInstance().nextTurn();
 					}
 					return "Event Processed";
 				}
+				break;
+			case 2:
 				break;
 			default:
 				System.out.println("Invalid Phase");

@@ -8,11 +8,11 @@ public class Player {
 	private Color color;
 	int armies;
 	
-	public Player(int Id, String name, Color color) {
+	public Player(int Id, String name, Color color, int armies) {
 		this.setId(Id);
 		this.setColor(color);
 		this.setName(name);
-		this.armies = 0;
+		this.armies = armies;
 	}
 	
 	public int getArmies() {
