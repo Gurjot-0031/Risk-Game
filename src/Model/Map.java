@@ -84,6 +84,10 @@ public class Map {
 	public String[] getTerritoriesArray(String selectedContinent) {
 		int ctr = 0;
 		Continent tmpContinent = this.continents.get(selectedContinent);
+		if(tmpContinent == null) {
+			System.out.println("Continent "  + selectedContinent + " not found");
+			return null;
+		}
 		String[] territoriesArray = new String[tmpContinent.territories.size()];
 
 	    for (java.util.Map.Entry<String, Territory> entry2 : tmpContinent.territories.entrySet()) {

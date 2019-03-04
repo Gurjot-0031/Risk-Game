@@ -172,12 +172,22 @@ public class Game {
 		
 		for(java.util.Map.Entry<String, Continent> entry : this.gameMap.continents.entrySet()) {
 			if(entry.getValue().checkOwner(id) == true) {
-				System.out.println("Player " + this.players.get(id).getName() + " owns the " + entry.getKey() + " and gains " +
+				try {
+					System.out.println("Player " + this.players.get(id).getName() + " owns the " + entry.getKey() + " and gains " +
 						entry.getValue().getReward() + " extra armies");
+				}
+				catch(Exception e) {
+					
+				}
 				reinforcment += entry.getValue().getReward();
 			}
 		}
-		System.out.println("Player " + this.players.get(id).getName() + " receives total of " + reinforcment + " reinforcements.");
+		try {
+			System.out.println("Player " + this.players.get(id).getName() + " receives total of " + reinforcment + " reinforcements.");
+		}
+		catch(Exception e) {
+			
+		}
 		return reinforcment;
 	}
 }

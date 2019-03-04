@@ -1,9 +1,7 @@
 [map]
 author=test
-[continents]
 a=2
 b=3
-[territories]
 a1,10,10,a,a2
 a2,10,10,a,a1
 b1,10,10,b,b2

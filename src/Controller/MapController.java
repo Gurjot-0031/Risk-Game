@@ -37,6 +37,7 @@ public class MapController {
 	public boolean readMapFile(File mapFile) {
 		try {
 			this.map = new Map(mapFile.getAbsolutePath());
+			this.map.readMapFile();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -49,6 +50,29 @@ public class MapController {
 	public void loadMap() {
 		
 	}
+	
+	public ArrayList<String> getContinentsList() {
+		ArrayList<String> rt = new ArrayList<String>();
+		String[] continents = this.getContinentsArray();
+		
+		for(int i = 0; i < continents.length; i++) {
+			rt.add(continents[i]);
+		}
+		
+		return rt;
+	}
+	
+	public ArrayList<String> getTerritoriesList(String continent) {
+		ArrayList<String> rt = new ArrayList<String>();
+		String[] territories = this.getTerritoriesArray(continent);
+		
+		for(int i = 0; i < territories.length; i++) {
+			rt.add(territories[i]);
+		}
+		
+		return rt;
+	}
+	
 	
 	public String[] getContinentsArray() {
 		if(this.map == null) {
