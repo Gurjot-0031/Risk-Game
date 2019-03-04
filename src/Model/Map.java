@@ -20,7 +20,6 @@ public class Map {
 	public Map(String path) {
 		this.path = path;
 		this.continents = new HashMap<String, Continent>();
-		this.readMapFile();
 	}
 	
 	public void setAuthor(String author) {
@@ -325,6 +324,7 @@ public class Map {
 				}
 				if(visited.get(entry.getKey()) == null) {
 					System.out.println("The map is not a connected graph");
+					return false;
 				}
 			}
 		}
@@ -436,6 +436,17 @@ public class Map {
 			System.out.println(e);
 			e.printStackTrace();
 		}
+		
+		if(check_empty_continents() != true) {
+			return false;
+		}
+		else if(check_adjacency() != true) {
+			return false;
+		}
+		else if(check_connectivity() != true) {
+			return false;
+		}
+		
 		return true;
 	}
 	

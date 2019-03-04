@@ -67,6 +67,10 @@ public class GameController {
 			}
 			Game.getInstance().setNumPlayers(Integer.parseInt(info[0]));
 			Map map = new Map(info[1]);
+			if(map.readMapFile() == false) {
+				System.out.println("Selected map is invalid.");
+				return;
+			}
 			Game.getInstance().setMap(map);
 			int initArmies = 0;
 			switch(Game.getInstance().getNumPlayers()) {
