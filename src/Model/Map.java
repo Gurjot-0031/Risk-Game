@@ -54,6 +54,8 @@ public class Map {
 		this.continents.get(continent).addTerritory(new Territory(info[0], x, y, adjacents));
 	}
 	
+	
+	/*
 	public String checkOwner() {
 		String rt = null;
 		for (java.util.Map.Entry<String, Continent> entry : this.continents.entrySet()) {
@@ -67,6 +69,7 @@ public class Map {
 		}
 		return rt;
 	}
+	*/
 	
 	public String[] getContinentsArray() {
 		String[] continentsArray = new String[this.continents.size()];

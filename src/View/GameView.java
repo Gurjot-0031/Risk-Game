@@ -56,8 +56,9 @@ public class GameView {
 	}
 	
 	public void loadMap(Map map) {
-		if(map != null) {
+		if(map == null) {
 			System.out.println("Map not loaded correctly. Cannot be rendered");
+			return;
 		}
 		ArrayList<Territory> territoryList = map.getTerritories();
 		for(Territory territory : territoryList) {

@@ -74,6 +74,17 @@ public class Game {
 		if(this.gamePhase == 5) {
 			this.gamePhase = 2;
 		}
+		
+		if(this.gamePhase == 2) {
+			for(int i = 0; i < this.numPlayers; i++) {
+				int armies = this.calcReinforcementArmies(i);
+				this.players.get(i).setArmies(armies);
+			}
+		}
+		else if(this.gamePhase == 3) {
+			System.out.println("Skipping Attack Phase");
+			this.nextPhase();
+		}
 	}
 	
 	public void nextTurn() {
@@ -135,5 +146,33 @@ public class Game {
 	
 	public void setMap(Map gameMap) {
 		this.gameMap = gameMap;
+	}
+	
+	public int calcReinforcementArmies(int id) {
+		int reinforcment = 0;
+		int numTerr = 0;
+
+		for(Territory territory : this.getGameMap().getTerritories()) {
+			if(territory.getOwner().getId() == id) {
+				numTerr++;
+			}
+		}
+		
+		if((numTerr / 3) < 3) {
+			reinforcment += 3;
+		}
+		else {
+			reinforcment += numTerr / 3;
+		}
+		
+		for(java.util.Map.Entry<String, Continent> entry : this.gameMap.continents.entrySet()) {
+			if(entry.getValue().checkOwner(id) == true) {
+				System.out.println("Player " + this.players.get(id).getName() + " owns the " + entry.getKey() + " and gains " +
+						entry.getValue().getReward() + " extra armies");
+				reinforcment += entry.getValue().getReward();
+			}
+		}
+		System.out.println("Player " + this.players.get(id).getName() + " receives total of " + reinforcment + " reinforcements.");
+		return reinforcment;
 	}
 }

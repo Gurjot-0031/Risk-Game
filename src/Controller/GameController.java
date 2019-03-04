@@ -32,12 +32,21 @@ public class GameController {
 			Game.getInstance().nextPhase();
 			break;
 		case 1:
+			System.out.println("Game in Setup Phase");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
 		case 2:
+			System.out.println("Game in Reinforcement Phase");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+			break;
+		case 3:
+			System.out.println("Game in Attack Phase");
+		case 4:
+			System.out.println("Game in Fortification Phase");
+			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+			break;
 		default:
 			System.out.println("Invalid Game Phase. Critical Error");
 			return;
@@ -62,7 +71,7 @@ public class GameController {
 			switch(Game.getInstance().getNumPlayers()) {
 			case 2:
 				//initArmies = 40;
-				initArmies = 25;
+				initArmies = 22;
 				break;
 			case 3:
 				initArmies = 35;
@@ -121,7 +130,7 @@ public class GameController {
 					
 					boolean nextPhase = true;
 					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
-						if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() != 0) {
+						if(Game.getInstance().getPlayerById(i).getArmies() != 0) {
 							nextPhase = false;
 							break;
 						}
@@ -147,11 +156,22 @@ public class GameController {
 						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 					}
 					
-					boolean nextPhase = false;
+					
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
-						nextPhase = true;
+						Game.getInstance().nextTurn();
 					}
 					
+					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() > 0) {
+						return "Event Processed";
+					}
+					
+					boolean nextPhase = true;
+					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
+						if(Game.getInstance().getPlayerById(i).getArmies() > 0) {
+							Game.getInstance().setTurn(i);
+							nextPhase = false;
+						}
+					}
 					if(nextPhase == true) {
 						Game.getInstance().setTurn(0);
 						Game.getInstance().nextPhase();

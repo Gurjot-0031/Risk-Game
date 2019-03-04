@@ -35,16 +35,12 @@ public class Continent {
 		this.territories.put(territory.getName(), territory);
 	}
 	
-	public String checkOwner() {
-		String rt = null;
+	public boolean checkOwner(int id) {
+		boolean rt = true;
 		for (java.util.Map.Entry<String, Territory> entry : this.territories.entrySet()) {
-		    String territoryName = entry.getKey();
 		    Territory territoryObj = entry.getValue();
-		    if(rt == null) {
-		    	territoryObj.getOwner();
-		    }
-		    else if(rt != territoryObj.getOwner().getName()) {
-		    	return null;
+		    if(territoryObj.getOwner().getId() != id) {
+		    	return false;
 		    }
 		}
 		return rt;
