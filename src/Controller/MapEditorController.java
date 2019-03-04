@@ -4,8 +4,17 @@ import Event.IEvent;
 import Event.MapEditorEvents;
 import View.MapEditorView;
 
+/**
+ * This class acts as controller for map editor events
+ * @author Team38
+ *
+ */
 public class MapEditorController {
 	
+	/**
+	 * Handles the events triggered from view
+	 * @param event Information received from view.
+	 */
 	public void eventTriggered(IEvent event) {
 		String eventInfo = event.getEventInfo();
 		System.out.println(eventInfo + "triggered at Map Editor Controller");

@@ -8,6 +8,11 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class is the map model
+ * @author Team38
+ *
+ */
 public class Map {
 	String author;
 	String wrap;
@@ -17,31 +22,59 @@ public class Map {
 	
 	HashMap<String, Continent> continents;
 	
+	/**
+	 * The constructor
+	 * @param path The input path of map
+	 */
 	public Map(String path) {
 		this.path = path;
 		this.continents = new HashMap<String, Continent>();
 	}
 	
+	/**
+	 * Sets the author name
+	 * @param author The input author name
+	 */
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 	
+	/**
+	 * Sets the wrap
+	 * @param wrap Input wrap
+	 */
 	public void setWrap(String wrap) {
 		this.wrap = wrap;
 	}
 	
+	/**
+	 * Sets the scroll 
+	 * @param scroll Input scroll
+	 */
 	public void setScroll(String scroll) {
 		this.scroll = scroll;
 	}
 	
+	/**
+	 * Sets the warn
+	 * @param warn Input warn
+	 */
 	public void setWarn(String warn) {
 		this.warn = warn;
 	}
 	
+	/**
+	 * Adds the continent to map
+	 * @param continent The input continent
+	 */
 	public void addContinent(Continent continent) {
 		this.continents.put(continent.getName(), continent);
 	}
 	
+	/**
+	 * Adds the territory to map
+	 * @param info Information received from view.
+	 */
 	public void addTerritory(String[] info) {
 		ArrayList<String> adjacents = new ArrayList<String>();
 		for(int ctr = 4; ctr < info.length; ctr++) {
@@ -53,23 +86,10 @@ public class Map {
 		this.continents.get(continent).addTerritory(new Territory(info[0], x, y, adjacents));
 	}
 	
-	
-	/*
-	public String checkOwner() {
-		String rt = null;
-		for (java.util.Map.Entry<String, Continent> entry : this.continents.entrySet()) {
-		    Continent continentObj = entry.getValue();
-		    if(rt == null) {
-		    	continentObj.checkOwner();
-		    }
-		    else if(continentObj.checkOwner() == null && rt != continentObj.checkOwner()) {
-		    	return null;
-		    }
-		}
-		return rt;
-	}
-	*/
-	
+	/**
+	 * Gets the continent array
+	 * @return The continent array
+	 */
 	public String[] getContinentsArray() {
 		String[] continentsArray = new String[this.continents.size()];
 		int ctr = 0;
@@ -81,6 +101,11 @@ public class Map {
 		return continentsArray;
 	}
 	
+	/**
+	 * Gets the territory array
+	 * @param selectedContinent The input selected continent
+	 * @return The territories array
+	 */
 	public String[] getTerritoriesArray(String selectedContinent) {
 		int ctr = 0;
 		Continent tmpContinent = this.continents.get(selectedContinent);
@@ -98,6 +123,11 @@ public class Map {
 		return territoriesArray;
 	}
 	
+	/**
+	 * Changes the continent reward
+	 * @param name continent name
+	 * @param reward continent reward
+	 */
 	public void changeContinentReward(String name, int reward) {
 		boolean found = false;
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
@@ -114,6 +144,10 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * Deletes the continent
+	 * @param name Input continent name
+	 */
 	public void deleteContinent(String name) {
 		Continent continent = null;
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
@@ -135,6 +169,11 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * Gets the adjacent countries
+	 * @param territory The input territory
+	 * @return Territory array
+	 */
 	public String[] getAdjacents(String territory) {
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 	    	if(entry2.getValue().getTerritory(territory) != null) {
@@ -145,6 +184,11 @@ public class Map {
 		return null;
 	}
 	
+	/**
+	 * Adds a territory
+	 * @param info The Information received from view.
+	 * @return Success or failure
+	 */
 	public boolean addTerritory(String info) {
 		try {
 			String[] infoA = info.split(",");
@@ -172,6 +216,11 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Deletes the territory
+	 * @param info Information received from view.
+	 * @return Success or Failure
+	 */
 	public boolean delTerritory(String info) {
 		try {
 			String[] infoA = info.split(",");
@@ -194,6 +243,11 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Adds the adjacent
+	 * @param info Information received from view.
+	 * @return Success or failure
+	 */
 	public boolean addAdjacent(String info) {
 		try {
 			String[] infoA = info.split(",");
@@ -214,6 +268,11 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Deletes the adjacent countries
+	 * @param info Information received from view.
+	 * @return Success or failure
+	 */
 	public boolean deleteAdjacent(String info) {
 		try {
 			String[] infoA = info.split(",");
@@ -234,7 +293,10 @@ public class Map {
 		return true;
 	}
 	
-	
+	/**
+	 * Checks for empty continents
+	 * @return Success or failure
+	 */
 	public boolean check_empty_continents() {
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 	    	if(entry2.getValue().getNumTerritories() < 1) {
@@ -245,6 +307,11 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Gets the territory from name
+	 * @param name Input territory name
+	 * @return The territory
+	 */
 	public Territory getTerritory(String name) {
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 			if(entry2.getValue().getTerritory(name) != null) {
@@ -254,6 +321,10 @@ public class Map {
 		return null;
 	}
 	
+	/**
+	 * Checks adjacency between territories
+	 * @return Success or failure
+	 */
 	public boolean check_adjacency() {
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 	    	Continent continent = entry2.getValue();
@@ -283,6 +354,13 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Visits each and every territory recursively
+	 * @param territory Input starting territory
+	 * @param visited The hashmap of visited territories
+	 * @param continent The continent or entire map if null
+	 * @return Success of failure
+	 */
 	public boolean mark_visited(String territory, HashMap<String, Boolean> visited, Continent continent) {
 		if(visited.containsKey(territory)) {
 			return true;
@@ -309,6 +387,10 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Checks connectivity between territories
+	 * @return Success or failure
+	 */
 	public boolean check_connectivity() {
 		String anyTerritory = this.continents.entrySet().iterator().next().getValue().territories.entrySet().iterator().next().getKey();
 		
@@ -336,6 +418,10 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Saves map to file
+	 * @return Success or failure
+	 */
 	public boolean saveMapToFile() {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(this.path));
@@ -372,6 +458,10 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Saves map after doing verification
+	 * @return Success or failure
+	 */
 	public boolean saveMap() {
 		if(check_empty_continents() != true) {
 			return false;
@@ -390,7 +480,10 @@ public class Map {
 		return true;
 	}
 	
-	
+	/**
+	 * Reads the map from file
+	 * @return Success or failure
+	 */
 	public boolean readMapFile() {
 		BufferedReader reader;
 		int flag = 0;
@@ -454,6 +547,11 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Process line for map configuration
+	 * @param line Input line
+	 * @return Success or failure
+	 */
 	public boolean processMapLine(String line) {
 		String[] info = line.split("=");
 		if(info[0].equals("author")) {
@@ -472,6 +570,11 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Processes a continent configuration line
+	 * @param line Input line
+	 * @return Success or failure
+	 */
 	public boolean processContinentLine(String line) {
 		String[] info = line.split("=");
 		if(info.length < 2) {
@@ -482,6 +585,11 @@ public class Map {
 		return true;
 	}
 
+	/**
+	 * Processes a territory configuration line
+	 * @param line Input line
+	 * @return Success or failure
+	 */
 	public boolean processTerritoryLine(String line) {
 		String[] info = line.split(",");
 		if(info.length < 5) {
@@ -491,6 +599,10 @@ public class Map {
 		return true;
 	}
 	
+	/**
+	 * Gets the territories in map
+	 * @return The territory list
+	 */
 	public ArrayList<Territory> getTerritories() {
 		ArrayList<Territory> territoryList = new ArrayList<Territory>();
 		

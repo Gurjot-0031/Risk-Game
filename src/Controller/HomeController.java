@@ -8,6 +8,11 @@ import View.HomeMenu;
 import View.HomeView;
 import View.MapEditorView;
 
+/**
+ * This class acts as controller for Home Screen
+ * @author Team38
+ *
+ */
 public class HomeController {
 	
 	HomeView objHomeView;
@@ -15,6 +20,9 @@ public class HomeController {
 	
 	JFrame currLoadedFrame;
 	
+	/**
+	 * This is the constructor
+	 */
 	public void initHomeWindow() {
 		objHomeView = new HomeView(this);
 		objHomeView.initFrame();
@@ -22,11 +30,18 @@ public class HomeController {
 		objHomeView.addMenuBar(this.objHomeMenu.getMenuBar());
 	}
 	
+	/**
+	 * This function initializes the home window.
+	 */
 	private void initHomeMenu() {
 		objHomeMenu = new HomeMenu(this);
 		objHomeMenu.initMenuBar();
 	}
 	
+	/**
+	 * This function handles the events triggered
+	 * @param event The event received from view
+	 */
 	public void eventTriggered(IEvent event) {
 		String eventInfo = event.getEventInfo();
 		String[] eventData;

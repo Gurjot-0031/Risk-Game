@@ -18,6 +18,11 @@ import Model.Game;
 import Model.Player;
 import Model.Territory;
 
+/**
+ * The test class to perform unit tests
+ * @author Team38
+ *
+ */
 public class mapValidation {
 
 	String validMap;
@@ -28,6 +33,10 @@ public class mapValidation {
 	String reinforcementMapOne;
 	String reinforcementMapTwo;
 	
+	/**
+	 * Function called before each test case
+	 * @throws Exception Any exceptions caused
+	 */
 	@Before
 	public void setUp() throws Exception {
 		validMap = "[map]\n"
@@ -106,10 +115,17 @@ public class mapValidation {
 				+ "b2,10,10,b,b1\n";
 	}
 
+	/**
+	 * Function called after each test case
+	 * @throws Exception Any exceptions caused
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Tests the valid map
+	 */
 	@Test
 	public void testValidMap() {
 		System.out.println("Test Case testValidMap");
@@ -132,6 +148,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Tests the invalid map with empty continents
+	 */
 	@Test
 	public void testInvalidEmptyContinentMap() {
 		System.out.println("Test Case testInvalidEmptyContinentMap");
@@ -154,6 +173,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Tests invalid map with wrong adjacency
+	 */
 	@Test
 	public void testInvalidWrongAdjacencyMap() {
 		System.out.println("Test Case testInvalidWrongAdjacencyMap");
@@ -176,6 +198,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Test invalid map with no full connectivity
+	 */
 	@Test
 	public void testInvalidNotConnectedMap() {
 		System.out.println("Test Case testInvalidNotConnectedMap");
@@ -198,6 +223,9 @@ public class mapValidation {
         }
 	}
 
+	/**
+	 * Tests an incorrect map file
+	 */
 	@Test
 	public void testReadInvalidMapFile() {
 		System.out.println("Test Case testReadInvalidMapFile");
@@ -220,6 +248,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Tests reinforcement without continent reward
+	 */
 	@Test
 	public void testReinforcement() {
 		System.out.println("Test Case testReinforcement (without continent reward)");
@@ -254,6 +285,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Tests reinforcement with continent reward
+	 */
 	@Test
 	public void testReinforcementTwo() {
 		System.out.println("Test Case testReinforcementTwo (with continent reward)");
@@ -292,6 +326,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Tests map editor add continent
+	 */
 	@Test
 	public void testMapEditorOne() {
 		System.out.println("Test Case testMapEditorOne - Add Continent");
@@ -316,6 +353,10 @@ public class mapValidation {
         }
 	}
 	
+	
+	/**
+	 * Tests map editor delete continent
+	 */
 	@Test
 	public void testMapEditorThree() {
 		System.out.println("Test Case testMapEditorThree - Delete Continent");
@@ -342,6 +383,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Tests map editor add territory
+	 */
 	@Test
 	public void testMapEditorTwo() {
 		System.out.println("Test Case testMapEditorOne - Add Territory");
@@ -366,6 +410,9 @@ public class mapValidation {
         }
 	}
 	
+	/**
+	 * Test map editor delete territory
+	 */
 	@Test
 	public void testMapEditorFour() {
 		System.out.println("Test Case testMapEditorFour - Delete Territory");

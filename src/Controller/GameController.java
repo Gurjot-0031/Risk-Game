@@ -12,11 +12,24 @@ import Model.Player;
 import Model.Territory;
 import View.GameView;
 
+/**
+ * This class is the game controller and receives events from game view,
+ * and sends them to the Game Model
+ * @author Team38
+ *
+ */
 public class GameController {
 	private static GameController instance;
 	
+	/**
+	 * This is the constructor
+	 */
 	private GameController() {}
 	
+	/**
+	 * The method to get singleton instance
+	 * @return The single instance
+	 */
 	public static GameController getInstance() {
 		if(instance == null) {
 			instance = new GameController();
@@ -24,6 +37,10 @@ public class GameController {
 		return instance;
 	}
 	
+	/**
+	 * The game loop, that calls necessary functions based on game phase.
+	 * @param info The info to be processed
+	 */
 	public void gameLoop(String[] info) {
 		String clickedTerritory = null;
 		switch(Game.getInstance().getGamePhase()) {
@@ -54,11 +71,10 @@ public class GameController {
 		}
 	}
 	
-	public void setupArmyPlacement() {
-		int currPlayer = Game.getInstance().getGameTurn();
-		
-	}
-	
+	/**
+	 * This functions starts the new game
+	 * @param info Information received from view
+	 */
 	public void startNewGame(String[] info) {
 		try {
 			if(info.length < 2) {
@@ -119,6 +135,12 @@ public class GameController {
 		System.out.println("Starting New Game");
 	}
 	
+	/**
+	 * This function handles the clicks made by user on territories
+	 * @param info Information received from view
+	 * @param gamePhase The current gamephase
+	 * @return The processing information
+	 */
 	public String handleClick(String info, int gamePhase) {
 		if(Game.getInstance().getGameMap().getTerritory(info) == null || 
 				Game.getInstance().getGameMap().getTerritory(info).getOwner() == null) {
@@ -267,6 +289,11 @@ public class GameController {
 		return "Should not reach here";
 	}
 	
+	/**
+	 * This function handles events received from view
+	 * @param event The event received
+	 * @return The processed result
+	 */
 	public String eventTriggered(IEvent event) {
 		switch(event.getEventInfo()) {
 		case "New Game":
