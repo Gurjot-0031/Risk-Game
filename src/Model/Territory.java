@@ -57,6 +57,10 @@ public class Territory {
 		return this.owner;
 	}
 	
+	public void removeArmies(int num) {
+		this.armies -= num;
+	}
+	
 	public void removeAdjacent(String adjacent) {
 		if(this.adjacents.contains(adjacent)) {
 			this.adjacents.remove(adjacent);

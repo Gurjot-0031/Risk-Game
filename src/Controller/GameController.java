@@ -45,6 +45,7 @@ public class GameController {
 			System.out.println("Game in Attack Phase");
 		case 4:
 			System.out.println("Game in Fortification Phase");
+			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
 		default:
@@ -184,7 +185,76 @@ public class GameController {
 				
 			case 3:
 			case 4:
+				boolean fortificationPossible = false;
+				for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
+					if(t.getOwner().getId() == Game.getInstance().getGameTurn() &&
+							t.getArmies() > 1) {
+						for(String adjacent : t.getAdjacents()) {
+							Territory adjT = Game.getInstance().getGameMap().getTerritory(adjacent);
+							if(adjT.getOwner() == t.getOwner()) {
+								fortificationPossible = true;
+							}
+						}
+					}
+				}
 				
+				if(fortificationPossible == false) {
+					System.out.println("Fortification move not possible for Player " + Game.getInstance().getCurrPlayerName());
+					Game.getInstance().nextTurn();
+					return "Processed";
+				}
+				
+				Territory tmpTerritory = Game.getInstance().getGameMap().getTerritory(info);
+				if(tmpTerritory == null || tmpTerritory.getOwner().getId() != Game.getInstance().getGameTurn()) {
+					return "Territory does not belong to current player";
+				}
+				
+				if(Game.getInstance().fortification_source == null) {
+					for(String adjacent : tmpTerritory.getAdjacents()) {
+						Territory adjT = Game.getInstance().getGameMap().getTerritory(adjacent);
+						if(adjT != null && adjT.getOwner() == tmpTerritory.getOwner() && tmpTerritory.getArmies() > 1) {
+							Game.getInstance().fortification_source = info;
+							System.out.println("Please select target territory to fortify");
+							return "Fortification Source Event Processed";
+						}
+						else {
+							System.out.println("Cannot fortify from territory: " + info);
+							return "Fortification Source Event Processed";
+						}
+					}
+					System.out.println("No adjacent territory can be fortified from " + info + ". Please select other territory");
+				}
+				else {
+					if(tmpTerritory.getAdjacents().contains(Game.getInstance().fortification_source)) {
+						Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
+						int toMove = 0;
+						while(true) {
+							try {
+								String num = JOptionPane.showInputDialog("How many armies to move? Max possible is: " + sourceT.getArmies());
+								toMove = Integer.parseInt(num);
+								if(toMove > sourceT.getArmies() || toMove < 0) {
+									System.out.println("Should be positive and Max possible move allowed is : " + sourceT.getArmies());
+									continue;
+								}
+								break;
+							}
+							catch(NumberFormatException e) {
+								System.out.println("Exception Handled");
+								System.out.println("Only numeric value >= 0 is allowed. Try again");
+							}
+						}
+						sourceT.removeArmies(toMove);
+						tmpTerritory.addArmy(toMove);
+						System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + tmpTerritory.getName());
+						Game.getInstance().fortification_source = null;
+						Game.getInstance().nextTurn();
+					}
+					else {
+						System.out.println("Selected target: " + tmpTerritory.getName() + 
+								" is not adjacent to selected source: " + Game.getInstance().fortification_source + 
+								". Please try again.");
+					}					
+				}
 				break;
 			default:
 				System.out.println("Invalid Phase");

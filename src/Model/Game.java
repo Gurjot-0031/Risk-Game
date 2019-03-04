@@ -10,9 +10,11 @@ public class Game {
 	
 	ArrayList<Player> players;
 	
-	// 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Fortification, 4 = Attack
+	// 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Attack, 4 = Fortification
 	private int gamePhase;
 	private int gameTurn;
+	
+	public String fortification_source;
 	
 	private Game() {
 		players = new ArrayList<Player>();
@@ -91,6 +93,9 @@ public class Game {
 		this.gameTurn += 1;
 		if(this.gameTurn == this.numPlayers) {
 			this.gameTurn = 0;
+			if(this.gamePhase == 4) {
+				this.nextPhase();
+			}
 		}
 	}
 	
