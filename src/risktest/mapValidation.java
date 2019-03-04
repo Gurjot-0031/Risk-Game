@@ -317,6 +317,32 @@ public class mapValidation {
 	}
 	
 	@Test
+	public void testMapEditorThree() {
+		System.out.println("Test Case testMapEditorThree - Delete Continent");
+		File file = new File("tmpMap.txt");
+        try {
+        	if(file.exists()) {
+        		file.delete();
+        	}
+        	BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(validMap);
+            writer.close();
+            
+            MapController.getInstance().readMapFile(file);
+            MapController.getInstance().deleteTerritory("a,a1");
+            MapController.getInstance().deleteTerritory("a,a2");
+            MapController.getInstance().deleteContinent("a");
+            assertFalse(MapController.getInstance().getContinentsList().contains("a"));
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+	}
+	
+	@Test
 	public void testMapEditorTwo() {
 		System.out.println("Test Case testMapEditorOne - Add Territory");
 		File file = new File("tmpMap.txt");
@@ -331,6 +357,30 @@ public class mapValidation {
             MapController.getInstance().readMapFile(file);
             MapController.getInstance().addTerritory("a,testt,10,10,a1");
             assertTrue(MapController.getInstance().getTerritoriesList("a").contains("testt"));
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+	}
+	
+	@Test
+	public void testMapEditorFour() {
+		System.out.println("Test Case testMapEditorFour - Delete Territory");
+		File file = new File("tmpMap.txt");
+        try {
+        	if(file.exists()) {
+        		file.delete();
+        	}
+        	BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(validMap);
+            writer.close();
+            
+            MapController.getInstance().readMapFile(file);
+            MapController.getInstance().deleteTerritory("a,a1");
+            assertFalse(MapController.getInstance().getTerritoriesList("a").contains("a1"));
         } 
         catch (IOException e) {
             e.printStackTrace();
