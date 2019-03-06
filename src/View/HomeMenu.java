@@ -71,7 +71,7 @@ public class HomeMenu {
 				System.out.println("New Game");
 				JPanel configPanel = new JPanel();
 				configPanel.setSize(600, 600);
-				Integer[] values = {2,3,4,5,6,7,8};
+				Integer[] values = {2,3,4,5,6};
 				JComboBox<Integer> numPlayers = new JComboBox<Integer>(values);
 				
 				final JFileChooser fileChooser = new JFileChooser();
