@@ -243,10 +243,6 @@ public class GameController {
 							System.out.println("Please select target territory to fortify");
 							return "Fortification Source Event Processed";
 						}
-						else {
-							System.out.println("Cannot fortify from territory: " + info);
-							return "Fortification Source Event Processed";
-						}
 					}
 					System.out.println("No adjacent territory can be fortified from " + info + ". Please select other territory");
 				}
