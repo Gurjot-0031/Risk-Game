@@ -91,8 +91,7 @@ public class GameController {
 			int initArmies = 0;
 			switch(Game.getInstance().getNumPlayers()) {
 			case 2:
-				//initArmies = 40;
-				initArmies = 22;
+				initArmies = 40;
 				break;
 			case 3:
 				initArmies = 35;
