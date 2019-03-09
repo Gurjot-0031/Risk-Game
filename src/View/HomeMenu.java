@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 import Controller.HomeController;
 import Event.GameEvents;
 import Event.MapEditorEvents;
-import javafx.stage.FileChooser;
+//import javafx.stage.FileChooser;
 
 public class HomeMenu {
 	private HomeController objHomeController;
