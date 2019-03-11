@@ -10,7 +10,7 @@ import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
-import View.GameView;
+import View.PhaseView;
 
 /**
  * This class is the game controller and receives events from game view,
@@ -49,24 +49,24 @@ public class GameController {
 			Game.getInstance().nextPhase();
 			break;
 		case 1:
-			System.out.println("Game in Setup Phase");
+			System.out.println("Game in Setup Game");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
 		case 2:
-			System.out.println("Game in Reinforcement Phase");
+			System.out.println("Game in Reinforcement Game");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
 		case 3:
-			System.out.println("Game in Attack Phase");
+			System.out.println("Game in Attack Game");
 		case 4:
-			System.out.println("Game in Fortification Phase");
+			System.out.println("Game in Fortification Game");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
 		default:
-			System.out.println("Invalid Game Phase. Critical Error");
+			System.out.println("Invalid Game Game. Critical Error");
 			return;
 		}
 	}
@@ -119,8 +119,8 @@ public class GameController {
 				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
 			}
 			Game.getInstance().assignTerritoryToPlayers();
-			GameView.getInstance().loadFrame();
-			GameView.getInstance().loadMap(map);
+			PhaseView.getInstance().loadFrame();
+			PhaseView.getInstance().loadMap(map);
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Number of players invalid");
@@ -141,13 +141,13 @@ public class GameController {
 	 * @return The processing information
 	 */
 	public String handleClick(String info, int gamePhase) {
-		if(Game.getInstance().getGameMap().getTerritory(info) == null || 
+		if(Game.getInstance().getGameMap().getTerritory(info) == null ||
 				Game.getInstance().getGameMap().getTerritory(info).getOwner() == null) {
 			return "Invalid Click";
 		}
 		switch (gamePhase) {
 			case 1:
-				if(Game.getInstance().getGameTurn() == 
+				if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
 					
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
@@ -157,15 +157,15 @@ public class GameController {
 					boolean nextPhase = true;
 					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
 						if(Game.getInstance().getPlayerById(i).getArmies() != 0) {
-							nextPhase = false;
-							break;
+							nextPhase = false;		//until all of the armies which belong to the players
+							break;					//are not deployed, game cannot go to next phase.
 						}
 					}
 					
 					if(nextPhase == true) {
 						Game.getInstance().setTurn(0);
 						Game.getInstance().nextPhase();
-						return "Next Phase";
+						return "Next Game";
 					}
 					Game.getInstance().nextTurn();
 					while(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
@@ -175,7 +175,7 @@ public class GameController {
 				}
 				break;
 			case 2:
-				if(Game.getInstance().getGameTurn() == 
+				if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
 					
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
@@ -185,6 +185,7 @@ public class GameController {
 					
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
 						Game.getInstance().nextTurn();
+						//If a player has no army to deploy, the next player's turn comes
 					}
 					
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() > 0) {
@@ -195,13 +196,17 @@ public class GameController {
 					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
 						if(Game.getInstance().getPlayerById(i).getArmies() > 0) {
 							Game.getInstance().setTurn(i);
+							//Each Player deploys the reinforcement armies
+							//one by one until all his reinforcement armies are deployed
+							// then, the turn of next player comes.
 							nextPhase = false;
+							break;				//change
 						}
 					}
 					if(nextPhase == true) {
 						Game.getInstance().setTurn(0);
 						Game.getInstance().nextPhase();
-						return "Next Phase";
+						return "Next Game";
 					}
 
 					return "Event Processed";
@@ -272,14 +277,14 @@ public class GameController {
 					}
 					else {
 						System.out.println("Selected target: " + tmpTerritory.getName() + 
-								" is not adjacent to selected source: " + Game.getInstance().fortification_source + 
+								" is not adjacent to selected source: " + Game.getInstance().fortification_source +
 								". Please try again.");
 					}					
 				}
 				break;
 			default:
-				System.out.println("Invalid Phase");
-				return "Invalid Phase";
+				System.out.println("Invalid Game");
+				return "Invalid Game";
 		}
 		return "Should not reach here";
 	}

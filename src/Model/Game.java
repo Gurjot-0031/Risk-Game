@@ -2,13 +2,15 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Observable;
 
 /**
  * This class is game model
+ * It is a singleton class, as at a game run, there should be only one Game model object created.
  * @author Team38
  *
  */
-public class Game {
+public class Game extends Observable {
 	private static Game instance;
 	private int numPlayers;
 	Map gameMap;
@@ -29,7 +31,8 @@ public class Game {
 		gamePhase = 0;
 		gameTurn = 0;
 	}
-	
+
+
 	/**
 	 * Gets the game map
 	 * @return The game map
@@ -69,6 +72,9 @@ public class Game {
 	 */
 	public String getCurrPlayerName() {
 		return this.players.get(this.gameTurn).getName();
+	}
+	public Player getCurrPlayer() {
+		return this.players.get(this.gameTurn);
 	}
 	
 	/**
@@ -115,7 +121,13 @@ public class Game {
 	public int getGameTurn() {
 		return this.gameTurn;
 	}
-	
+
+
+	//public void addObserver(Observer o){
+	//	this.addObserver(o);
+	//}
+
+
 	/**
 	 * Changes the game phase
 	 */
@@ -125,16 +137,18 @@ public class Game {
 			this.gamePhase = 2;
 		}
 		
-		if(this.gamePhase == 2) {
+		if(this.gamePhase == 2) {		//Reinforcement phase
 			for(int i = 0; i < this.numPlayers; i++) {
 				int armies = this.calcReinforcementArmies(i);
 				this.players.get(i).setArmies(armies);
 			}
 		}
 		else if(this.gamePhase == 3) {
-			System.out.println("Skipping Attack Phase");
+			System.out.println("Skipping Attack Game");
 			this.nextPhase();
 		}
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	/**
@@ -148,6 +162,8 @@ public class Game {
 				this.nextPhase();
 			}
 		}
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	/**
@@ -162,7 +178,7 @@ public class Game {
 	}
 	
 	/**
-	 * Assigns territory to players
+	 * Assigns territory to players in a round robin fashion.
 	 */
 	public void assignTerritoryToPlayers() {
 		ArrayList<Territory> territories = this.gameMap.getTerritories();
@@ -232,7 +248,11 @@ public class Game {
 	}
 	
 	/**
-	 * Calculates the reinforcement armies
+	 * Calculates the reinforcement armies, it is equal to 3 if number of territories owned by the player
+	 * is less than 9, otherwise, it is equal to (number of territories owned by player)/3.
+	 * Additionaly, it checks whether a player owns all the territories in a particular continent or not
+	 * If Yes, it raises the reinforcement armies for that player by the factor of "Control value" of that
+	 * particular continent.
 	 * @param id The input player id
 	 * @return The number of reinforcement armies.
 	 */
@@ -254,6 +274,7 @@ public class Game {
 		}
 		
 		for(java.util.Map.Entry<String, Continent> entry : this.gameMap.continents.entrySet()) {
+			//Iterates through the list of continents, to check whether a continent has an owner or not.
 			if(entry.getValue().checkOwner(id) == true) {
 				try {
 					System.out.println("Player " + this.players.get(id).getName() + " owns the " + entry.getKey() + " and gains " +

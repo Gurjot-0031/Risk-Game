@@ -6,15 +6,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Map;
 
+import Model.Game;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import Controller.MapController;
-import Model.Game;
 import Model.Player;
 import Model.Territory;
 

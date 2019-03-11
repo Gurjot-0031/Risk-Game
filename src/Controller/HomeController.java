@@ -3,7 +3,6 @@ package Controller;
 import javax.swing.JFrame;
 
 import Event.IEvent;
-import Model.Game;
 import View.HomeMenu;
 import View.HomeView;
 import View.MapEditorView;
