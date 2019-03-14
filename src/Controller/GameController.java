@@ -2,6 +2,7 @@ package Controller;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import javax.swing.*;
 
@@ -18,7 +19,7 @@ import View.PhaseView;
  * @author Team38
  *
  */
-public class GameController {
+public class GameController extends Observable {
 	private static GameController instance;
 	
 	/**
@@ -36,7 +37,9 @@ public class GameController {
 		}
 		return instance;
 	}
-	
+
+
+
 	/**
 	 * The game loop, that calls necessary functions based on game phase.
 	 * @param info The info to be processed
@@ -152,6 +155,8 @@ public class GameController {
 					
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
+						setChanged();
+						notifyObservers(this);
 					}
 					
 					boolean nextPhase = true;
@@ -180,6 +185,8 @@ public class GameController {
 					
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
+						setChanged();
+						notifyObservers(this);
 					}
 					
 					
@@ -256,10 +263,10 @@ public class GameController {
 						int toMove = 0;
 						while(true) {
 							try {
-								String num = JOptionPane.showInputDialog("How many armies to move? Max possible is: " + sourceT.getArmies());
+								String num = JOptionPane.showInputDialog("How many armies to move? Max possible is: " + (sourceT.getArmies()-1));
 								toMove = Integer.parseInt(num);
 								if(toMove > sourceT.getArmies() || toMove < 0) {
-									System.out.println("Should be positive and Max possible move allowed is : " + sourceT.getArmies());
+									System.out.println("Should be positive and Max possible move allowed is : " + (sourceT.getArmies()-1));
 									continue;
 								}
 								break;
@@ -271,9 +278,14 @@ public class GameController {
 						}
 						sourceT.removeArmies(toMove);
 						tmpTerritory.addArmy(toMove);
+
 						System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + tmpTerritory.getName());
 						Game.getInstance().fortification_source = null;
 						Game.getInstance().nextTurn();
+						Object obj = new Object();
+						obj = sourceT.getName()+","+tmpTerritory.getName()+","+toMove;
+						setChanged();
+						notifyObservers(obj);
 					}
 					else {
 						System.out.println("Selected target: " + tmpTerritory.getName() + 
