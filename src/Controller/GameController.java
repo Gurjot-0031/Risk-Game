@@ -12,6 +12,7 @@ import Model.Map;
 import Model.Player;
 import Model.Territory;
 import View.PhaseView;
+import View.WorldDominationView;
 
 /**
  * This class is the game controller and receives events from game view,
@@ -124,6 +125,7 @@ public class GameController extends Observable {
 			Game.getInstance().assignTerritoryToPlayers();
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
+			WorldDominationView.getInstance().initWorldDomnationView();
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Number of players invalid");

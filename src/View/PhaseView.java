@@ -21,7 +21,12 @@ import static java.lang.Thread.sleep;
 
 public class PhaseView extends MouseAdapter implements Observer {
 	private static PhaseView instance;
-	private JFrame gameFrame;
+
+    public JFrame getGameFrame() {
+        return gameFrame;
+    }
+
+    private JFrame gameFrame;
 	private PhaseView() {}
 	
 	private JLabel infoLog;
@@ -81,7 +86,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 	
 	public void initFrame() {
 		gameFrame = new JFrame("Game");
-		gameFrame.setSize(1024, 768);
+		gameFrame.setSize(1524, 768);
+		gameFrame.setSize(1524, 768);
 		gameFrame.setResizable(false);
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.getContentPane().setBackground(Color.WHITE);
@@ -179,7 +185,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 			else infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>No armies gets deployed/fortified as this territory does not belong to "+curPlayer+"</html>");
 
 			if(phaseChanged==true && curPArmies==0) {
-				infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/></html>");
+				infoLog.setText("<html><head><h1><center><b>PHASE VIEW<b><center></h1><head><br/><br/></html>");
 				phaseChanged = false;
 			}
 
