@@ -14,7 +14,7 @@ public class Game extends Observable {
 	private static Game instance;
 	private int numPlayers;
 	Map gameMap;
-	
+
 	ArrayList<Player> players;
 	
 	// 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Attack, 4 = Fortification
@@ -184,7 +184,7 @@ public class Game extends Observable {
 		ArrayList<Territory> territories = this.gameMap.getTerritories();
 		Collections.shuffle(territories);
 		int ctr = 0;
-		
+
 		for(Territory territory : territories) {
 			territory.setOwner(this.players.get(ctr));
 			territory.addArmy(1);

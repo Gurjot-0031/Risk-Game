@@ -533,7 +533,7 @@ public class Map {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		
+
 		if(check_empty_continents() != true) {
 			return false;
 		}

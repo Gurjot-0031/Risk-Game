@@ -1,5 +1,6 @@
 package View;
 import Controller.GameController;
+import Controller.MapController;
 import Model.Continent;
 import Model.Game;
 import Model.Player;
@@ -7,6 +8,7 @@ import Model.Territory;
 import View.PhaseView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -16,6 +18,7 @@ public class WorldDominationView implements Observer {
     private static WorldDominationView instance;
     JLabel worldDominationViewLabel =new JLabel();
     ArrayList<Territory> territoriesList ;
+    String[] continentTerritory;
     String[] continentList ;
 
     public void initWorldDomnationView(){
@@ -53,26 +56,41 @@ public class WorldDominationView implements Observer {
                         percentage +" % territories and owns "+ PhaseView.getInstance().curPArmies+ "<br/>";
                 worldDominationViewLabel.setText(label);
             }
-            worldDominationViewLabel.setText(label+"</html>");
+            //worldDominationViewLabel.setText(label+"</html>");
 
-            /*Continenet domination starts here...
+
+            //Continenet domination starts here...
             continentList = Game.getInstance().getGameMap().getContinentsArray();
-
-            for(String continent:continentList){
-                int tempTerritoryCount = 0;
-                float percentage = 0;
-
-                    for(String territory: Game.getInstance().getGameMap().getTerritoriesArray(continent)){
-                        if(territory == continent.)
+            //System.out.println(continentList);
+            int count = 0;
+            for (int i=0; i<continentList.length;i++) {
+                int numofterrys = ((int) Game.getInstance().getGameMap().getTerritoriesArray(continentList[i]).length);
+                continentTerritory = Game.getInstance().getGameMap().getTerritoriesArray(continentList[i]);
+                for (int j=0 ;j<Game.getInstance().getNumPlayers();j++){
+                    int tempTerritoryCount = 0;
+                    float percentage = 0;
+                    for (String terry : continentTerritory) {
+                        for(Territory t: territoriesList){
+                            for(int k=0; k<continentTerritory.length;k++){
+                                if ((t.getOwner() == Game.getInstance().getPlayerById(j)) && (t.getName().matches(continentTerritory[k])))
+                                {
+                                    tempTerritoryCount +=1;
+                                }
+                            }
+                        }
                     }
+                    /*for(Territory territory:territoriesList){
+                        if ( (Game.getInstance().getGameMap().getTerritories().contains(territory)) && (territory.getOwner() == Game.getInstance().getPlayerById(j)) ){
+                                tempTerritoryCount +=1;
+                        }
+                    }*/
+                    percentage = (float) 100*tempTerritoryCount/numofterrys;
+                    label = label + Game.getInstance().getPlayerById(j).getName()+" owns "+ percentage +" % of "+continentList[i]+"<br/>";
+                    worldDominationViewLabel.setText(label+"</html>");
                 }
-                percentage = (float) 100*tempTerritoryCount/Game.getInstance().getGameMap().getTerritories().size();
-
-                label = label+ Game.getInstance().getPlayerById(i).getName()+" owns "+
-                        percentage +" % territories and owns "+ PhaseView.getInstance().curPArmies+ "<br/>";
-                worldDominationViewLabel.setText(label);
-                */
-
+                //worldDominationViewLabel.setText(label+"</html>");
+                //System.out.println(num);
+            }
         }
 
         else if(o instanceof GameController){

@@ -86,8 +86,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 	
 	public void initFrame() {
 		gameFrame = new JFrame("Game");
-		gameFrame.setSize(1524, 768);
-		gameFrame.setSize(1524, 768);
+		gameFrame.setSize(1366, 768);
+		gameFrame.setSize(1366, 768);
 		gameFrame.setResizable(false);
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.getContentPane().setBackground(Color.WHITE);
@@ -104,6 +104,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 		//tp.setVisible(true);
 		infoPanel.add(this.infoLog);
 		gameFrame.add(infoPanel);
+
+		/*JPanel gameDetailsPanel = new JPanel();
+		gameDetailsPanel.setBounds(924, 0, 300, 768);
+		gameFrame.add(gameDetailsPanel);*/
 	}
 	
 	public void loadMap(Map map) {

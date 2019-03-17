@@ -29,7 +29,7 @@ public class HomeMenu {
 	
 	private JMenuBar homeMenuBar;
 	private HashMap<String, JMenu> homeMenus;
-	
+
 	public HomeMenu(HomeController objHomeController) {
 		this.objHomeController = objHomeController;
 		this.homeMenus = new HashMap<String, JMenu>();
