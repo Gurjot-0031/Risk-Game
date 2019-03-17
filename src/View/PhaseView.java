@@ -86,8 +86,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 	
 	public void initFrame() {
 		gameFrame = new JFrame("Game");
-		gameFrame.setSize(1366, 768);
-		gameFrame.setSize(1366, 768);
+		gameFrame.setSize(1566, 768);
+		gameFrame.setSize(1566, 768);
 		gameFrame.setResizable(false);
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.getContentPane().setBackground(Color.WHITE);
@@ -136,13 +136,13 @@ public class PhaseView extends MouseAdapter implements Observer {
 		}
 
 		public void mouseEntered(java.awt.event.MouseEvent evt) {
-			String text = "<html><center><b>PHASE VIEW<b><center><br/><br/>Territory: " + territory.getName() + "<br/>Owned By: " +
+			String text = "<html><center><head><h1>PHASE VIEW</h1></head><center>Territory: " + territory.getName() + "<br/>Owned By: " +
 					territory.getOwner().getName() + "<br/>Armies: " + territory.getArmies() + "<br/></html>";
 	        infoLog.setText(text);
 	    }
 
 	    public void mouseExited(java.awt.event.MouseEvent evt) {
-	        infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
+	        infoLog.setText("<html><center><head><h1>PHASE VIEW</h1></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
 	        		curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
 	    }
 	}
@@ -176,7 +176,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 								"1 army got deployed on "+this.territory.getName()+"</html>");
 						break;
 					case "Game Phase: Fortification":
-						//throws null pointer exception
+						//throws null pointer exception, unable to get the source values from the game controller.
 
 						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Fortification<br/></html>");
 								//source[2]+" fortifications sent from "+source[0]+" to "+source[1]);

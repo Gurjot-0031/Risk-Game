@@ -100,7 +100,7 @@ public class Map {
 		}
 		return continentsArray;
 	}
-	
+
 	/**
 	 * Gets the territory array
 	 * @param selectedContinent The input selected continent
@@ -121,6 +121,28 @@ public class Map {
 	    }
 	    
 		return territoriesArray;
+	}
+
+	/**
+	 * Gets the territory array
+	 * @param selectedContinent The input selected continent
+	 * @return The territories array as objects
+	 */
+	public ArrayList<Territory> getTerritoriesAsObjects(String selectedContinent) {
+		int ctr = 0;
+		Continent tmpContinent = this.continents.get(selectedContinent);
+		if(tmpContinent == null) {
+			System.out.println("Continent "  + selectedContinent + " not found");
+			return null;
+		}
+		ArrayList<Territory> territoriesObjects = new ArrayList<>();
+
+		for (java.util.Map.Entry<String, Territory> entry2 : tmpContinent.territories.entrySet()) {
+			territoriesObjects.add(entry2.getValue());
+			ctr++;
+		}
+
+		return territoriesObjects;
 	}
 	
 	/**

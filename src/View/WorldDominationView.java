@@ -18,7 +18,7 @@ public class WorldDominationView implements Observer {
     private static WorldDominationView instance;
     JLabel worldDominationViewLabel =new JLabel();
     ArrayList<Territory> territoriesList ;
-    String[] continentTerritory;
+    ArrayList<Territory> continentTerritory;
     String[] continentList ;
 
     public void initWorldDomnationView(){
@@ -37,7 +37,7 @@ public class WorldDominationView implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         if(o instanceof Game){
-            String label="<html><head><h1>Map Domination</h1></head><br/> ";
+            String label="<html><head><h1>Map Domination</h1></head><br/><body><center> ";
 
             territoriesList = Game.getInstance().getGameMap().getTerritories();
 
@@ -56,41 +56,38 @@ public class WorldDominationView implements Observer {
                         percentage +" % territories and owns "+ PhaseView.getInstance().curPArmies+ "<br/>";
                 worldDominationViewLabel.setText(label);
             }
-            //worldDominationViewLabel.setText(label+"</html>");
+            worldDominationViewLabel.setText(label+"<br/><br/><center><body/></html>");
 
 
-            //Continenet domination starts here...
+            //Continent domination starts here...
+
+            label = label+"<html><head><h1>CONTINENT DOMINATION></h1></head><body><center><br/>";
             continentList = Game.getInstance().getGameMap().getContinentsArray();
             //System.out.println(continentList);
             int count = 0;
             for (int i=0; i<continentList.length;i++) {
                 int numofterrys = ((int) Game.getInstance().getGameMap().getTerritoriesArray(continentList[i]).length);
-                continentTerritory = Game.getInstance().getGameMap().getTerritoriesArray(continentList[i]);
-                for (int j=0 ;j<Game.getInstance().getNumPlayers();j++){
+                continentTerritory = Game.getInstance().getGameMap().getTerritoriesAsObjects(continentList[i]);
+                for (Player player:Game.getInstance().getPlayers()){
+
                     int tempTerritoryCount = 0;
                     float percentage = 0;
-                    for (String terry : continentTerritory) {
-                        for(Territory t: territoriesList){
-                            for(int k=0; k<continentTerritory.length;k++){
-                                if ((t.getOwner() == Game.getInstance().getPlayerById(j)) && (t.getName().matches(continentTerritory[k])))
-                                {
-                                    tempTerritoryCount +=1;
-                                }
-                            }
+
+                    for (Territory terry : continentTerritory) {
+                        if(terry.getOwner().getId()==player.getId())
+                        {
+                            tempTerritoryCount +=1;
                         }
                     }
-                    /*for(Territory territory:territoriesList){
-                        if ( (Game.getInstance().getGameMap().getTerritories().contains(territory)) && (territory.getOwner() == Game.getInstance().getPlayerById(j)) ){
-                                tempTerritoryCount +=1;
-                        }
-                    }*/
+
                     percentage = (float) 100*tempTerritoryCount/numofterrys;
-                    label = label + Game.getInstance().getPlayerById(j).getName()+" owns "+ percentage +" % of "+continentList[i]+"<br/>";
-                    worldDominationViewLabel.setText(label+"</html>");
+                    label = label + player.getName() +" owns "+ percentage +" % of "+continentList[i]+"<br/>";
+                    worldDominationViewLabel.setText(label);
                 }
-                //worldDominationViewLabel.setText(label+"</html>");
-                //System.out.println(num);
+
             }
+            worldDominationViewLabel.setText(label+"<center></body></html>");
+
         }
 
         else if(o instanceof GameController){

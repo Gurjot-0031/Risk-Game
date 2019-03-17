@@ -104,4 +104,16 @@ public class Player {
 	public Color getColor() {
 		return this.color;
 	}
+
+	public void reinforce(){
+
+    }
+
+    public void fortify(){
+
+    }
+
+    public void attack(){
+
+    }
 }

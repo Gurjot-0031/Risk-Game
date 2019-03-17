@@ -15,6 +15,10 @@ public class Game extends Observable {
 	private int numPlayers;
 	Map gameMap;
 
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
 	ArrayList<Player> players;
 	
 	// 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Attack, 4 = Fortification

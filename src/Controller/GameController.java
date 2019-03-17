@@ -118,7 +118,9 @@ public class GameController extends Observable {
 			pColors.add(new Color(255,255,0));
 			pColors.add(new Color(255,0,255));
 			pColors.add(new Color(0,255,255));
-			
+
+			//Here, player objects are created and passed onto add player method.
+			//Game.getInstance().addPlayer() method adds it to the players aray list
 			for(int i = 0; i < Integer.parseInt(info[0]); i++) {
 				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
 			}
@@ -151,10 +153,11 @@ public class GameController extends Observable {
 			return "Invalid Click";
 		}
 		switch (gamePhase) {
-			case 1:
+			case 1:		//Setup Phase
 				if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
-					
+
+
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 						setChanged();
@@ -181,10 +184,12 @@ public class GameController extends Observable {
 					return "Event Processed";
 				}
 				break;
-			case 2:
+			case 2:			//Reinforcement phase
 				if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
-					
+
+					Game.getInstance().getCurrPlayer().reinforce();
+
 					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 						setChanged();
@@ -222,7 +227,7 @@ public class GameController extends Observable {
 				}
 				break;
 				
-			case 3:
+			case 3: //Attack Phase...
 			case 4:
 				boolean fortificationPossible = false;
 				for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
