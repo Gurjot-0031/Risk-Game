@@ -53,10 +53,10 @@ public class WorldDominationView implements Observer {
                 percentage = (float) 100*tempTerritoryCount/Game.getInstance().getGameMap().getTerritories().size();
 
                 label = label+ Game.getInstance().getPlayerById(i).getName()+" owns "+
-                        percentage +" % territories and owns "+ PhaseView.getInstance().curPArmies+ "<br/>";
+                        percentage +" % territories and owns "+ PhaseView.getInstance().curPArmies+ "armies <br/>";
                 worldDominationViewLabel.setText(label);
             }
-            //worldDominationViewLabel.setText(label+"</html>");
+            worldDominationViewLabel.setText(label+"</html>");
 
 
             //Continenet domination starts here...
