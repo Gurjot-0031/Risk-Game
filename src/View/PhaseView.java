@@ -78,7 +78,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 	}
 
-
+	/**
+	 * Get the instance of Phase View
+	 * @return PhaseView
+	 */
 	public static PhaseView getInstance() {
 		if(instance == null) {
 			instance = new PhaseView();
@@ -87,13 +90,19 @@ public class PhaseView extends MouseAdapter implements Observer {
 	}
 
 
+	/**
+	 * Load the Frame
+	 */
 	public void loadFrame() {
 		if(gameFrame == null) {
 			initFrame();
 		}
 		gameFrame.setVisible(true);
 	}
-	
+
+	/**
+	 * Initialize the Frame
+	 */
 	public void initFrame() {
 		gameFrame = new JFrame("Game");
 		gameFrame.setSize(1566, 768);
@@ -119,7 +128,11 @@ public class PhaseView extends MouseAdapter implements Observer {
 		gameDetailsPanel.setBounds(924, 0, 300, 768);
 		gameFrame.add(gameDetailsPanel);*/
 	}
-	
+
+	/**
+	 * Load Map
+	 * @param map Map
+	 */
 	public void loadMap(Map map) {
 		if(map == null) {
 			System.out.println("Map not loaded correctly. Cannot be rendered");
@@ -137,7 +150,12 @@ public class PhaseView extends MouseAdapter implements Observer {
 			btnTerritory.setBounds(territory.getX(), territory.getY(), 100, 15);
 		}
 	}
-	
+
+	/**
+	 * View Class for Territory Mouse Hover
+	 * @author Team38
+	 *
+	 */
 	class territoryMouseHover extends MouseAdapter {
 		private final Territory territory;
 
@@ -157,15 +175,28 @@ public class PhaseView extends MouseAdapter implements Observer {
 	    }
 	}
 
+	/**
+	 * View Class for Territory Action Listener
+	 * @author Team38
+	 *
+	 */
 	class territoryActionListener implements ActionListener{
 	    private final Territory territory;
 
 
+		/**
+		 * Constructor
+		 * @param territory Territory
+		 */
 	    territoryActionListener (final Territory territory) {
 	        super();
 	        this.territory = territory;
 	    }
 
+		/**
+		 * Function to notice Clicks on Territory
+		 * @param e Action Event
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			GameEvents objEvent = new GameEvents();
