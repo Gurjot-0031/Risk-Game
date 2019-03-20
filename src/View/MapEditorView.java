@@ -23,11 +23,22 @@ import Controller.MapEditorController;
 import Event.IEvent;
 import Event.MapEditorEvents;
 
+/**
+ * The view class for Map Editor
+ * @author Team38
+ *
+ */
 public class MapEditorView {
 	private static MapEditorController objController;
 	private JFrame mapEditorFrame;
 	private static MapEditorView instance;
 
+	/**
+	 * Get Instance
+	 * @param objController Controller Object
+	 * @return MapEditorView
+	 *
+	 */
 	public static MapEditorView getInstance(MapEditorController objController) {
 		if(instance == null) {
 			instance = new MapEditorView(objController);
@@ -35,6 +46,9 @@ public class MapEditorView {
 		return instance;
 	}
 
+	/**
+	 * Load Frame Function
+	 */
 	public void loadFrame() {
 		if(mapEditorFrame == null) {
 			initFrame();
@@ -46,6 +60,9 @@ public class MapEditorView {
 		MapEditorView.objController = objController;
 	}
 
+	/**
+	 * Initialize Frame
+	 */
 	public void initFrame() {
 		mapEditorFrame = new JFrame("Map Editor");
 		mapEditorFrame.setSize(1150, 800);

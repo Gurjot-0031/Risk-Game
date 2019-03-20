@@ -24,12 +24,20 @@ import Event.GameEvents;
 import Event.MapEditorEvents;
 //import javafx.stage.FileChooser;
 
+/**
+ * The view class for Home Menu
+ * @author Team38
+ *
+ */
 public class HomeMenu {
 	private HomeController objHomeController;
 	
 	private JMenuBar homeMenuBar;
 	private HashMap<String, JMenu> homeMenus;
-
+	/**
+	 * The constructor
+	 * @param objHomeController Object of Home Controller
+	 */
 	public HomeMenu(HomeController objHomeController) {
 		this.objHomeController = objHomeController;
 		this.homeMenus = new HashMap<String, JMenu>();
@@ -38,7 +46,12 @@ public class HomeMenu {
 	public JMenuBar getMenuBar() {
 		return this.homeMenuBar;
 	}
-	
+
+
+	/**
+	 * Initialises the Map editor Menu
+	 * @param homeMenuBar Home Menu Bar
+	 */
 	private void initMapEditorMenu(JMenuBar homeMenuBar) {
 		JMenu mapEditorMenu = new JMenu("MapEditor");
 		mapEditorMenu.addMouseListener(new MouseListener() {
@@ -60,7 +73,11 @@ public class HomeMenu {
 		homeMenuBar.add(mapEditorMenu);
 		homeMenus.put("MapEditor", mapEditorMenu);
 	}
-	
+
+	/**
+	 * Initialises the File Menu
+	 * @param homeMenuBar Home Menu Bar Object
+	 */
 	private void initFileMenu(JMenuBar homeMenuBar) {
 		JMenu fileMenu = new JMenu("File");
 		

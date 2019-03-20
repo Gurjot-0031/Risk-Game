@@ -19,6 +19,11 @@ import Model.Territory;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * View Class for Phase View
+ * @author Team38
+ *
+ */
 public class PhaseView extends MouseAdapter implements Observer {
 	private static PhaseView instance;
 
@@ -38,6 +43,11 @@ public class PhaseView extends MouseAdapter implements Observer {
 	boolean phaseChanged =false;
 	String source[];
 
+	/**
+	 * Update the Observer list
+	 * @param observable Observable Object
+	 * @param o Instance of Game Class
+	 */
 	@Override
 	public void update(Observable observable, Object o) {
 		 if(o instanceof Game){

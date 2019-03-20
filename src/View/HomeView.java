@@ -6,12 +6,20 @@ import java.awt.Dimension;
 import javax.swing.*;
 
 import Controller.HomeController;
-
+/**
+ * The view class for Home View
+ * @author Team38
+ *
+ */
 public class HomeView {
 	
 	private HomeController objHomeController;
 	private JFrame homeFrame;
-	
+	/**
+	 * The Function to add Menu
+	 * @param homeMenuBar Home Menu Bar object
+	 *
+	 */
 	public void addMenuBar(JMenuBar homeMenuBar) {
 		this.homeFrame.setJMenuBar(homeMenuBar);
 	}
