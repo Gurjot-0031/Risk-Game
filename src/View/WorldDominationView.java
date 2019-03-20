@@ -13,12 +13,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * View Class for World Domination View
- * It implements the Observer Class
- * @author Team38
- *
- */
 public class WorldDominationView implements Observer {
 
     private static WorldDominationView instance;
@@ -27,9 +21,6 @@ public class WorldDominationView implements Observer {
     ArrayList<Territory> continentTerritory;
     String[] continentList ;
 
-    /**
-     * Initialize the World Domination View
-     */
     public void initWorldDomnationView(){
 
         worldDominationViewLabel.setBounds(1024,0,500,768);
@@ -43,11 +34,6 @@ public class WorldDominationView implements Observer {
 
     }
 
-    /**
-     * Update the observer list
-     * @param observable Observable
-     * @param o Object
-     */
     @Override
     public void update(Observable observable, Object o) {
         if(o instanceof Game){
@@ -109,11 +95,6 @@ public class WorldDominationView implements Observer {
         }
     }
 
-    /**
-     * Get Instance of World Domination View
-     * @return WorldDominationView
-     *
-     */
     public static WorldDominationView getInstance() {
         if(instance == null) {
             instance = new WorldDominationView();
