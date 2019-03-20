@@ -224,6 +224,6 @@ public class Player extends Observable{
     }
 
     public String attack(String info){
-    		return "";
+    		return "Attack Phase";
     }
 }
