@@ -53,19 +53,19 @@ public class GameController extends Observable {
 			Game.getInstance().nextPhase();
 			break;
 		case 1:
-			System.out.println("Game in Setup Game");
+			System.out.println("Game in Setup Phase");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
 		case 2:
-			System.out.println("Game in Reinforcement Game");
+			System.out.println("Game in Reinforcement Phase");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
 		case 3:
-			System.out.println("Game in Attack Game");
+			System.out.println("Game in Attack Phase");
 		case 4:
-			System.out.println("Game in Fortification Game");
+			System.out.println("Game in Fortification Phase");
 			clickedTerritory = info[0];
 			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 			break;
@@ -127,7 +127,7 @@ public class GameController extends Observable {
 			Game.getInstance().assignTerritoryToPlayers();
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
-			WorldDominationView.getInstance().initWorldDomnationView();
+			WorldDominationView.getInstance().initWorldDominationView();
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Number of players invalid");
@@ -180,127 +180,22 @@ public class GameController extends Observable {
 					Game.getInstance().nextTurn();
 					while(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
 						Game.getInstance().nextTurn();
-					}
 					return "Event Processed";
 				}
 				break;
+				}
+				
 			case 2:			//Reinforcement phase
 				if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
-
-					Game.getInstance().getCurrPlayer().reinforce();
-
-					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
-						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
-						setChanged();
-						notifyObservers(this);
-					}
-					
-					
-					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
-						Game.getInstance().nextTurn();
-						//If a player has no army to deploy, the next player's turn comes
-					}
-					
-					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() > 0) {
-						return "Event Processed";
-					}
-					
-					boolean nextPhase = true;
-					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
-						if(Game.getInstance().getPlayerById(i).getArmies() > 0) {
-							Game.getInstance().setTurn(i);
-							//Each Player deploys the reinforcement armies
-							//one by one until all his reinforcement armies are deployed
-							// then, the turn of next player comes.
-							nextPhase = false;
-							break;				//change
-						}
-					}
-					if(nextPhase == true) {
-						Game.getInstance().setTurn(0);
-						Game.getInstance().nextPhase();
-						return "Next Game";
-					}
-
-					return "Event Processed";
+							return Game.getInstance().getCurrPlayer().reinforce(info);
 				}
 				break;
 				
 			case 3: //Attack Phase...
 			case 4:
-				boolean fortificationPossible = false;
-				for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
-					if(t.getOwner().getId() == Game.getInstance().getGameTurn() &&
-							t.getArmies() > 1) {
-						for(String adjacent : t.getAdjacents()) {
-							Territory adjT = Game.getInstance().getGameMap().getTerritory(adjacent);
-							if(adjT.getOwner() == t.getOwner()) {
-								fortificationPossible = true;
-							}
-						}
-					}
-				}
-				
-				if(fortificationPossible == false) {
-					System.out.println("Fortification move not possible for Player " + Game.getInstance().getCurrPlayerName());
-					Game.getInstance().nextTurn();
-					return "Processed";
-				}
-				
-				Territory tmpTerritory = Game.getInstance().getGameMap().getTerritory(info);
-				if(tmpTerritory == null || tmpTerritory.getOwner().getId() != Game.getInstance().getGameTurn()) {
-					return "Territory does not belong to current player";
-				}
-				
-				if(Game.getInstance().fortification_source == null) {
-					for(String adjacent : tmpTerritory.getAdjacents()) {
-						Territory adjT = Game.getInstance().getGameMap().getTerritory(adjacent);
-						if(adjT != null && adjT.getOwner() == tmpTerritory.getOwner() && tmpTerritory.getArmies() > 1) {
-							Game.getInstance().fortification_source = info;
-							System.out.println("Please select target territory to fortify");
-							return "Fortification Source Event Processed";
-						}
-					}
-					System.out.println("No adjacent territory can be fortified from " + info + ". Please select other territory");
-				}
-				else {
-					if(tmpTerritory.getAdjacents().contains(Game.getInstance().fortification_source)) {
-						Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
-						int toMove = 0;
-						while(true) {
-							try {
-								String num = JOptionPane.showInputDialog("How many armies to move? Max possible is: " + (sourceT.getArmies()-1));
-								toMove = Integer.parseInt(num);
-								if(toMove > sourceT.getArmies() || toMove < 0) {
-									System.out.println("Should be positive and Max possible move allowed is : " + (sourceT.getArmies()-1));
-									continue;
-								}
-								break;
-							}
-							catch(NumberFormatException e) {
-								System.out.println("Exception Handled");
-								System.out.println("Only numeric value >= 0 is allowed. Try again");
-							}
-						}
-						sourceT.removeArmies(toMove);
-						tmpTerritory.addArmy(toMove);
-
-						System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + tmpTerritory.getName());
-						Game.getInstance().fortification_source = null;
-						Game.getInstance().nextTurn();
-						Object obj = new Object();
-						obj = sourceT.getName()+","+tmpTerritory.getName()+","+toMove;
-						setChanged();
-						notifyObservers(obj);
-					}
-					else {
-						System.out.println("Selected target: " + tmpTerritory.getName() + 
-								" is not adjacent to selected source: " + Game.getInstance().fortification_source +
-								". Please try again.");
-					}					
-				}
-				break;
+				return Game.getInstance().getCurrPlayer().fortify(info);
+				//break;
 			default:
 				System.out.println("Invalid Game");
 				return "Invalid Game";
