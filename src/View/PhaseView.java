@@ -53,7 +53,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 		 }
 
-		 else if(o instanceof GameController){
+		 else if(o instanceof GameController || o instanceof Player){
 			armiesChanged =true;
 		 	curPArmies = Game.getInstance().getCurrPlayerArmies();
 		 	//curPlayer = Game.getInstance().getCurrPlayerName();
@@ -116,6 +116,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 			return;
 		}
 		Game.getInstance().addObserver(PhaseView.getInstance());   //.........*****************************
+		
+		
 		GameController.getInstance().addObserver(PhaseView.getInstance());
 		ArrayList<Territory> territoryList = map.getTerritories();
 		for(Territory territory : territoryList) {

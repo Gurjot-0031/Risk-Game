@@ -21,7 +21,7 @@ public class WorldDominationView implements Observer {
     ArrayList<Territory> continentTerritory;
     String[] continentList ;
 
-    public void initWorldDomnationView(){
+    public void initWorldDominationView(){
 
         worldDominationViewLabel.setBounds(1024,0,500,768);
         JFrame frameFromPhase = PhaseView.getInstance().getGameFrame();
