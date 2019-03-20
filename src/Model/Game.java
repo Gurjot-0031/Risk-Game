@@ -145,10 +145,12 @@ public class Game extends Observable {
 			for(int i = 0; i < this.numPlayers; i++) {
 				int armies = this.calcReinforcementArmies(i);
 				this.players.get(i).setArmies(armies);
+				System.out.println("Setup Phase ends..");
+				System.out.println("Reinforcement Phase starts..");
 			}
 		}
 		else if(this.gamePhase == 3) {
-			System.out.println("Skipping Attack Game");
+			System.out.println("Please select the attacker territory..");
 			this.nextPhase();
 		}
 		setChanged();

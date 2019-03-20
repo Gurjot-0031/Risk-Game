@@ -64,6 +64,10 @@ public class GameController extends Observable {
 			break;
 		case 3:
 			System.out.println("Game in Attack Phase");
+			clickedTerritory = info[0];
+			System.out.println("Please select a territory to attack..");
+			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+			break;
 		case 4:
 			System.out.println("Game in Fortification Phase");
 			clickedTerritory = info[0];
@@ -193,6 +197,14 @@ public class GameController extends Observable {
 				break;
 				
 			case 3: //Attack Phase...
+
+
+
+				if(Game.getInstance().getCurrPlayer().getId() == Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
+				{
+					return Game.getInstance().getCurrPlayer().attack(info);
+				}
+				break;
 			case 4:
 				return Game.getInstance().getCurrPlayer().fortify(info);
 				//break;
@@ -216,7 +228,9 @@ public class GameController extends Observable {
 		case "Territory Clicked":
 			this.gameLoop(event.getEventData().split(","));
 			break;
-		default:
+			case "Attack Phase:attacked territory selected":
+
+			default:
 			return "Invalid Event";	
 		}
 		return "event processed";

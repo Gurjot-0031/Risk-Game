@@ -202,9 +202,18 @@ public class PhaseView extends MouseAdapter implements Observer {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			GameEvents objEvent = new GameEvents();
-			objEvent.setEventInfo("Territory Clicked");
-			objEvent.setEventData(territory.getName()+","+territory.getArmies());
-			GameController.getInstance().eventTriggered(objEvent);
+			if(Game.getInstance().getGamePhase()!=3)
+			{
+				objEvent.setEventInfo("Territory Clicked");
+				objEvent.setEventData(territory.getName()+","+territory.getArmies());
+				GameController.getInstance().eventTriggered(objEvent);
+			}
+
+			else if(Game.getInstance().getGamePhase()==3)
+			{
+				objEvent.setEventInfo("Attack Phase:attacked territory selected");
+				objEvent.setEventData(territory.getName()+","+territory.getArmies());
+			}
 
 
 			if(armiesChanged==true){
