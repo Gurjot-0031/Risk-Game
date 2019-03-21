@@ -349,7 +349,7 @@ public class Map {
 	 * 
 	 * @return Success or failure
 	 */
-	public boolean check_empty_continents() {
+	public boolean checkEmptyContinents() {
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 			if (entry2.getValue().getNumTerritories() < 1) {
 				System.out.println("Empty Continent " + entry2.getKey());
@@ -380,7 +380,7 @@ public class Map {
 	 * 
 	 * @return Success or failure
 	 */
-	public boolean check_adjacency() {
+	public boolean checkAdjacency() {
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 			Continent continent = entry2.getValue();
 
@@ -419,7 +419,7 @@ public class Map {
 	 *            The continent or entire map if null
 	 * @return Success of failure
 	 */
-	public boolean mark_visited(String territory, HashMap<String, Boolean> visited, Continent continent) {
+	public boolean markVisited(String territory, HashMap<String, Boolean> visited, Continent continent) {
 		if (visited.containsKey(territory)) {
 			return true;
 		}
@@ -434,10 +434,10 @@ public class Map {
 		for (String adjacent : this.getTerritory(territory).getAdjacents()) {
 			if (continent != null) {
 				if (continent.territories.get(adjacent) != null) {
-					mark_visited(adjacent, visited, continent);
+					markVisited(adjacent, visited, continent);
 				}
 			} else {
-				mark_visited(adjacent, visited, continent);
+				markVisited(adjacent, visited, continent);
 			}
 		}
 		return true;
@@ -448,18 +448,18 @@ public class Map {
 	 * 
 	 * @return Success or failure
 	 */
-	public boolean check_connectivity() {
+	public boolean checkConnectivity() {
 		String anyTerritory = this.continents.entrySet().iterator().next().getValue().territories.entrySet().iterator()
 				.next().getKey();
 
 		HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
-		mark_visited(anyTerritory, visited, null);
+		markVisited(anyTerritory, visited, null);
 
 		for (java.util.Map.Entry<String, Continent> entry2 : this.continents.entrySet()) {
 			Continent continent = entry2.getValue();
 
 			HashMap<String, Boolean> visitedC = new HashMap<String, Boolean>();
-			mark_visited(continent.territories.entrySet().iterator().next().getKey(), visitedC, continent);
+			markVisited(continent.territories.entrySet().iterator().next().getKey(), visitedC, continent);
 
 			for (java.util.Map.Entry<String, Territory> entry : continent.territories.entrySet()) {
 				if (visitedC.get(entry.getKey()) == null) {
@@ -522,11 +522,11 @@ public class Map {
 	 * @return Success or failure
 	 */
 	public boolean saveMap() {
-		if (check_empty_continents() != true) {
+		if (checkEmptyContinents() != true) {
 			return false;
-		} else if (check_adjacency() != true) {
+		} else if (checkAdjacency() != true) {
 			return false;
-		} else if (check_connectivity() != true) {
+		} else if (checkConnectivity() != true) {
 			return false;
 		}
 
@@ -587,11 +587,11 @@ public class Map {
 			e.printStackTrace();
 		}
 
-		if (check_empty_continents() != true) {
+		if (checkEmptyContinents() != true) {
 			return false;
-		} else if (check_adjacency() != true) {
+		} else if (checkAdjacency() != true) {
 			return false;
-		} else if (check_connectivity() != true) {
+		} else if (checkConnectivity() != true) {
 			return false;
 		}
 
