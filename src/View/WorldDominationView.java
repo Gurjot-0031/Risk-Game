@@ -61,7 +61,7 @@ public class WorldDominationView implements Observer {
 
 			// Continent domination starts here...
 
-			label = label + "<html><head><h1>CONTINENT DOMINATION></h1></head><body><center><br/>";
+			label = label + "<html><head><h1>CONTINENT DOMINATION</h1></head><body><center><br/>";
 			continentList = Game.getInstance().getGameMap().getContinentsArray();
 			// System.out.println(continentList);
 			int count = 0;
