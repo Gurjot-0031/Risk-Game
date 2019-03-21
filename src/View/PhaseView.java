@@ -19,6 +19,11 @@ import Model.Territory;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * View Class for Phase View
+ * @author Team38
+ *
+ */
 public class PhaseView extends MouseAdapter implements Observer {
 	private static PhaseView instance;
 
@@ -38,6 +43,11 @@ public class PhaseView extends MouseAdapter implements Observer {
 	boolean phaseChanged =false;
 	String source[];
 
+	/**
+	 * Update the Observer list
+	 * @param observable Observable Object
+	 * @param o Instance of Game Class
+	 */
 	@Override
 	public void update(Observable observable, Object o) {
 		 if(o instanceof Game){
@@ -68,7 +78,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 	}
 
-
+	/**
+	 * Get the instance of Phase View
+	 * @return PhaseView
+	 */
 	public static PhaseView getInstance() {
 		if(instance == null) {
 			instance = new PhaseView();
@@ -77,13 +90,19 @@ public class PhaseView extends MouseAdapter implements Observer {
 	}
 
 
+	/**
+	 * Load the Frame
+	 */
 	public void loadFrame() {
 		if(gameFrame == null) {
 			initFrame();
 		}
 		gameFrame.setVisible(true);
 	}
-	
+
+	/**
+	 * Initialize the Frame
+	 */
 	public void initFrame() {
 		gameFrame = new JFrame("Game");
 		gameFrame.setSize(1566, 768);
@@ -109,7 +128,11 @@ public class PhaseView extends MouseAdapter implements Observer {
 		gameDetailsPanel.setBounds(924, 0, 300, 768);
 		gameFrame.add(gameDetailsPanel);*/
 	}
-	
+
+	/**
+	 * Load Map
+	 * @param map Map
+	 */
 	public void loadMap(Map map) {
 		if(map == null) {
 			System.out.println("Map not loaded correctly. Cannot be rendered");
@@ -129,7 +152,12 @@ public class PhaseView extends MouseAdapter implements Observer {
 			btnTerritory.setBounds(territory.getX(), territory.getY(), 100, 15);
 		}
 	}
-	
+
+	/**
+	 * View Class for Territory Mouse Hover
+	 * @author Team38
+	 *
+	 */
 	class territoryMouseHover extends MouseAdapter {
 		private final Territory territory;
 
@@ -149,22 +177,94 @@ public class PhaseView extends MouseAdapter implements Observer {
 	    }
 	}
 
+	/**
+	 * View Class for Territory Action Listener
+	 * @author Team38
+	 *
+	 */
 	class territoryActionListener implements ActionListener{
 	    private final Territory territory;
 
 
+		/**
+		 * Constructor
+		 * @param territory Territory
+		 */
 	    territoryActionListener (final Territory territory) {
 	        super();
 	        this.territory = territory;
 	    }
 
+		/**
+		 * Function to notice Clicks on Territory
+		 * @param e Action Event
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			GameEvents objEvent = new GameEvents();
-			objEvent.setEventInfo("Territory Clicked");
-			objEvent.setEventData(territory.getName()+","+territory.getArmies());
+			objEvent.setEventInfo("");
+			objEvent.setEventData("");
+			//if(Game.getInstance().getGamePhase()==3) {
+			//	Game.getInstance().setAttacker(territory.getName());
+			//	objEvent.setEventInfo("Territory Clicked");
+			//	objEvent.setEventData(territory.getName()+","+territory.getArmies());
+			//} 
+			
+			
+			if(Game.getInstance().getGamePhase()==3) {
+				if(Game.getInstance().getAttacker() == null) {
+					
+					if(Game.getInstance().getGameMap().getTerritory(territory.getName()).getArmies() >=2) {
+						if(Game.getInstance().getCurrPlayer().getId() == 
+								Game.getInstance().getGameMap().getTerritory(territory.getName()).getOwner().getId()) { 
+							Game.getInstance().setAttacker(territory.getName());
+							System.out.println("Please select a target territory to attack..");
+							objEvent.setEventInfo("Attacker Set");
+							objEvent.setEventData(territory.getName()+","+territory.getArmies());
+						}
+						else
+							System.out.println("Territory does not belong to current player..");
+					}
+					else
+						System.out.println("Territory selected have less than 2 armies..");
+					
+				}
+				else if(Game.getInstance().getAttacker() != null
+						&& Game.getInstance().getAttacked() == null) {
+					
+					
+					if(territory.getOwner().getName()==Game.getInstance().getCurrPlayerName()) {
+						System.out.println("Attack cannot be done to a player's own territory");
+						System.out.println("Please select a valid territory to attack..");
+						objEvent.setEventInfo("Attack Phase:Invalid attacked selected");
+						objEvent.setEventData(territory.getName()+","+territory.getArmies());
+					}
+					else {
+						for(String adj : Game.getInstance().getGameMap().getAdjacents(Game.getInstance().getAttacker())) {
+							if(territory.getName()==adj) {
+								Game.getInstance().setAttacked(territory.getName());
+							}				
+						}
+						if(Game.getInstance().getAttacked()==null)
+							System.out.println("Select an adjacent territory...");
+						objEvent.setEventInfo("Attack Phase:attacked territory selected");
+						objEvent.setEventData(territory.getName()+","+territory.getArmies());
+					}
+					
+				}
+				
+				
+			}
+			
+			
+				
+			else
+			{
+				objEvent.setEventInfo("Territory Clicked");
+				objEvent.setEventData(territory.getName()+","+territory.getArmies());
+				
+			}
 			GameController.getInstance().eventTriggered(objEvent);
-
 
 			if(armiesChanged==true){
 				switch (gamePhase) {

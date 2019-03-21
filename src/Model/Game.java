@@ -24,7 +24,8 @@ public class Game extends Observable {
 	// 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Attack, 4 = Fortification
 	private int gamePhase;
 	private int gameTurn;
-	
+	private String attacker = null;
+	private String attacked = null;
 	public String fortification_source;
 	
 	/**
@@ -43,6 +44,22 @@ public class Game extends Observable {
 	 */
 	public Map getGameMap() {
 		return this.gameMap;
+	}
+	
+	public String getAttacker() {
+		return this.attacker;
+	}
+	
+	public String getAttacked() {
+		return this.attacked;
+	}
+	
+	public void setAttacker(String attacker) {
+		this.attacker = attacker;
+	}
+	
+	public void setAttacked(String attacked) {
+		this.attacked = attacked;
 	}
 	
 	/**
@@ -142,14 +159,18 @@ public class Game extends Observable {
 		}
 		
 		if(this.gamePhase == 2) {		//Reinforcement phase
+			
+			System.out.println("Setup Phase ends..");
+			System.out.println("Reinforcement Phase starts..");
 			for(int i = 0; i < this.numPlayers; i++) {
 				int armies = this.calcReinforcementArmies(i);
 				this.players.get(i).setArmies(armies);
+							
 			}
 		}
 		else if(this.gamePhase == 3) {
-			System.out.println("Skipping Attack Game");
-			this.nextPhase();
+			System.out.println("Please select the attacker territory..");
+			
 		}
 		setChanged();
 		notifyObservers(this);

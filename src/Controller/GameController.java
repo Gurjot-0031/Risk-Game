@@ -64,6 +64,12 @@ public class GameController extends Observable {
 			break;
 		case 3:
 			System.out.println("Game in Attack Phase");
+			//System.out.println("Select attacker territory");
+			clickedTerritory = info[0];
+			
+			//System.out.println("Please select a territory to attack..");
+			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+			break;
 		case 4:
 			System.out.println("Game in Fortification Phase");
 			clickedTerritory = info[0];
@@ -95,10 +101,10 @@ public class GameController extends Observable {
 			int initArmies = 0;
 			switch(Game.getInstance().getNumPlayers()) {
 			case 2:
-				initArmies = 40;
+				initArmies = 8;
 				break;
 			case 3:
-				initArmies = 35;
+				initArmies = 10;
 				break;
 			case 4:
 				initArmies = 30;
@@ -193,6 +199,20 @@ public class GameController extends Observable {
 				break;
 				
 			case 3: //Attack Phase...
+
+				//if(Game.getInstance().getAttacked()==null)
+				//{
+					//Game.getInstance().nextTurn();
+					//System.out.println("Please select a target territory to attack..");
+				//}
+				
+				//if(Game.getInstance().getCurrPlayer().getId() == Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
+				
+					System.out.println("Attacker:"+Game.getInstance().getAttacker());
+					System.out.println("Attacked:"+Game.getInstance().getAttacked());
+					return Game.getInstance().getCurrPlayer().attack(Game.getInstance().getAttacker(),Game.getInstance().getAttacked());
+				
+				//break;
 			case 4:
 				return Game.getInstance().getCurrPlayer().fortify(info);
 				//break;
@@ -216,6 +236,10 @@ public class GameController extends Observable {
 		case "Territory Clicked":
 			this.gameLoop(event.getEventData().split(","));
 			break;
+		case "Attack Phase:attacked territory selected":
+			this.gameLoop(event.getEventData().split(","));
+			break;
+			
 		default:
 			return "Invalid Event";	
 		}

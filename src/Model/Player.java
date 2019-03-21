@@ -1,6 +1,7 @@
 package Model;
 
 import java.awt.Color;
+import java.awt.event.MouseListener;
 import java.util.Observable;
 
 import javax.swing.JOptionPane;
@@ -8,7 +9,7 @@ import javax.swing.JOptionPane;
 /**
  * This class is the model player class
  * @author Team38
- *
+ *d
  */
 public class Player extends Observable{
 	private int id;
@@ -141,7 +142,7 @@ public class Player extends Observable{
 		if(nextPhase == true) {
 			Game.getInstance().setTurn(0);
 			Game.getInstance().nextPhase();
-			return "Next Game";
+			return "Next Phase";
 		}
 
 		return "Event Processed";
@@ -223,7 +224,10 @@ public class Player extends Observable{
 		}
     }
 
-    public String attack(String info){
-    		return "Attack Phase";
+    public String attack(String attacker, String attacked){
+    	
+
+    	
+		return "Attack Phase";
     }
 }

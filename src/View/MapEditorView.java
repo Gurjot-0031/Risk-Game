@@ -23,20 +23,34 @@ import Controller.MapEditorController;
 import Event.IEvent;
 import Event.MapEditorEvents;
 
+/**
+ * The view class for Map Editor
+ * @author Team38
+ *
+ */
 public class MapEditorView {
 	private static MapEditorController objController;
 	private JFrame mapEditorFrame;
 	private static MapEditorView instance;
 
+	/**
+	 * Get Instance
+	 * @param objController Controller Object
+	 * @return MapEditorView
+	 *
+	 */
 	public static MapEditorView getInstance(MapEditorController objController) {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new MapEditorView(objController);
 		}
 		return instance;
 	}
 
+	/**
+	 * Load Frame Function
+	 */
 	public void loadFrame() {
-		if(mapEditorFrame == null) {
+		if (mapEditorFrame == null) {
 			initFrame();
 		}
 		mapEditorFrame.setVisible(true);
@@ -46,6 +60,9 @@ public class MapEditorView {
 		MapEditorView.objController = objController;
 	}
 
+	/**
+	 * Initialize Frame
+	 */
 	public void initFrame() {
 		mapEditorFrame = new JFrame("Map Editor");
 		mapEditorFrame.setSize(1150, 800);
@@ -62,14 +79,19 @@ public class MapEditorView {
 		mapEditorFrame.getContentPane().add(btnBrowse);
 		btnBrowse.setBounds(140, 10, 100, 20);
 		btnBrowse.addMouseListener(new MouseListener() {
-			@Override public void mouseReleased(MouseEvent e) {}
-			@Override public void mousePressed(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
 				int returnValue = fileChooser.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION)
-				{
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
 					final JComboBox<String> listOfTerritories = new JComboBox<String>();
 					final JComboBox<String> listOfAdjacents = new JComboBox<String>();
 
@@ -87,8 +109,14 @@ public class MapEditorView {
 				}
 				return;
 			}
-			@Override public void mouseEntered(MouseEvent e) {}
-			@Override public void mouseExited(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
 		});
 
 		JLabel lblCreateMap = new JLabel("Author for New Map: ");
@@ -111,11 +139,17 @@ public class MapEditorView {
 		mapEditorFrame.getContentPane().add(btnCreate);
 		btnCreate.setBounds(550, 35, 150, 20);
 		btnCreate.addMouseListener(new MouseListener() {
-			@Override public void mouseReleased(MouseEvent e) {}
-			@Override public void mousePressed(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(txtAuthor.getText().length() < 1 || txtPath.getText().length() < 1) {
+				if (txtAuthor.getText().length() < 1 || txtPath.getText().length() < 1) {
 					System.out.println("Please mention author name and path for new map");
 					return;
 				}
@@ -123,7 +157,6 @@ public class MapEditorView {
 				final JComboBox<String> listOfAdjacents = new JComboBox<String>();
 
 				mapEditorFrame.getContentPane().add(listOfAdjacents);
-
 
 				System.out.println("Creating New Map at: " + txtPath.getText());
 				MapEditorEvents objEvent = new MapEditorEvents();
@@ -135,15 +168,21 @@ public class MapEditorView {
 
 				return;
 			}
-			@Override public void mouseEntered(MouseEvent e) {}
-			@Override public void mouseExited(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
 		});
 	}
 
 	public void showEditButtons(JComboBox<String> listOfTerritories, JComboBox<String> listOfAdjacents, boolean isNew) {
 
 		String[] continents = MapController.getInstance().getContinentsArray();
-		if(continents == null) {
+		if (continents == null) {
 			return;
 		}
 
@@ -155,23 +194,26 @@ public class MapEditorView {
 		mapEditorFrame.getContentPane().add(listOfContinents);
 
 		listOfContinents.setBounds(30, 80, 250, 20);
-		if(isNew == false)
+		if (isNew == false)
 			listOfContinents.setSelectedIndex(0);
 		listOfContinents.addItemListener(new ItemListener() {
-			@Override public void itemStateChanged(ItemEvent e) {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					Object selectedContinent = e.getItem();
 					try {
-						String[] territories = MapController.getInstance().getTerritoriesArray(selectedContinent.toString());
-						final DefaultComboBoxModel<String> territoriesModel = new DefaultComboBoxModel<String>(territories);
+						String[] territories = MapController.getInstance()
+								.getTerritoriesArray(selectedContinent.toString());
+						final DefaultComboBoxModel<String> territoriesModel = new DefaultComboBoxModel<String>(
+								territories);
 						listOfTerritories.setModel(territoriesModel);
 
 						String tmpTerritory = territories[0];
 						String[] tmpAdjacents = MapController.getInstance().getAdjacents(tmpTerritory);
-						final DefaultComboBoxModel<String> adjacentModel = new DefaultComboBoxModel<String>(tmpAdjacents);
+						final DefaultComboBoxModel<String> adjacentModel = new DefaultComboBoxModel<String>(
+								tmpAdjacents);
 						listOfAdjacents.setModel(adjacentModel);
-					}
-					catch(Exception eNC) {
+					} catch (Exception eNC) {
 						System.out.println("New Continent. Territory Information not loaded");
 					}
 				}
@@ -182,11 +224,9 @@ public class MapEditorView {
 		mapEditorFrame.getContentPane().add(label3);
 		label3.setBounds(330, 60, 250, 20);
 
-
-
 		mapEditorFrame.getContentPane().add(listOfTerritories);
 
-		if(listOfContinents.getSelectedItem() != null) {
+		if (listOfContinents.getSelectedItem() != null) {
 			String selectedContinent = listOfContinents.getSelectedItem().toString();
 			String[] territories = MapController.getInstance().getTerritoriesArray(selectedContinent);
 			DefaultComboBoxModel<String> territoriesModel = new DefaultComboBoxModel<String>(territories);
@@ -209,7 +249,7 @@ public class MapEditorView {
 		label4.setBounds(640, 60, 250, 20);
 		listOfAdjacents.setBounds(640, 80, 250, 20);
 
-		if(listOfTerritories.getSelectedItem() != null) {
+		if (listOfTerritories.getSelectedItem() != null) {
 			String selectedTerritory = listOfTerritories.getSelectedItem().toString();
 			String[] tmpAdjacents = MapController.getInstance().getAdjacents(selectedTerritory);
 			final DefaultComboBoxModel<String> adjacentModel = new DefaultComboBoxModel<String>(tmpAdjacents);
@@ -232,24 +272,22 @@ public class MapEditorView {
 		mapEditorFrame.getContentPane().add(btnAddContinent);
 		btnAddContinent.setBounds(100, 350, 250, 20);
 		btnAddContinent.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) {
-				if(inputContinent.getText().length() < 1) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (inputContinent.getText().length() < 1) {
 					System.out.println("Please enter valid continent name");
 					return;
-				}
-				else if(inputContinent.getText().split(",").length < 2) {
+				} else if (inputContinent.getText().split(",").length < 2) {
 					System.out.println("Please try again. Valid format is: <continent name>,<reward>");
 					return;
-				}
-				else {
+				} else {
 					try {
 						Integer tmpCheck = Integer.parseInt(inputContinent.getText().split(",")[1]);
-						if(tmpCheck < 0) {
+						if (tmpCheck < 0) {
 							System.out.println("Continent reward cannot be less than 0");
 							return;
 						}
-					}
-					catch(NumberFormatException nfe) {
+					} catch (NumberFormatException nfe) {
 						System.out.println("Invalid reward number. Valid format is: <continent name>,<reward>");
 						System.out.println(nfe);
 						return;
@@ -266,14 +304,13 @@ public class MapEditorView {
 			}
 		});
 
-
 		JButton btnDelContinent = new JButton("Delete Continent");
 		mapEditorFrame.getContentPane().add(btnDelContinent);
 		btnDelContinent.setBounds(100, 400, 250, 20);
 		btnDelContinent.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(inputContinent.getText().length() < 1) {
+				if (inputContinent.getText().length() < 1) {
 					System.out.println("Please enter valid continent name");
 					return;
 				}
@@ -294,23 +331,20 @@ public class MapEditorView {
 		btnChangeReward.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(inputContinent.getText().length() < 1) {
+				if (inputContinent.getText().length() < 1) {
 					System.out.println("Please enter valid continent name");
 					return;
-				}
-				else if(inputContinent.getText().split(",").length < 2) {
+				} else if (inputContinent.getText().split(",").length < 2) {
 					System.out.println("Please try again. Valid format is: <continent name>,<reward>");
 					return;
-				}
-				else {
+				} else {
 					try {
 						Integer tmpCheck = Integer.parseInt(inputContinent.getText().split(",")[1]);
-						if(tmpCheck < 0) {
+						if (tmpCheck < 0) {
 							System.out.println("Continent reward cannot be less than 0");
 							return;
 						}
-					}
-					catch(NumberFormatException nfe) {
+					} catch (NumberFormatException nfe) {
 						System.out.println("Invalid reward number. Valid format is: <continent name>,<reward>");
 						System.out.println(nfe);
 						return;
@@ -323,36 +357,33 @@ public class MapEditorView {
 			}
 		});
 
-
-		JLabel label6= new JLabel("Enter territory name");
+		JLabel label6 = new JLabel("Enter territory name");
 		mapEditorFrame.getContentPane().add(label6);
 		label6.setBounds(600, 150, 250, 20);
 		JTextField inputTerritory = new JTextField();
 		mapEditorFrame.getContentPane().add(inputTerritory);
 		inputTerritory.setBounds(750, 150, 100, 20);
 
-		JLabel label7= new JLabel("Enter X-coordinate");
+		JLabel label7 = new JLabel("Enter X-coordinate");
 		mapEditorFrame.getContentPane().add(label7);
 		label7.setBounds(600, 190, 250, 20);
 		JTextField inputTerritoryX = new JTextField();
 		mapEditorFrame.getContentPane().add(inputTerritoryX);
 		inputTerritoryX.setBounds(750, 190, 30, 20);
 
-		JLabel label8= new JLabel("Enter Y-coordinate");
+		JLabel label8 = new JLabel("Enter Y-coordinate");
 		mapEditorFrame.getContentPane().add(label8);
 		label8.setBounds(600, 230, 250, 20);
 		JTextField inputTerritoryY = new JTextField();
 		mapEditorFrame.getContentPane().add(inputTerritoryY);
 		inputTerritoryY.setBounds(750, 230, 30, 20);
 
-
-		JLabel label9= new JLabel("Enter adjacent territories seperated by comma");
+		JLabel label9 = new JLabel("Enter adjacent territories seperated by comma");
 		mapEditorFrame.getContentPane().add(label9);
 		label9.setBounds(600, 270, 330, 20);
 		JTextField inputAdjacents = new JTextField();
 		mapEditorFrame.getContentPane().add(inputAdjacents);
 		inputAdjacents.setBounds(600, 290, 250, 20);
-
 
 		JButton btnAddTerritory = new JButton("Add Territory");
 		mapEditorFrame.getContentPane().add(btnAddTerritory);
@@ -360,19 +391,18 @@ public class MapEditorView {
 		btnAddTerritory.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if((inputTerritory.getText().length() < 1) || (inputAdjacents.getText().length() < 1)) {
+				if ((inputTerritory.getText().length() < 1) || (inputAdjacents.getText().length() < 1)) {
 					System.out.println("Please fill all fields");
 					return;
 				}
 				try {
 					Integer x = Integer.parseInt(inputTerritoryX.getText());
 					Integer y = Integer.parseInt(inputTerritoryY.getText());
-					if(x < 0 || y < 0) {
+					if (x < 0 || y < 0) {
 						System.out.println("X and Y values cant be negative");
 						return;
 					}
-				}
-				catch(NumberFormatException nfe) {
+				} catch (NumberFormatException nfe) {
 					System.out.println(nfe);
 					System.out.println("X and Y values must be integers");
 					return;
@@ -380,9 +410,9 @@ public class MapEditorView {
 
 				MapEditorEvents objEvent = new MapEditorEvents();
 				objEvent.setEventInfo("Add Territory");
-				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + "," +
-						inputTerritory.getText() + "," + inputTerritoryX.getText() + "," +
-						inputTerritoryY.getText() + "," + inputAdjacents.getText());
+				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + "," + inputTerritory.getText()
+						+ "," + inputTerritoryX.getText() + "," + inputTerritoryY.getText() + ","
+						+ inputAdjacents.getText());
 				objController.eventTriggered(objEvent);
 
 				Object selectedContinent = listOfContinents.getSelectedItem().toString();
@@ -403,14 +433,13 @@ public class MapEditorView {
 		btnDelTerritory.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(inputTerritory.getText().length() < 1) {
+				if (inputTerritory.getText().length() < 1) {
 					System.out.println("Please enter the territory name");
 					return;
 				}
 				MapEditorEvents objEvent = new MapEditorEvents();
 				objEvent.setEventInfo("Delete Territory");
-				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + "," +
-						inputTerritory.getText());
+				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + "," + inputTerritory.getText());
 				objController.eventTriggered(objEvent);
 
 				Object selectedContinent = listOfContinents.getSelectedItem().toString();
@@ -418,7 +447,7 @@ public class MapEditorView {
 				final DefaultComboBoxModel<String> territoriesModel = new DefaultComboBoxModel<String>(territories);
 				listOfTerritories.setModel(territoriesModel);
 
-				if(territories.length > 0) {
+				if (territories.length > 0) {
 					String tmpTerritory = territories[0];
 					String[] tmpAdjacents = MapController.getInstance().getAdjacents(tmpTerritory);
 					final DefaultComboBoxModel<String> adjacentModel = new DefaultComboBoxModel<String>(tmpAdjacents);
@@ -434,15 +463,14 @@ public class MapEditorView {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(inputTerritory.getText().length() < 1) {
+				if (inputTerritory.getText().length() < 1) {
 					System.out.println("Please enter the adjacent territory name");
 					return;
 				}
 				MapEditorEvents objEvent = new MapEditorEvents();
 				objEvent.setEventInfo("Add Adjacent");
-				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + "," +
-						listOfTerritories.getSelectedItem().toString() + "," +
-						inputTerritory.getText());
+				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + ","
+						+ listOfTerritories.getSelectedItem().toString() + "," + inputTerritory.getText());
 				objController.eventTriggered(objEvent);
 
 				String tmpTerritory = listOfTerritories.getSelectedItem().toString();
@@ -458,15 +486,14 @@ public class MapEditorView {
 		btnRemoveAdjacent.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(inputTerritory.getText().length() < 1) {
+				if (inputTerritory.getText().length() < 1) {
 					System.out.println("Please enter the adjacent territory name");
 					return;
 				}
 				MapEditorEvents objEvent = new MapEditorEvents();
 				objEvent.setEventInfo("Delete Adjacent");
-				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + "," +
-						listOfTerritories.getSelectedItem().toString() + "," +
-						inputTerritory.getText());
+				objEvent.setEventData(listOfContinents.getSelectedItem().toString() + ","
+						+ listOfTerritories.getSelectedItem().toString() + "," + inputTerritory.getText());
 				objController.eventTriggered(objEvent);
 
 				String tmpTerritory = listOfTerritories.getSelectedItem().toString();
