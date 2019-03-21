@@ -1,8 +1,13 @@
 package Model;
 
+import View.DiceRollView;
+
 import java.awt.Color;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -16,6 +21,9 @@ public class Player extends Observable{
 	private String name;
 	private Color color;
 	int armies;
+
+	public static ArrayList<Integer> attackerDiceValues;
+	public static ArrayList<Integer> attackedDiceValues;
 	
 	/**
 	 * The constructor
@@ -224,10 +232,112 @@ public class Player extends Observable{
 		}
     }
 
-    public String attack(String attacker, String attacked){
-    	
+    public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked){
+		if(attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
+			//int remainingDiceAttacker = numOfDiceAttacker;
+			//int remainingDiceAttacked = numOfDiceAttacker;
+			DiceRollView.getInstance().loadFrame();
+			System.out.println("Attacker dice #"+Game.getInstance().getNumOfDiceAttacker());
+			System.out.println("Attacked dice #"+Game.getInstance().getNumOfDiceAttacked());
+
+
+			attackerDiceValues = rollDice(numOfDiceAttacker);
+			attackedDiceValues = rollDice(numOfDiceAttacked);
+
+			String continueAttacking = "Y";
+			//While Attack not finished(no of dices available>0)
+			while(!compareDiceResults(numOfDiceAttacker,numOfDiceAttacked)){
+				//giving option to the user..
+				continueAttacking= JOptionPane.showInputDialog("Continue Attacking?: (Y/N)");
+				if(continueAttacking.equalsIgnoreCase("Y")) {
+					if(attackerDiceValues.size()>0)
+						attackerDiceValues = rollDice(attackerDiceValues.size());
+					else
+						System.out.println("Attacker has rolled all the dices..Attacker Lost");
+					if(attackedDiceValues.size()>0)
+						attackedDiceValues = rollDice(attackedDiceValues.size());
+					else
+						System.out.println("Defender has rolled all the dices..Defender Lost");
+				}
+				else
+					System.out.println("Attacker discontinued the attack..");
+
+
+			}
+
+
+
+		}
 
     	
 		return "Attack Phase";
     }
+
+    public ArrayList<Integer> rollDice(int noOfDices){
+		ArrayList<Integer> diceVal = new ArrayList<Integer>();
+		ArrayList<Integer> output = new ArrayList<Integer>();
+		diceVal.add(1);
+		diceVal.add(2);
+		diceVal.add(3);
+		diceVal.add(4);
+		diceVal.add(5);
+		diceVal.add(6);
+
+		Collections.shuffle(diceVal);
+		for(int i=0;i<noOfDices;i++)
+		{
+			Collections.shuffle(diceVal);
+			output.add(diceVal.get(i));
+		}
+		return output;
+	}
+
+	public boolean compareDiceResults(int numOfDiceAttacker,int numOfDiceAttacked) {
+		boolean attackFinished = false;
+		int[] highValue = getMax(numOfDiceAttacker,numOfDiceAttacked);
+		if(highValue[0]>highValue[1]){
+			System.out.println("Attacker won a dice roll");
+			Game.getInstance().getAttackedObj().removeArmies(1);
+			if(Game.getInstance().getAttackedObj().getArmies()==0){
+				System.out.println("Defender Territory conquered by attacker");
+				attackFinished = true;
+			}
+			//Game.getInstance().getAttackerO
+		}
+		else{
+			System.out.println("Defender Won a dice roll");
+			Game.getInstance().getAttackerObj().removeArmies(1);
+			if(Game.getInstance().getAttackerObj().getArmies()==0){
+				System.out.println("Attacker lost all his armies, nothing conquered");
+				attackFinished = true;
+			}
+		}
+		return true;
+
+
+
+	}
+	public int[] getMax(int numOfDiceAttacker,int numOfDiceAttacked){
+		int attackerHighest = 0;
+		int attackedHighest = 0;
+//		for(int i=0;i<numOfDiceAttacker;i++){
+//			if(attackerHighest<attackerDiceValues.get(i)) {
+//				attackerHighest = attackerDiceValues.get(i);
+//				attackerDiceValues.remove(i);
+//			}
+//
+//		}
+		attackerHighest = Collections.max(attackerDiceValues);
+		//int index = Collections.lastIndexOfSubList(attackerDiceValues);
+		attackedDiceValues.remove(attackedHighest);
+
+		for(int i=0;i<numOfDiceAttacked;i++){
+			if(attackedHighest<attackedDiceValues.get(i)) {
+				attackedHighest = attackedDiceValues.get(i);
+				attackedDiceValues.remove(i);
+			}
+		}
+
+		return new int[]{attackerHighest,attackedHighest};
+	}
 }

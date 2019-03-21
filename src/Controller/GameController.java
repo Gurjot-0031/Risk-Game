@@ -200,18 +200,16 @@ public class GameController extends Observable {
 				
 			case 3: //Attack Phase...
 
-				//if(Game.getInstance().getAttacked()==null)
-				//{
-					//Game.getInstance().nextTurn();
-					//System.out.println("Please select a target territory to attack..");
-				//}
-				
-				//if(Game.getInstance().getCurrPlayer().getId() == Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
-				
+
 					System.out.println("Attacker:"+Game.getInstance().getAttacker());
 					System.out.println("Attacked:"+Game.getInstance().getAttacked());
-					return Game.getInstance().getCurrPlayer().attack(Game.getInstance().getAttacker(),Game.getInstance().getAttacked());
-				
+
+					while(Game.getInstance().getAttackerObj().ContinueAttacking())
+						return Game.getInstance().getCurrPlayer().attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
+
+					if(!Game.getInstance().getAttackerObj().ContinueAttacking())
+						return "Attack Discontinued by the attacker";
+
 				//break;
 			case 4:
 				return Game.getInstance().getCurrPlayer().fortify(info);

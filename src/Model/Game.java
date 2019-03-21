@@ -25,7 +25,37 @@ public class Game extends Observable {
 	private int gamePhase;
 	private int gameTurn;
 	private String attacker = null;
-	private String attacked = null;
+	private String attacked;
+	private Territory attackerObj;
+
+	public Territory getAttackerObj() {
+		return Game.getInstance().getGameMap().getTerritory(attacker);
+	}
+
+	public Territory getAttackedObj() {
+		return Game.getInstance().getGameMap().getTerritory(attacked);
+	}
+
+	private Territory attackedObj = null;
+	public int getNumOfDiceAttacker() {
+		return numOfDiceAttacker;
+	}
+
+	public int getNumOfDiceAttacked() {
+		return numOfDiceAttacked;
+	}
+
+
+	public void setNumOfDiceAttacker(int numOfDiceAttacker) {
+		this.numOfDiceAttacker = numOfDiceAttacker;
+	}
+
+	public void setNumOfDiceAttacked(int numOfDiceAttacked) {
+		this.numOfDiceAttacked = numOfDiceAttacked;
+	}
+
+	private int numOfDiceAttacker =-1;
+	private int numOfDiceAttacked =-1;
 	public String fortification_source;
 	
 	/**
