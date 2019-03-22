@@ -5,10 +5,7 @@ import View.PhaseView;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Observable;
-import java.util.Random;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -118,6 +115,7 @@ public class Player extends Observable{
 		return this.color;
 	}
 
+
 	public String reinforce(String info){
 
 		
@@ -157,6 +155,7 @@ public class Player extends Observable{
 		return "Event Processed";
 		
     }
+
 
     public String fortify(String info){
     	boolean fortificationPossible = false;
@@ -233,6 +232,7 @@ public class Player extends Observable{
 		}
     }
 
+
     public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked){
 		if(attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
 			//int remainingDiceAttacker = numOfDiceAttacker;
@@ -304,15 +304,8 @@ public class Player extends Observable{
                             +"<br/> Defender armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/><br/>" +
                             runTimeMessageAttack+"</html>");
                 }
-
-
 			}
-
-
-
 		}
-
-    	
 		return "Attack Phase";
     }
 
@@ -399,9 +392,18 @@ public class Player extends Observable{
 		for(int i=0;i<attackerDiceValues.size();i++){
 			if(attackerHighest<attackerDiceValues.get(i)) {
 				attackerHighest = attackerDiceValues.get(i);
-				attackerDiceValues.remove(i);
+				//attackerDiceValues.remove(i);
 			}
-
+		}
+		// Iterate through the DiceValues of attacker
+		// Remove the previous maximum value from the current attackerDiceValues array
+		// Also continue with the only "remaining dice values" of attackerDiceValues array
+		// if the attacker chooses to continue attacking
+		Iterator attckItr = attackerDiceValues.iterator();
+		while (attckItr.hasNext()) {
+			int x = (Integer)attckItr.next();
+			if (x == attackerHighest)
+				attckItr.remove();
 		}
 		//attackerHighest = Collections.max(attackerDiceValues);
 		//int index = Collections.lastIndexOfSubList(attackerDiceValues);
@@ -410,8 +412,18 @@ public class Player extends Observable{
 		for(int i=0;i<attackedDiceValues.size();i++){
 			if(attackedHighest<attackedDiceValues.get(i)) {
 				attackedHighest = attackedDiceValues.get(i);
-				attackedDiceValues.remove(i);
+				//attackedDiceValues.remove(i);
 			}
+		}
+		// Iterate through the DiceValues of defender
+		// Remove the previous maximum value from the current attackedDiceValues array
+		// Also continue with the only "remaining dice values" of attackedDiceValues array
+		// if the defender is attacked again
+		Iterator defendItr = attackedDiceValues.iterator();
+		while (defendItr.hasNext()) {
+			int x = (Integer)defendItr.next();
+			if (x == attackedHighest)
+				defendItr.remove();
 		}
 
 		return new int[]{attackerHighest,attackedHighest};
