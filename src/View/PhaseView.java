@@ -27,13 +27,14 @@ import static java.lang.Thread.sleep;
 public class PhaseView extends MouseAdapter implements Observer {
 	private static PhaseView instance;
 
-    public JFrame getGameFrame() {
-        return gameFrame;
-    }
+	String[] source;
 
     private JFrame gameFrame;
-	private PhaseView() {}
-	
+
+	private PhaseView() {
+
+	}
+
 	private JLabel infoLog;
 	private JLabel infoLog2;
 	String gamePhase ;
@@ -42,7 +43,11 @@ public class PhaseView extends MouseAdapter implements Observer {
 	//int curPArmies2 ;
 	boolean armiesChanged =false;
 	boolean phaseChanged =false;
-	String source[];
+
+	public JFrame getGameFrame() {
+
+		return gameFrame;
+	}
 
 	/**
 	 * Update the Observer list
@@ -112,7 +117,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.getContentPane().setBackground(Color.WHITE);
 		gameFrame.getContentPane().setLayout(null);
-		
+
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(0, 620, 1024, 118);
 		this.infoLog = new JLabel();
@@ -145,8 +150,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 			return;
 		}
 		Game.getInstance().addObserver(PhaseView.getInstance());   //.........*****************************
-		
-		
+
+
 		GameController.getInstance().addObserver(PhaseView.getInstance());
 		ArrayList<Territory> territoryList = map.getTerritories();
 		for(Territory territory : territoryList) {
@@ -220,7 +225,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 			//	Game.getInstance().setAttacker(territory.getName());
 			//	objEvent.setEventInfo("Territory Clicked");
 			//	objEvent.setEventData(territory.getName()+","+territory.getArmies());
-			//} 
+			//}
 
 			infoLog2.setText("");
 			if (Game.getInstance().getGamePhase() == 3) {

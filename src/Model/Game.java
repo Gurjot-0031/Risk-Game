@@ -95,6 +95,7 @@ public class Game extends Observable {
 		return this.players.get(this.gameTurn).getName();
 	}
 	public Player getCurrPlayer() {
+
 		return this.players.get(this.gameTurn);
 	}
 	
@@ -249,11 +250,7 @@ public class Game extends Observable {
 		if(this.numPlayers < 2) {
 			return false;
 		}
-		if(this.gameMap == null) {
-			return false;
-		}
-		
-		return true;
+		return this.gameMap != null;
 	}
 	
 	/**

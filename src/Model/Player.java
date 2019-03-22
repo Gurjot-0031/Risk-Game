@@ -16,7 +16,7 @@ public class Player extends Observable{
 	private String name;
 	private Color color;
 	int armies;
-	
+
 	/**
 	 * The constructor
 	 * @param Id Player ID
@@ -30,7 +30,7 @@ public class Player extends Observable{
 		this.setName(name);
 		this.armies = armies;
 	}
-	
+
 	/**
 	 * Gets armies
 	 * @return The armies
@@ -38,7 +38,7 @@ public class Player extends Observable{
 	public int getArmies() {
 		return this.armies;
 	}
-	
+
 	/**
 	 * Sets the armies for player
 	 * @param armies Input armies
@@ -46,7 +46,7 @@ public class Player extends Observable{
 	public void setArmies(int armies) {
 		this.armies = armies;
 	}
-	
+
 	/**
 	 * Removes the army from player
 	 * @param num Input count
@@ -60,7 +60,7 @@ public class Player extends Observable{
 		this.armies -= num;
 		return true;
 	}
-	
+
 	/**
 	 * Sets the player id
 	 * @param id input id
@@ -68,7 +68,7 @@ public class Player extends Observable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * Gets the player id
 	 * @return Player id
@@ -76,7 +76,7 @@ public class Player extends Observable{
 	public int getId() {
 		return this.id;
 	}
-	
+
 	/**
 	 * Sets the player name
 	 * @param name Player name
@@ -84,7 +84,7 @@ public class Player extends Observable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the player name
 	 * @return Player name
@@ -92,7 +92,7 @@ public class Player extends Observable{
 	public String getName() {
 		return this.name;
 	}
-	
+
 	/**
 	 * Sets the player color
 	 * @param color Player color
@@ -100,7 +100,7 @@ public class Player extends Observable{
 	public void setColor(Color color) {
 		this.color = color;
 	}
-	
+
 	/**
 	 * Gets the player color
 	 * @return Player color
@@ -111,23 +111,23 @@ public class Player extends Observable{
 
 	public String reinforce(String info){
 
-		
+
 		if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 			Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 			setChanged();
 			notifyObservers(this);
 		}
-		
-		
+
+
 		if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
 			Game.getInstance().nextTurn();
 			//If a player has no army to deploy, the next player's turn comes
 		}
-		
+
 		if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() > 0) {
 			return "Event Processed";
 		}
-		
+
 		boolean nextPhase = true;
 		for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
 			if(Game.getInstance().getPlayerById(i).getArmies() > 0) {
@@ -146,11 +146,11 @@ public class Player extends Observable{
 		}
 
 		return "Event Processed";
-		
-    }
 
-    public String fortify(String info){
-    	boolean fortificationPossible = false;
+	}
+
+	public String fortify(String info) {
+		boolean fortificationPossible = false;
 		for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
 			if(t.getOwner().getId() == Game.getInstance().getGameTurn() &&
 					t.getArmies() > 1) {
@@ -162,18 +162,18 @@ public class Player extends Observable{
 				}
 			}
 		}
-		
+
 		if(fortificationPossible == false) {
 			System.out.println("Fortification move not possible for Player " + Game.getInstance().getCurrPlayerName());
 			Game.getInstance().nextTurn();
 			return "Processed";
 		}
-		
+
 		Territory tmpTerritory = Game.getInstance().getGameMap().getTerritory(info);
 		if(tmpTerritory == null || tmpTerritory.getOwner().getId() != Game.getInstance().getGameTurn()) {
 			return "Territory does not belong to current player";
 		}
-		
+
 		if(Game.getInstance().fortification_source == null) {
 			for(String adjacent : tmpTerritory.getAdjacents()) {
 				Territory adjT = Game.getInstance().getGameMap().getTerritory(adjacent);
@@ -217,17 +217,17 @@ public class Player extends Observable{
 				return "";
 			}
 			else {
-				return "Selected target: " + tmpTerritory.getName() + 
+				return "Selected target: " + tmpTerritory.getName() +
 						" is not adjacent to selected source: " + Game.getInstance().fortification_source +
 						". Please try again.";
-			}					
+			}
 		}
-    }
+	}
 
-    public String attack(String attacker, String attacked){
-    	
+	public String attack(String attacker, String attacked) {
 
-    	
+
+
 		return "Attack Phase";
-    }
+	}
 }
