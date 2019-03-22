@@ -1,15 +1,13 @@
 package Model;
 
 import View.DiceRollView;
+import View.PhaseView;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Observable;
-import java.util.Random;
+import java.util.*;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  * This class is the model player class
@@ -117,6 +115,11 @@ public class Player extends Observable{
 		return this.color;
 	}
 
+    /**
+     * Perform reinforcement of the armies on territories
+     * @param info the territory clicked for reinforcement
+     * @return the event data and info
+     */
 	public String reinforce(String info){
 
 		
@@ -157,6 +160,11 @@ public class Player extends Observable{
 		
     }
 
+    /**
+     * Perform fortification of the armies
+     * @param info territory from which the fortification is to be done
+     * @return the event data and info
+     */
     public String fortify(String info){
     	boolean fortificationPossible = false;
 		for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
@@ -232,49 +240,95 @@ public class Player extends Observable{
 		}
     }
 
+    /**
+     * Perform attack phase of the game
+     * @param attacker the attacking territory
+     * @param attacked the defending territory
+     * @param numOfDiceAttacker number of dice selected by the attacker to be thrown
+     * @param numOfDiceAttacked number of dice selected by the defender to be thrown
+     * @return
+     */
     public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked){
 		if(attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
 			//int remainingDiceAttacker = numOfDiceAttacker;
 			//int remainingDiceAttacked = numOfDiceAttacker;
 			DiceRollView.getInstance().loadFrame();
-			System.out.println("Attacker dice #"+Game.getInstance().getNumOfDiceAttacker());
-			System.out.println("Attacked dice #"+Game.getInstance().getNumOfDiceAttacked());
+			System.out.println("Attacker dice # "+Game.getInstance().getNumOfDiceAttacker());
+			System.out.println("Attacked dice # "+Game.getInstance().getNumOfDiceAttacked());
 
-
+            String runTimeMessageAttack = "";
 			attackerDiceValues = rollDice(numOfDiceAttacker);
 			attackedDiceValues = rollDice(numOfDiceAttacked);
 
 			//String continueAttacking = "Y";
-			//While Attack not finished(no of dices available>0)
-			while(!compareDiceResults()){
+
+
+            boolean isAttackFinished = compareDiceResults();
+            //While Attack not finished(no of dices available>0)
+			while(!isAttackFinished){
 				//giving option to the user..
-				Game.getInstance().getAttackerObj().setContinueAttacking
-						((JOptionPane.showInputDialog("Continue Attacking?: (Y/N)").equalsIgnoreCase("Y"))?true:false);
-				//continueAttacking= JOptionPane.showInputDialog("Continue Attacking?: (Y/N)");
+
+                int continueAttack;
+
+                //continueAttack =  JOptionPane.showInputDialog("Continue Attacking?: (Y/N)");
+				continueAttack = JOptionPane.showConfirmDialog(null,"Continue Attacking?: (Y/N)");
+                if(continueAttack == JOptionPane.YES_OPTION)
+				//if(continueAttack.equalsIgnoreCase("Y"))
+                    Game.getInstance().getAttackerObj().setContinueAttacking(true);
+                else
+                    Game.getInstance().getAttackerObj().setContinueAttacking(false);
+
+                //continueAttacking= JOptionPane.showInputDialog("Continue Attacking?: (Y/N)");
 				if(Game.getInstance().getAttackerObj().ContinueAttacking()) {
-					if(attackerDiceValues.size()>0)
-						attackerDiceValues = rollDice(attackerDiceValues.size());
-					else
-						System.out.println("Attacker has rolled all the dices..Attacker Lost");
-					if(attackedDiceValues.size()>0)
-						attackedDiceValues = rollDice(attackedDiceValues.size());
-					else
-						System.out.println("Defender has rolled all the dices..Defender Lost");
+					if(attackerDiceValues.size()>0) {
+                        if (attackedDiceValues.size() > 0) {
+                            //attackedDiceValues = rollDice(attackedDiceValues.size());
+                            System.out.println("Next Dice roll");
+                            runTimeMessageAttack = "Next Dice roll";
+                            isAttackFinished = compareDiceResults();
+                            DiceRollView.getInstance().getDiceInfoLabel().setText("<html>Attacker:"+ Game.getInstance().getAttacker()+"<br/>Attacker Armies left: "+
+                                    Game.getInstance().getAttackerObj().getArmies()+"<br/><br/>Defender:"+Game.getInstance().getAttacked()
+                                    +"<br/> Defender armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/><br/>" +
+                                    runTimeMessageAttack+"</html>");
+                        }
+                        else {
+                            System.out.println("Defender has rolled all the dices..Defender Lost");
+                            //attackerDiceValues = rollDice(attackerDiceValues.size());
+                            runTimeMessageAttack = "Defender has rolled all the dices..Defender Lost";
+                            DiceRollView.getInstance().getDiceInfoLabel().setText("<html>Attacker:"+ Game.getInstance().getAttacker()+"<br/>Attacker Armies left: "+
+                                    Game.getInstance().getAttackerObj().getArmies()+"<br/><br/>Defender:"+Game.getInstance().getAttacked()
+                                    +"<br/> Defender armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/><br/>" +
+                                    runTimeMessageAttack+"</html>");
+                        }
+                    }
+					else {
+                        System.out.println("Attacker has rolled all the dices..Attacker Lost");
+                        runTimeMessageAttack = "Attacker has rolled all the dices..Attacker Lost";
+                        DiceRollView.getInstance().getDiceInfoLabel().setText("<html>Attacker:"+ Game.getInstance().getAttacker()+"<br/>Attacker Armies left: "+
+                                Game.getInstance().getAttackerObj().getArmies()+"<br/><br/>Defender:"+Game.getInstance().getAttacked()
+                                +"<br/> Defender armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/><br/>" +
+                                runTimeMessageAttack+"</html>");
+                    }
 				}
-				else
-					System.out.println("Attacker discontinued the attack..");
-
-
+				else {
+                    System.out.println("Attacker discontinued the attack..");
+                    runTimeMessageAttack = "Attacker discontinued the attack..";
+                    isAttackFinished = true;
+                    DiceRollView.getInstance().getDiceInfoLabel().setText("<html>Attacker:"+ Game.getInstance().getAttacker()+"<br/>Attacker Armies left: "+
+                            Game.getInstance().getAttackerObj().getArmies()+"<br/><br/>Defender:"+Game.getInstance().getAttacked()
+                            +"<br/> Defender armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/><br/>" +
+                            runTimeMessageAttack+"</html>");
+                }
 			}
-
-
-
 		}
-
-    	
 		return "Attack Phase";
     }
 
+    /**
+     * Perform dice roll to get the random dice values
+     * @param noOfDices number of dice selected for the play
+     * @return
+     */
     public ArrayList<Integer> rollDice(int noOfDices){
 		ArrayList<Integer> diceVal = new ArrayList<Integer>();
 		ArrayList<Integer> output = new ArrayList<Integer>();
@@ -294,12 +348,35 @@ public class Player extends Observable{
 		return output;
 	}
 
+    /**
+     * Compare the dice values to determine the winner of a particular attack
+     * and notify the observers accordingly
+     * @return whether the attack is finished or not
+     */
 	public boolean compareDiceResults() {
 		boolean attackFinished = false;
 		int[] highValue = getMax();
+		String runTimeMessage = "";
+        String runTimeMessageAttackerDiceValue = ""+highValue[0];
+        String runTimeMessageAttackedDiceValue = ""+highValue[1];;
 		if(highValue[0]>highValue[1]){
 			System.out.println("Attacker won a dice roll");
 			Game.getInstance().getAttackedObj().removeArmies(1);
+			runTimeMessage = "Attacker won a dice roll<br/>Defender lost an army<br/>";
+
+            System.out.println("Defender lost a army");
+            System.out.println("Defender armies left:"+Game.getInstance().getAttackedObj().getArmies());
+
+            //DiceRollView.getInstance().getDiceRollFrame();
+            DiceRollView.getInstance().getDiceInfoLabel().setText("<html>Attacker:"+ Game.getInstance().getAttacker()+"<br/>Attacker Armies left: "+
+                    Game.getInstance().getAttackerObj().getArmies()+"<br/><br/>Defender:"+Game.getInstance().getAttacked()
+                    +"<br/> Defender armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/><br/>Dice Results<br/>"
+                    +"Attacker: "+runTimeMessageAttackerDiceValue+"     Defender: "+runTimeMessageAttackedDiceValue
+                    +"<br/><br/>"+runTimeMessage+"</html>");
+
+            //JOptionPane.showMessageDialog(DiceRollView.getInstance().getDiceRollFrame(),
+              //      "<html>Defender lost a army<br/>Defender armies left: "
+                //            +Game.getInstance().getAttackedObj().getArmies()+"</html>");
 			if(Game.getInstance().getAttackedObj().getArmies()==0){
 				System.out.println("Defender Territory conquered by attacker");
 				attackFinished = true;
@@ -307,8 +384,21 @@ public class Player extends Observable{
 			//Game.getInstance().getAttackerO
 		}
 		else{
+            runTimeMessage = "Defender won a dice roll<br/>Attacker lost an army<br/>";
+
+            DiceRollView.getInstance().getDiceInfoLabel().setText("<html>Attacker:"+ Game.getInstance().getAttacker()+"<br/>Attacker Armies left: "+
+                    Game.getInstance().getAttackerObj().getArmies()+"<br/><br/>Defender:"+Game.getInstance().getAttacked()
+                    +"<br/> Defender armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/><br/>Dice Results<br/>" +
+                    "Attacker: "+runTimeMessageAttackerDiceValue+"     Defender: "+runTimeMessageAttackedDiceValue+
+                    "<br/><br/>" +runTimeMessage+"</html>");
+
 			System.out.println("Defender Won a dice roll");
 			Game.getInstance().getAttackerObj().removeArmies(1);
+            System.out.println("Attacker lost a army");
+            System.out.println("Attacker armies left:"+Game.getInstance().getAttackerObj().getArmies());
+            //JOptionPane.showMessageDialog(DiceRollView.getInstance().getDiceRollFrame(),
+              //      "<html>Attacker lost a army<br/>Attacker armies left: "
+                //            +Game.getInstance().getAttackerObj().getArmies()+"</html>");
 			if(Game.getInstance().getAttackerObj().getArmies()==0){
 				System.out.println("Attacker lost all his armies, nothing conquered");
 				attackFinished = true;
@@ -321,15 +411,30 @@ public class Player extends Observable{
 
 
 	}
+
+    /**
+     * Getting the current highest dice values among the attacker and defender
+     * during a fresh attack and also if attack is continued
+     * @return
+     */
 	public int[] getMax(){
 		int attackerHighest = 0;
 		int attackedHighest = 0;
 		for(int i=0;i<attackerDiceValues.size();i++){
 			if(attackerHighest<attackerDiceValues.get(i)) {
 				attackerHighest = attackerDiceValues.get(i);
-				attackerDiceValues.remove(i);
+				//attackerDiceValues.remove(i);
 			}
-
+		}
+		// Iterate through the DiceValues of attacker
+		// Remove the previous maximum value from the current attackerDiceValues array
+		// Also continue with the only "remaining dice values" of attackerDiceValues array
+		// if the attacker chooses to continue attacking
+		Iterator attckItr = attackerDiceValues.iterator();
+		while (attckItr.hasNext()) {
+			int x = (Integer)attckItr.next();
+			if (x == attackerHighest)
+				attckItr.remove();
 		}
 		//attackerHighest = Collections.max(attackerDiceValues);
 		//int index = Collections.lastIndexOfSubList(attackerDiceValues);
@@ -338,8 +443,18 @@ public class Player extends Observable{
 		for(int i=0;i<attackedDiceValues.size();i++){
 			if(attackedHighest<attackedDiceValues.get(i)) {
 				attackedHighest = attackedDiceValues.get(i);
-				attackedDiceValues.remove(i);
+				//attackedDiceValues.remove(i);
 			}
+		}
+		// Iterate through the DiceValues of defender
+		// Remove the previous maximum value from the current attackedDiceValues array
+		// Also continue with the only "remaining dice values" of attackedDiceValues array
+		// if the defender is attacked again
+		Iterator defendItr = attackedDiceValues.iterator();
+		while (defendItr.hasNext()) {
+			int x = (Integer)defendItr.next();
+			if (x == attackedHighest)
+				defendItr.remove();
 		}
 
 		return new int[]{attackerHighest,attackedHighest};
