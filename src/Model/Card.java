@@ -1,49 +1,71 @@
 package Model;
 
+import javafx.collections.ObservableArrayBase;
+
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.List;
+
 
 /**
  * @author Team 38(Ufuoma Ubor)
  */
-public class Card {
+public class Card extends Observable implements Serializable {
 
-    private String cardName;
-    private String cardType;
+    //private String cardName;
+    //private String cardType;
 
+    private CardTypes cardType;
+    private List<Card> cardsToExchange;
     /**
-     * @param name of String data type
-     * @param type of String data type
+     *
+     * @param cardType a type of card
      */
-    public Card(String name, String type) {
-
-        this.cardType = type;
-        this.cardName = name;
+    public Card(CardTypes cardType) {
+        this.cardType = cardType;
     }
 
-    public static ArrayList<Card> generateCards() {
-        ArrayList<Card> cards = new ArrayList<Card>();
-        int i = 0;
-        while (i < 44) {
-            cards.add(new Card("Artillery", "Normal"));
-            i++;
-        }
-        return cards;
-    }
-
-    /**
-     * @return cardName of type String
-     */
-    public String getCardName() {
-
-        return cardName;
-    }
-
-    /**
-     * @return cardType of type String
-     */
-    public String getCardType() {
+    public CardTypes getCardType() {
 
         return cardType;
     }
+
+    public boolean equals(Object o) {
+
+        if (!(o instanceof Card)) {
+
+            return false;
+        } else if (o == this) {
+
+            return true;
+        } else {
+
+            Card card = (Card) o;
+
+            return card.getCardType().toString().equalsIgnoreCase(cardType.toString());
+        }
+    }
+
+    /**
+     * @return list of card to exchange
+     */
+    public List<Card> getCardsToExchange() {
+        return cardsToExchange;
+    }
+
+    /**
+     * @param cardsToBeExchanged of type Card
+     */
+    public void setCardsToBeExchanged(List<Card> cardsToBeExchanged) {
+        this.cardsToExchange = cardsToBeExchanged;
+    }
+
+    public enum CardTypes {
+
+        INFANTRY, CAVALRY, ARTILLERY
+    }
+
+
 
 }
