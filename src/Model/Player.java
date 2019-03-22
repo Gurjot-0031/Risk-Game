@@ -115,7 +115,11 @@ public class Player extends Observable{
 		return this.color;
 	}
 
-
+    /**
+     * Perform reinforcement of the armies on territories
+     * @param info the territory clicked for reinforcement
+     * @return the event data and info
+     */
 	public String reinforce(String info){
 
 		
@@ -156,7 +160,11 @@ public class Player extends Observable{
 		
     }
 
-
+    /**
+     * Perform fortification of the armies
+     * @param info territory from which the fortification is to be done
+     * @return the event data and info
+     */
     public String fortify(String info){
     	boolean fortificationPossible = false;
 		for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
@@ -232,7 +240,14 @@ public class Player extends Observable{
 		}
     }
 
-
+    /**
+     * Perform attack phase of the game
+     * @param attacker the attacking territory
+     * @param attacked the defending territory
+     * @param numOfDiceAttacker number of dice selected by the attacker to be thrown
+     * @param numOfDiceAttacked number of dice selected by the defender to be thrown
+     * @return
+     */
     public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked){
 		if(attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
 			//int remainingDiceAttacker = numOfDiceAttacker;
@@ -309,6 +324,11 @@ public class Player extends Observable{
 		return "Attack Phase";
     }
 
+    /**
+     * Perform dice roll to get the random dice values
+     * @param noOfDices number of dice selected for the play
+     * @return
+     */
     public ArrayList<Integer> rollDice(int noOfDices){
 		ArrayList<Integer> diceVal = new ArrayList<Integer>();
 		ArrayList<Integer> output = new ArrayList<Integer>();
@@ -328,6 +348,11 @@ public class Player extends Observable{
 		return output;
 	}
 
+    /**
+     * Compare the dice values to determine the winner of a particular attack
+     * and notify the observers accordingly
+     * @return whether the attack is finished or not
+     */
 	public boolean compareDiceResults() {
 		boolean attackFinished = false;
 		int[] highValue = getMax();
@@ -386,6 +411,12 @@ public class Player extends Observable{
 
 
 	}
+
+    /**
+     * Getting the current highest dice values among the attacker and defender
+     * during a fresh attack and also if attack is continued
+     * @return
+     */
 	public int[] getMax(){
 		int attackerHighest = 0;
 		int attackedHighest = 0;

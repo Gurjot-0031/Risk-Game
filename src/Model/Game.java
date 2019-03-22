@@ -79,19 +79,35 @@ public class Game extends Observable {
 	public Map getGameMap() {
 		return this.gameMap;
 	}
-	
+
+	/**
+	 * Gets the attacker territory
+	 * @return The attacker territory
+	 */
 	public String getAttacker() {
 		return this.attacker;
 	}
-	
+
+	/**
+	 * Gets the defender territory
+	 * @return The defender territory
+	 */
 	public String getAttacked() {
 		return this.attacked;
 	}
-	
+
+	/**
+	 * Set the current attacker territory
+	 * @param attacker name of the attacking territory
+	 */
 	public void setAttacker(String attacker) {
 		this.attacker = attacker;
 	}
-	
+
+	/**
+	 * Set the current attacked/defending territory
+	 * @param attacked name of the defending territory
+	 */
 	public void setAttacked(String attacked) {
 		this.attacked = attacked;
 	}
@@ -128,6 +144,11 @@ public class Game extends Observable {
 	public String getCurrPlayerName() {
 		return this.players.get(this.gameTurn).getName();
 	}
+
+	/**
+	 * Gets the entire object for current player
+	 * @return Player type object in every gameturn
+	 */
 	public Player getCurrPlayer() {
 		return this.players.get(this.gameTurn);
 	}
