@@ -66,6 +66,24 @@ public class Card extends Observable implements Serializable {
         INFANTRY, CAVALRY, ARTILLERY
     }
 
-
+    public boolean checkTradePossible(List<Card> selectedCards) {
+        boolean returnFlag = false;
+        if (selectedCards.size() == 3) {
+            int infantry = 0, cavalry = 0, artillery = 0;
+            for (Card card : selectedCards) {
+                if (card.getCardType().toString().equals(CardTypes.INFANTRY.toString())) {
+                    infantry++;
+                } else if (card.getCardType().toString().equals(CardTypes.CAVALRY.toString())) {
+                    cavalry++;
+                } else if (card.getCardType().toString().equals(CardTypes.ARTILLERY.toString())) {
+                    artillery++;
+                }
+            }
+            if ((infantry == 1 && cavalry == 1 && artillery == 1) || infantry == 3 || cavalry == 3 || artillery == 3) {
+                returnFlag = true;
+            }
+        }
+        return returnFlag;
+    }
 
 }
