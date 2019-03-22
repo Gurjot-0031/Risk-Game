@@ -16,6 +16,16 @@ public class Territory {
 	Player owner;
 	int armies;
 
+	public boolean ContinueAttacking() {
+		return ContinueAttacking;
+	}
+
+	public void setContinueAttacking(boolean continueAttacking) {
+		ContinueAttacking = continueAttacking;
+	}
+
+	boolean ContinueAttacking = true;
+
 	/**
 	 * The constructor
 	 * 

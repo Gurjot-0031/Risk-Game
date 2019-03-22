@@ -16,6 +16,7 @@ import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
+import com.sun.org.apache.bcel.internal.generic.INEG;
 
 import static java.lang.Thread.sleep;
 
@@ -237,8 +238,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 							Game.getInstance().setAttacker(territory.getName());
 							System.out.println("Please select a target territory to attack..");
 
-							if(Game.getInstance().getAttacked()==null)
-								infoLog2.setText("Please select a target territory to attack..<br/>");
+							if(Game.getInstance().getAttacked()==null && Game.getInstance().getAttacked()!=null)
+								infoLog2.setText("Please select a target territory to attack..");
 							objEvent.setEventInfo("Attacker Set");
 							objEvent.setEventData(territory.getName() + "," + territory.getArmies());
 						}
@@ -265,6 +266,22 @@ public class PhaseView extends MouseAdapter implements Observer {
 						for (String adj : Game.getInstance().getGameMap().getAdjacents(Game.getInstance().getAttacker())) {
 							if (territory.getName().equalsIgnoreCase(adj)) {
 								Game.getInstance().setAttacked(territory.getName());
+
+								Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Max: 3 and not more than" +
+										Game.getInstance().getAttackerObj().getArmies())));
+
+								while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+								{
+									Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Max: 3")));
+								}
+
+								Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKED): Max: 2 and not more than"
+										+Game.getInstance().getAttackerObj().getArmies())));
+
+								while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+								{
+									Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKED): Max: 3")));
+								}
 							}
 
 

@@ -11,10 +11,8 @@ import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
-import View.CardExchangeView;
 import View.PhaseView;
 import View.WorldDominationView;
-import View.CardExchangeView;
 
 /**
  * This class is the game controller and receives events from game view,
@@ -136,9 +134,7 @@ public class GameController extends Observable {
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
 			WorldDominationView.getInstance().initWorldDominationView();
-
-
-        }
+		}
 		catch(NumberFormatException e) {
 			System.out.println("Number of players invalid");
 		}
@@ -198,29 +194,25 @@ public class GameController extends Observable {
 			case 2:			//Reinforcement phase
 				if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
-
-                    return Game.getInstance().getCurrPlayer().reinforce(info);
+							return Game.getInstance().getCurrPlayer().reinforce(info);
 				}
 				break;
 				
 			case 3: //Attack Phase...
 
-				//if(Game.getInstance().getAttacked()==null)
-				//{
-					//Game.getInstance().nextTurn();
-					//System.out.println("Please select a target territory to attack..");
-				//}
-				
-				//if(Game.getInstance().getCurrPlayer().getId() == Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
-				
+
 					System.out.println("Attacker:"+Game.getInstance().getAttacker());
 					System.out.println("Attacked:"+Game.getInstance().getAttacked());
-					return Game.getInstance().getCurrPlayer().attack(Game.getInstance().getAttacker(),Game.getInstance().getAttacked());
 
-            //break;
+					while(Game.getInstance().getAttackerObj().ContinueAttacking())
+						return Game.getInstance().getCurrPlayer().attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
+
+					if(!Game.getInstance().getAttackerObj().ContinueAttacking())
+						return "Attack Discontinued by the attacker";
+
+				//break;
 			case 4:
-
-                return Game.getInstance().getCurrPlayer().fortify(info);
+				return Game.getInstance().getCurrPlayer().fortify(info);
 				//break;
 			default:
 				System.out.println("Invalid Game");
