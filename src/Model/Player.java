@@ -244,12 +244,14 @@ public class Player extends Observable{
 			attackerDiceValues = rollDice(numOfDiceAttacker);
 			attackedDiceValues = rollDice(numOfDiceAttacked);
 
-			String continueAttacking = "Y";
+			//String continueAttacking = "Y";
 			//While Attack not finished(no of dices available>0)
-			while(!compareDiceResults(numOfDiceAttacker,numOfDiceAttacked)){
+			while(!compareDiceResults()){
 				//giving option to the user..
-				continueAttacking= JOptionPane.showInputDialog("Continue Attacking?: (Y/N)");
-				if(continueAttacking.equalsIgnoreCase("Y")) {
+				Game.getInstance().getAttackerObj().setContinueAttacking
+						((JOptionPane.showInputDialog("Continue Attacking?: (Y/N)").equalsIgnoreCase("Y"))?true:false);
+				//continueAttacking= JOptionPane.showInputDialog("Continue Attacking?: (Y/N)");
+				if(Game.getInstance().getAttackerObj().ContinueAttacking()) {
 					if(attackerDiceValues.size()>0)
 						attackerDiceValues = rollDice(attackerDiceValues.size());
 					else
@@ -292,9 +294,9 @@ public class Player extends Observable{
 		return output;
 	}
 
-	public boolean compareDiceResults(int numOfDiceAttacker,int numOfDiceAttacked) {
+	public boolean compareDiceResults() {
 		boolean attackFinished = false;
-		int[] highValue = getMax(numOfDiceAttacker,numOfDiceAttacked);
+		int[] highValue = getMax();
 		if(highValue[0]>highValue[1]){
 			System.out.println("Attacker won a dice roll");
 			Game.getInstance().getAttackedObj().removeArmies(1);
@@ -312,26 +314,28 @@ public class Player extends Observable{
 				attackFinished = true;
 			}
 		}
-		return true;
+		setChanged();
+		notifyObservers(this);
+		return attackFinished;
 
 
 
 	}
-	public int[] getMax(int numOfDiceAttacker,int numOfDiceAttacked){
+	public int[] getMax(){
 		int attackerHighest = 0;
 		int attackedHighest = 0;
-//		for(int i=0;i<numOfDiceAttacker;i++){
-//			if(attackerHighest<attackerDiceValues.get(i)) {
-//				attackerHighest = attackerDiceValues.get(i);
-//				attackerDiceValues.remove(i);
-//			}
-//
-//		}
-		attackerHighest = Collections.max(attackerDiceValues);
-		//int index = Collections.lastIndexOfSubList(attackerDiceValues);
-		attackedDiceValues.remove(attackedHighest);
+		for(int i=0;i<attackerDiceValues.size();i++){
+			if(attackerHighest<attackerDiceValues.get(i)) {
+				attackerHighest = attackerDiceValues.get(i);
+				attackerDiceValues.remove(i);
+			}
 
-		for(int i=0;i<numOfDiceAttacked;i++){
+		}
+		//attackerHighest = Collections.max(attackerDiceValues);
+		//int index = Collections.lastIndexOfSubList(attackerDiceValues);
+		//attackedDiceValues.remove(attackedHighest);
+
+		for(int i=0;i<attackedDiceValues.size();i++){
 			if(attackedHighest<attackedDiceValues.get(i)) {
 				attackedHighest = attackedDiceValues.get(i);
 				attackedDiceValues.remove(i);
