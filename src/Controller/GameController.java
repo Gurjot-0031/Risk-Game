@@ -204,11 +204,13 @@ public class GameController extends Observable {
 					System.out.println("Attacker:"+Game.getInstance().getAttacker());
 					System.out.println("Attacked:"+Game.getInstance().getAttacked());
 
-					while(Game.getInstance().getAttackerObj().ContinueAttacking())
-						return Game.getInstance().getCurrPlayer().attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
+					//while(Game.getInstance().getAttackerObj().ContinueAttacking())
+						return Game.getInstance().getCurrPlayer().
+                                attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
+                                        Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
 
-					if(!Game.getInstance().getAttackerObj().ContinueAttacking())
-						return "Attack Discontinued by the attacker";
+					//if(!Game.getInstance().getAttackerObj().ContinueAttacking())
+					//	return "Attack Discontinued by the attacker";
 
 				//break;
 			case 4:

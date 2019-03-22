@@ -28,6 +28,8 @@ public class Game extends Observable {
 	private String attacked;
 	private Territory attackerObj;
 
+
+
 	public Territory getAttackerObj() {
 		return Game.getInstance().getGameMap().getTerritory(attacker);
 	}
@@ -62,6 +64,8 @@ public class Game extends Observable {
 	 * The constructor
 	 */
 	private Game() {
+		setChanged();
+		notifyObservers();
 		players = new ArrayList<Player>();
 		gamePhase = 0;
 		gameTurn = 0;
