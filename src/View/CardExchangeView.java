@@ -3,7 +3,7 @@ package View;
 import Controller.GameController;
 import Model.*;
 
-
+//gbquyzfqtgsz
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
