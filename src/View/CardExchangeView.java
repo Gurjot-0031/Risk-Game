@@ -31,7 +31,6 @@ public class CardExchangeView implements Observer {
     JLabel CardExchangeViewLabel = new JLabel();
     ArrayList<Territory> territoriesList;
     ArrayList<Territory> continentTerritory;
-    String[] continentList;
     private JFrame homeFrame;
 
     private CardExchangeView() {
