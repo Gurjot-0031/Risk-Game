@@ -19,9 +19,15 @@ public class Player extends Observable{
 	private String name;
 	private Color color;
 	int armies;
+	private ArrayList<Card> cardList = new ArrayList<>();
+
+	public ArrayList<Card> getCardList() {
+		return this.cardList;
+	}
 
 	public static ArrayList<Integer> attackerDiceValues;
 	public static ArrayList<Integer> attackedDiceValues;
+
 	
 	/**
 	 * The constructor
@@ -36,7 +42,85 @@ public class Player extends Observable{
 		this.setName(name);
 		this.armies = armies;
 	}
-	
+
+	public boolean isCardExchangePossible() {
+		if (hasArtilleryCard(this.cardList) && hasCalvaryCard(this.cardList) && hasInfantaryCard(this.cardList)) {
+
+			return true;
+
+		} else
+			return hasThreeArtillery(this.cardList) || hasThreeCalvary(this.cardList) || hasThreeInfantry(this.cardList);
+	}
+
+	public boolean hasArtilleryCard(ArrayList<Card> card) {
+
+		for (Card o : card) {
+			if (o.getCardType().equalsIgnoreCase("ARTILLERY")) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	public boolean hasInfantaryCard(ArrayList<Card> card) {
+
+		for (Card o : card) {
+			if (o.getCardType().equalsIgnoreCase("INFANTRY")) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	public boolean hasCalvaryCard(ArrayList<Card> card) {
+
+		for (Card o : card) {
+			if (o.getCardType().equalsIgnoreCase("CALVARY")) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	public boolean hasThreeArtillery(ArrayList<Card> card) {
+
+		int count = 0;
+		for (Card o : card) {
+
+			if (o.getCardType().equalsIgnoreCase("ARTILLERY")) {
+				count++;
+			}
+		}
+		return count == 3;
+	}
+
+	public boolean hasThreeCalvary(ArrayList<Card> card) {
+
+		int count = 0;
+		for (Card o : card) {
+
+			if (o.getCardType().equalsIgnoreCase("CALVARY")) {
+				count++;
+			}
+		}
+		return count == 3;
+	}
+
+	public boolean hasThreeInfantry(ArrayList<Card> card) {
+
+		int count = 0;
+		for (Card o : card) {
+
+			if (o.getCardType().equalsIgnoreCase("INFANTRY")) {
+				count++;
+			}
+		}
+		return count == 3;
+	}
+
 	/**
 	 * Gets armies
 	 * @return The armies
@@ -358,7 +442,7 @@ public class Player extends Observable{
 		int[] highValue = getMax();
 		String runTimeMessage = "";
         String runTimeMessageAttackerDiceValue = ""+highValue[0];
-        String runTimeMessageAttackedDiceValue = ""+highValue[1];;
+		String runTimeMessageAttackedDiceValue = "" + highValue[1];
 		if(highValue[0]>highValue[1]){
 			System.out.println("Attacker won a dice roll");
 			Game.getInstance().getAttackedObj().removeArmies(1);

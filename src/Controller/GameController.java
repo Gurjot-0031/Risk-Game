@@ -6,11 +6,13 @@ import java.util.Observable;
 
 import javax.swing.*;
 
+import Model.Card;
 import Event.IEvent;
 import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
+import View.CardExchangeView;
 import View.PhaseView;
 import View.WorldDominationView;
 
@@ -128,12 +130,19 @@ public class GameController extends Observable {
 			//Here, player objects are created and passed onto add player method.
 			//Game.getInstance().addPlayer() method adds it to the players aray list
 			for(int i = 0; i < Integer.parseInt(info[0]); i++) {
+
 				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
+				Card obj = new Card();
+				obj.setCardType();
+				Game.getInstance().getPlayers().get(i).getCardList().add(obj);
 			}
 			Game.getInstance().assignTerritoryToPlayers();
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
+			CardExchangeView.getInstance().initCardExchangeView();
 			WorldDominationView.getInstance().initWorldDominationView();
+			setChanged();
+			notifyObservers();
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Number of players invalid");
