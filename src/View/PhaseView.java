@@ -69,9 +69,11 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 		 }
 
-		 else if(o instanceof GameController || o instanceof Player){
+		 else if(o instanceof GameController){
 			if(curPArmies != Game.getInstance().getCurrPlayerArmies())
 		 		armiesChanged =true;
+			else
+				armiesChanged = false;
 			 curPArmies = Game.getInstance().getCurrPlayerArmies();
 		 	//curPlayer = Game.getInstance().getCurrPlayerName();
 		 	//gamePhase = Game.getInstance().getGamePhaseDesc();
@@ -178,17 +180,32 @@ public class PhaseView extends MouseAdapter implements Observer {
 		}
 
 		public void mouseEntered(java.awt.event.MouseEvent evt) {
-			String text = "<html><center><head><h1>PHASE VIEW</h1></head><center>Territory: " + territory.getName() + "<br/>Owned By: " +
-					territory.getOwner().getName() + "<br/>Armies: " + territory.getArmies() + "<br/></html>";
+			String text = "<html><center><head><h2>PHASE VIEW</h2></head><center>Territory: " + territory.getName() + "<br/>Owned By: " +
+					territory.getOwner().getName()+"     Continent: "+territory.getParentContinent().getName()+"<br/>Armies: " + territory.getArmies() + "<br/></html>";
 	        infoLog.setText(text);
 	    }
 
 	    public void mouseExited(java.awt.event.MouseEvent evt) {
 	        if(gamePhase!="Game Phase: Attack")
-				infoLog.setText("<html><center><head><h1>PHASE VIEW</h1></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
+				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
 						curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+	        else if(gamePhase=="Game Phase: Attack") {
+				if (Game.getInstance().getAttacker() == null)
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the attacker<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+				else
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacker() + "<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+				if (Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() == null)
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the Defender<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+				else if(Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() != null)
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacked() + "<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+			}
+
 	        else
-				infoLog.setText("<html><center><head><h1>PHASE VIEW</h1></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
+				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
 						curPlayer + "<br/></html>");
 	    }
 	}
@@ -311,32 +328,33 @@ public class PhaseView extends MouseAdapter implements Observer {
 					if (armiesChanged == true) {
 						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Setup<br/>"
 								+ "1 army got deployed on " + this.territory.getName() + "</html>");
+
 					} else
 						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
 					break;
 				case "Game Phase: Reinforcement":
 
 					if (armiesChanged == true) {
-						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Reinforcement<br/>"
+						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Reinforcement<br/>"
 								+ "1 reinforcement deployed on " + this.territory.getName() + "</html>");
 					} else
-						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
+						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
 					break;
 				case "Game Phase: Attack":
 					//throws null pointer exception, unable to get the source values from the game controller.
 					String temp;
 					if (Game.getInstance().getAttacker() != null && Game.getInstance().getAttacked() != null) {
-						temp = "<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Attack<br/>Attacker territory: " + Game.getInstance().getAttacker()
+						temp = "<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Attack<br/>Attacker territory: " + Game.getInstance().getAttacker()
 								+ "<br/>Attacked territory: " + Game.getInstance().getAttacked() + "</html>";
 					} else
-						temp = "<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Attack<br/></html>";
+						temp = "<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Attack<br/></html>";
 					infoLog.setText(temp);
 					//source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
 					break;
 				case "Game Phase: Fortification":
 					//throws null pointer exception, unable to get the source values from the game controller.
 
-					infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Fortification<br/></html>");
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Fortification<br/></html>");
 					//source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
 					break;
 				default:
@@ -346,7 +364,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 
 					if (phaseChanged == true && curPArmies == 0) {
-						infoLog.setText("<html><head><h1><center><b>PHASE VIEW<b><center></h1><head><br/><br/></html>");
+						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/><br/></html>");
 						phaseChanged = false;
 					}
 
