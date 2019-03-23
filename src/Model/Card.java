@@ -23,6 +23,7 @@ public class Card extends Observable implements Serializable {
      * @param cardType a type of card
      */
     public Card(CardTypes cardType) {
+
         this.cardType = cardType;
     }
 
