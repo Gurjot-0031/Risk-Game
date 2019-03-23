@@ -1,18 +1,19 @@
 package Controller;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Observable;
 
 import javax.swing.*;
 
-import Model.Card;
 import Event.IEvent;
 import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
-import View.CardExchangeView;
+import View.DiceRollView;
 import View.PhaseView;
 import View.WorldDominationView;
 
@@ -130,19 +131,12 @@ public class GameController extends Observable {
 			//Here, player objects are created and passed onto add player method.
 			//Game.getInstance().addPlayer() method adds it to the players aray list
 			for(int i = 0; i < Integer.parseInt(info[0]); i++) {
-
 				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
-				Card obj = new Card();
-				obj.setCardType();
-				Game.getInstance().getPlayers().get(i).getCardList().add(obj);
 			}
 			Game.getInstance().assignTerritoryToPlayers();
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
-			CardExchangeView.getInstance().initCardExchangeView();
 			WorldDominationView.getInstance().initWorldDominationView();
-			setChanged();
-			notifyObservers();
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Number of players invalid");
@@ -210,18 +204,23 @@ public class GameController extends Observable {
 			case 3: //Attack Phase...
 
 
-					System.out.println("Attacker:"+Game.getInstance().getAttacker());
-					System.out.println("Attacked:"+Game.getInstance().getAttacked());
+				System.out.println("Attacker:"+Game.getInstance().getAttacker());
+				System.out.println("Attacked:"+Game.getInstance().getAttacked());
 
-					//while(Game.getInstance().getAttackerObj().ContinueAttacking())
-						return Game.getInstance().getCurrPlayer().
-                                attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
-                                        Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
+				String ret="Dice Roll";
+				//while(Game.getInstance().getAttackerObj().ContinueAttacking())
 
-					//if(!Game.getInstance().getAttackerObj().ContinueAttacking())
-					//	return "Attack Discontinued by the attacker";
+				return Game.getInstance().getCurrPlayer().
+						attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
+								Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
 
-				//break;
+				//if(diceRollBtn.clic)
+
+
+			//if(!Game.getInstance().getAttackerObj().ContinueAttacking())
+			//	return "Attack Discontinued by the attacker";
+
+			//break;
 			case 4:
 				return Game.getInstance().getCurrPlayer().fortify(info);
 				//break;
@@ -246,9 +245,13 @@ public class GameController extends Observable {
 			this.gameLoop(event.getEventData().split(","));
 			break;
 		case "Attack Phase:attacked territory selected":
+			//this.gameLoop(event.getEventData().split(","));
+			DiceRollView.getInstance().loadFrame();
+			DiceRollView.getInstance().setFromPhaseViewActionListener(event.getEventData().split(",")[0]);
+			break;
+		case "Roll Dices Event":
 			this.gameLoop(event.getEventData().split(","));
 			break;
-			
 		default:
 			return "Invalid Event";	
 		}

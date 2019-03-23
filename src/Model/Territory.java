@@ -15,6 +15,27 @@ public class Territory {
 	ArrayList<String> adjacents;
 	Player owner;
 	int armies;
+	Continent parentContinent;
+
+	public Continent getParentContinent() {
+		Continent temp=null;
+		for (Continent cont : Game.getInstance().getGameMap().getContinentsAsObjects()) {
+			for (Territory terr : cont.getTerritories().values()) {
+				if (terr.getName() == this.getName())
+					temp = cont;
+			}
+		}
+
+		return temp;
+
+
+	}
+
+	public void setParentContinent(Continent parentContinent) {
+		this.parentContinent = parentContinent;
+	}
+
+
 
 	public boolean ContinueAttacking() {
 		return ContinueAttacking;
