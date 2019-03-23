@@ -4,7 +4,6 @@ import Controller.GameController;
 import Model.Game;
 import Event.GameEvents;
 import Model.Territory;
-//Test goung on
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
