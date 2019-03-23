@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * This class acts as territory model
- * 
+ *
  * @author Team38
  *
  */
@@ -15,6 +15,27 @@ public class Territory {
 	ArrayList<String> adjacents;
 	Player owner;
 	int armies;
+	Continent parentContinent;
+
+	public Continent getParentContinent() {
+		Continent temp=null;
+		for (Continent cont : Game.getInstance().getGameMap().getContinentsAsObjects()) {
+			for (Territory terr : cont.getTerritories().values()) {
+				if (terr.getName() == this.getName())
+					temp = cont;
+			}
+		}
+
+		return temp;
+
+
+	}
+
+	public void setParentContinent(Continent parentContinent) {
+		this.parentContinent = parentContinent;
+	}
+
+
 
 	public boolean ContinueAttacking() {
 		return ContinueAttacking;
@@ -28,7 +49,7 @@ public class Territory {
 
 	/**
 	 * The constructor
-	 * 
+	 *
 	 * @param name
 	 *            Territory name
 	 * @param x
@@ -48,7 +69,7 @@ public class Territory {
 
 	/**
 	 * Gets the armies on territory
-	 * 
+	 *
 	 * @return Number of armies
 	 */
 	public int getArmies() {
@@ -57,7 +78,7 @@ public class Territory {
 
 	/**
 	 * Adds army to territory
-	 * 
+	 *
 	 * @param num
 	 *            Input number
 	 */
@@ -67,7 +88,7 @@ public class Territory {
 
 	/**
 	 * Gets the territory name
-	 * 
+	 *
 	 * @return The territory name
 	 */
 	public String getName() {
@@ -76,7 +97,7 @@ public class Territory {
 
 	/**
 	 * Gets the territory x
-	 * 
+	 *
 	 * @return Territory X
 	 */
 	public int getX() {
@@ -85,7 +106,7 @@ public class Territory {
 
 	/**
 	 * Gets the territory y
-	 * 
+	 *
 	 * @return Territory y
 	 */
 	public int getY() {
@@ -94,7 +115,7 @@ public class Territory {
 
 	/**
 	 * Gets the adjacent of this territory
-	 * 
+	 *
 	 * @return List of adjacents
 	 */
 	public ArrayList<String> getAdjacents() {
@@ -103,7 +124,7 @@ public class Territory {
 
 	/**
 	 * Checks whether input territory is adjacent to this or not
-	 * 
+	 *
 	 * @param adjacent
 	 *            Input territory to check
 	 * @return Success or failure
@@ -117,7 +138,7 @@ public class Territory {
 
 	/**
 	 * Sets the owner of territory
-	 * 
+	 *
 	 * @param owner
 	 *            Input owner
 	 */
@@ -127,7 +148,7 @@ public class Territory {
 
 	/**
 	 * Gets the owner of territory
-	 * 
+	 *
 	 * @return The owner player
 	 */
 	public Player getOwner() {
@@ -136,7 +157,7 @@ public class Territory {
 
 	/**
 	 * Remove armies from territory
-	 * 
+	 *
 	 * @param num
 	 *            Input count
 	 */
@@ -146,7 +167,7 @@ public class Territory {
 
 	/**
 	 * Remove adjacent from territory
-	 * 
+	 *
 	 * @param adjacent
 	 *            Input adjacent
 	 */
@@ -158,7 +179,7 @@ public class Territory {
 
 	/**
 	 * Adds adjacent to territory
-	 * 
+	 *
 	 * @param adjacent
 	 *            Input adjacent
 	 * @return Success or failure

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * The model class for continent
- * 
+ *
  * @author Team38
  *
  */
@@ -13,11 +13,15 @@ public class Continent {
 	String name;
 	int reward;
 
+	public HashMap<String, Territory> getTerritories() {
+		return territories;
+	}
+
 	HashMap<String, Territory> territories;
 
 	/**
 	 * The constructor
-	 * 
+	 *
 	 * @param name
 	 *            Continent name
 	 * @param reward
@@ -31,7 +35,7 @@ public class Continent {
 
 	/**
 	 * Gets the name of continent
-	 * 
+	 *
 	 * @return Continent name
 	 */
 	public String getName() {
@@ -40,7 +44,7 @@ public class Continent {
 
 	/**
 	 * Sets the reward for continent
-	 * 
+	 *
 	 * @param reward
 	 *            The input reward
 	 */
@@ -50,7 +54,7 @@ public class Continent {
 
 	/**
 	 * Gets the continent reward
-	 * 
+	 *
 	 * @return Continent reward
 	 */
 	public int getReward() {
@@ -59,7 +63,7 @@ public class Continent {
 
 	/**
 	 * Gets number of territories
-	 * 
+	 *
 	 * @return Number of territories
 	 */
 	public int getNumTerritories() {
@@ -68,7 +72,7 @@ public class Continent {
 
 	/**
 	 * Adds the territory to continent
-	 * 
+	 *
 	 * @param territory
 	 *            The new territory
 	 */
@@ -78,7 +82,7 @@ public class Continent {
 
 	/**
 	 * Checks the owner of continent
-	 * 
+	 *
 	 * @param id
 	 *            The input player id
 	 * @return Success or failure
@@ -96,7 +100,7 @@ public class Continent {
 
 	/**
 	 * Gets the territory
-	 * 
+	 *
 	 * @param territory
 	 *            Input name of territory
 	 * @return The territory
@@ -110,7 +114,7 @@ public class Continent {
 
 	/**
 	 * Handle the territory deletion
-	 * 
+	 *
 	 * @param territory
 	 *            Input territory name
 	 */
@@ -123,7 +127,7 @@ public class Continent {
 
 	/**
 	 * Deletes the territory
-	 * 
+	 *
 	 * @param territory
 	 *            Input territory name
 	 * @return Success or failure

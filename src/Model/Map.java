@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 /**
  * This class is the map model
- * 
+ *
  * @author Team38
  *
  */
@@ -25,7 +25,7 @@ public class Map {
 
 	/**
 	 * The constructor
-	 * 
+	 *
 	 * @param path
 	 *            The input path of map
 	 */
@@ -36,7 +36,7 @@ public class Map {
 
 	/**
 	 * Sets the author name
-	 * 
+	 *
 	 * @param author
 	 *            The input author name
 	 */
@@ -46,7 +46,7 @@ public class Map {
 
 	/**
 	 * Sets the wrap
-	 * 
+	 *
 	 * @param wrap
 	 *            Input wrap
 	 */
@@ -56,7 +56,7 @@ public class Map {
 
 	/**
 	 * Sets the scroll
-	 * 
+	 *
 	 * @param scroll
 	 *            Input scroll
 	 */
@@ -66,7 +66,7 @@ public class Map {
 
 	/**
 	 * Sets the warn
-	 * 
+	 *
 	 * @param warn
 	 *            Input warn
 	 */
@@ -76,7 +76,7 @@ public class Map {
 
 	/**
 	 * Adds the continent to map
-	 * 
+	 *
 	 * @param continent
 	 *            The input continent
 	 */
@@ -86,7 +86,7 @@ public class Map {
 
 	/**
 	 * Adds the territory to map
-	 * 
+	 *
 	 * @param info
 	 *            Information received from view.
 	 */
@@ -103,7 +103,7 @@ public class Map {
 
 	/**
 	 * Gets the continent array
-	 * 
+	 *
 	 * @return The continent array
 	 */
 	public String[] getContinentsArray() {
@@ -117,9 +117,20 @@ public class Map {
 		return continentsArray;
 	}
 
+
+	public ArrayList<Continent> getContinentsAsObjects() {
+		ArrayList<Continent> continentsArray = new ArrayList<>();
+		int ctr = 0;
+		for (java.util.Map.Entry<String, Continent> entry : this.continents.entrySet()) {
+			Continent continentName = entry.getValue();
+			continentsArray.add(continentName) ;
+			ctr++;
+		}
+		return continentsArray;
+	}
 	/**
 	 * Gets the territory array
-	 * 
+	 *
 	 * @param selectedContinent
 	 *            The input selected continent
 	 * @return The territories array
@@ -143,7 +154,7 @@ public class Map {
 
 	/**
 	 * Gets the territory array
-	 * 
+	 *
 	 * @param selectedContinent
 	 *            The input selected continent
 	 * @return The territories array as objects
@@ -167,7 +178,7 @@ public class Map {
 
 	/**
 	 * Changes the continent reward
-	 * 
+	 *
 	 * @param name
 	 *            continent name
 	 * @param reward
@@ -190,7 +201,7 @@ public class Map {
 
 	/**
 	 * Deletes the continent
-	 * 
+	 *
 	 * @param name
 	 *            Input continent name
 	 */
@@ -216,7 +227,7 @@ public class Map {
 
 	/**
 	 * Gets the adjacent countries
-	 * 
+	 *
 	 * @param territory
 	 *            The input territory
 	 * @return Territory array
@@ -233,7 +244,7 @@ public class Map {
 
 	/**
 	 * Adds a territory
-	 * 
+	 *
 	 * @param info
 	 *            The Information received from view.
 	 * @return Success or failure
@@ -266,7 +277,7 @@ public class Map {
 
 	/**
 	 * Deletes the territory
-	 * 
+	 *
 	 * @param info
 	 *            Information received from view.
 	 * @return Success or Failure
@@ -294,7 +305,7 @@ public class Map {
 
 	/**
 	 * Adds the adjacent
-	 * 
+	 *
 	 * @param info
 	 *            Information received from view.
 	 * @return Success or failure
@@ -320,7 +331,7 @@ public class Map {
 
 	/**
 	 * Deletes the adjacent countries
-	 * 
+	 *
 	 * @param info
 	 *            Information received from view.
 	 * @return Success or failure
@@ -346,7 +357,7 @@ public class Map {
 
 	/**
 	 * Checks for empty continents
-	 * 
+	 *
 	 * @return Success or failure
 	 */
 	public boolean checkEmptyContinents() {
@@ -361,7 +372,7 @@ public class Map {
 
 	/**
 	 * Gets the territory from name
-	 * 
+	 *
 	 * @param name
 	 *            Input territory name
 	 * @return The territory
@@ -377,7 +388,7 @@ public class Map {
 
 	/**
 	 * Checks adjacency between territories
-	 * 
+	 *
 	 * @return Success or failure
 	 */
 	public boolean checkAdjacency() {
@@ -410,7 +421,7 @@ public class Map {
 
 	/**
 	 * Visits each and every territory recursively
-	 * 
+	 *
 	 * @param territory
 	 *            Input starting territory
 	 * @param visited
@@ -445,7 +456,7 @@ public class Map {
 
 	/**
 	 * Checks connectivity between territories
-	 * 
+	 *
 	 * @return Success or failure
 	 */
 	public boolean checkConnectivity() {
@@ -478,7 +489,7 @@ public class Map {
 
 	/**
 	 * Saves map to file
-	 * 
+	 *
 	 * @return Success or failure
 	 */
 	public boolean saveMapToFile() {
@@ -518,7 +529,7 @@ public class Map {
 
 	/**
 	 * Saves map after doing verification
-	 * 
+	 *
 	 * @return Success or failure
 	 */
 	public boolean saveMap() {
@@ -539,7 +550,7 @@ public class Map {
 
 	/**
 	 * Reads the map from file
-	 * 
+	 *
 	 * @return Success or failure
 	 */
 	public boolean readMapFile() {
@@ -600,7 +611,7 @@ public class Map {
 
 	/**
 	 * Process line for map configuration
-	 * 
+	 *
 	 * @param line
 	 *            Input line
 	 * @return Success or failure
@@ -622,7 +633,7 @@ public class Map {
 
 	/**
 	 * Processes a continent configuration line
-	 * 
+	 *
 	 * @param line
 	 *            Input line
 	 * @return Success or failure
@@ -639,7 +650,7 @@ public class Map {
 
 	/**
 	 * Processes a territory configuration line
-	 * 
+	 *
 	 * @param line
 	 *            Input line
 	 * @return Success or failure
@@ -655,7 +666,7 @@ public class Map {
 
 	/**
 	 * Gets the territories in map
-	 * 
+	 *
 	 * @return The territory list
 	 */
 	public ArrayList<Territory> getTerritories() {

@@ -1,6 +1,8 @@
 package Controller;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -11,6 +13,7 @@ import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
+import View.DiceRollView;
 import View.PhaseView;
 import View.WorldDominationView;
 
@@ -22,12 +25,12 @@ import View.WorldDominationView;
  */
 public class GameController extends Observable {
 	private static GameController instance;
-	
+
 	/**
 	 * This is the constructor
 	 */
 	private GameController() {}
-	
+
 	/**
 	 * The method to get singleton instance
 	 * @return The single instance
@@ -48,39 +51,39 @@ public class GameController extends Observable {
 	public void gameLoop(String[] info) {
 		String clickedTerritory = null;
 		switch(Game.getInstance().getGamePhase()) {
-		case 0:
-			this.startNewGame(info);
-			Game.getInstance().nextPhase();
-			break;
-		case 1:
-			System.out.println("Game in Setup Phase");
-			clickedTerritory = info[0];
-			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
-			break;
-		case 2:
-			System.out.println("Game in Reinforcement Phase");
-			clickedTerritory = info[0];
-			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
-			break;
-		case 3:
-			System.out.println("Game in Attack Phase");
-			//System.out.println("Select attacker territory");
-			clickedTerritory = info[0];
-			
-			//System.out.println("Please select a territory to attack..");
-			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
-			break;
-		case 4:
-			System.out.println("Game in Fortification Phase");
-			clickedTerritory = info[0];
-			this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
-			break;
-		default:
-			System.out.println("Invalid Game Game. Critical Error");
-			return;
+			case 0:
+				this.startNewGame(info);
+				Game.getInstance().nextPhase();
+				break;
+			case 1:
+				System.out.println("Game in Setup Phase");
+				clickedTerritory = info[0];
+				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+				break;
+			case 2:
+				System.out.println("Game in Reinforcement Phase");
+				clickedTerritory = info[0];
+				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+				break;
+			case 3:
+				System.out.println("Game in Attack Phase");
+				//System.out.println("Select attacker territory");
+				clickedTerritory = info[0];
+
+				//System.out.println("Please select a territory to attack..");
+				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+				break;
+			case 4:
+				System.out.println("Game in Fortification Phase");
+				clickedTerritory = info[0];
+				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+				break;
+			default:
+				System.out.println("Invalid Game Game. Critical Error");
+				return;
 		}
 	}
-	
+
 	/**
 	 * This functions starts the new game
 	 * @param info Information received from view
@@ -100,23 +103,23 @@ public class GameController extends Observable {
 			Game.getInstance().setMap(map);
 			int initArmies = 0;
 			switch(Game.getInstance().getNumPlayers()) {
-			case 2:
-				initArmies = 8;
-				break;
-			case 3:
-				initArmies = 10;
-				break;
-			case 4:
-				initArmies = 30;
-				break;
-			case 5:
-				initArmies = 25;
-				break;
-			case 6:
-				initArmies = 20;
-				break;
+				case 2:
+					initArmies = 8;
+					break;
+				case 3:
+					initArmies = 10;
+					break;
+				case 4:
+					initArmies = 30;
+					break;
+				case 5:
+					initArmies = 25;
+					break;
+				case 6:
+					initArmies = 20;
+					break;
 			}
-			
+
 			ArrayList<Color> pColors = new ArrayList<Color>();
 			pColors.add(new Color(255,0,0));
 			pColors.add(new Color(0,255,0));
@@ -143,10 +146,10 @@ public class GameController extends Observable {
 			System.out.println("Exception Handled. New Game not started");
 			return;
 		}
-		
+
 		System.out.println("Starting New Game");
 	}
-	
+
 	/**
 	 * This function handles the clicks made by user on territories
 	 * @param info Information received from view
@@ -169,7 +172,7 @@ public class GameController extends Observable {
 						setChanged();
 						notifyObservers(this);
 					}
-					
+
 					boolean nextPhase = true;
 					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
 						if(Game.getInstance().getPlayerById(i).getArmies() != 0) {
@@ -177,7 +180,7 @@ public class GameController extends Observable {
 							break;					//are not deployed, game cannot go to next phase.
 						}
 					}
-					
+
 					if(nextPhase == true) {
 						Game.getInstance().setTurn(0);
 						Game.getInstance().nextPhase();
@@ -186,28 +189,33 @@ public class GameController extends Observable {
 					Game.getInstance().nextTurn();
 					while(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
 						Game.getInstance().nextTurn();
-					return "Event Processed";
+						return "Event Processed";
+					}
+					break;
 				}
-				break;
-				}
-				
+
 			case 2:			//Reinforcement phase
 				if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
-							return Game.getInstance().getCurrPlayer().reinforce(info);
+					return Game.getInstance().getCurrPlayer().reinforce(info);
 				}
 				break;
-				
+
 			case 3: //Attack Phase...
 
 
 				System.out.println("Attacker:"+Game.getInstance().getAttacker());
 				System.out.println("Attacked:"+Game.getInstance().getAttacked());
 
+				String ret="Dice Roll";
 				//while(Game.getInstance().getAttackerObj().ContinueAttacking())
+
 				return Game.getInstance().getCurrPlayer().
 						attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
 								Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
+
+			//if(diceRollBtn.clic)
+
 
 			//if(!Game.getInstance().getAttackerObj().ContinueAttacking())
 			//	return "Attack Discontinued by the attacker";
@@ -215,14 +223,14 @@ public class GameController extends Observable {
 			//break;
 			case 4:
 				return Game.getInstance().getCurrPlayer().fortify(info);
-				//break;
+			//break;
 			default:
 				System.out.println("Invalid Game");
 				return "Invalid Game";
 		}
 		return "Should not reach here";
 	}
-	
+
 	/**
 	 * This function handles events received from view
 	 * @param event The event received
@@ -230,18 +238,22 @@ public class GameController extends Observable {
 	 */
 	public String eventTriggered(IEvent event) {
 		switch(event.getEventInfo()) {
-		case "New Game":
-			this.gameLoop(event.getEventData().split(","));
-			break;
-		case "Territory Clicked":
-			this.gameLoop(event.getEventData().split(","));
-			break;
-		case "Attack Phase:attacked territory selected":
-			this.gameLoop(event.getEventData().split(","));
-			break;
-			
-		default:
-			return "Invalid Event";	
+			case "New Game":
+				this.gameLoop(event.getEventData().split(","));
+				break;
+			case "Territory Clicked":
+				this.gameLoop(event.getEventData().split(","));
+				break;
+			case "Attack Phase:attacked territory selected":
+				//this.gameLoop(event.getEventData().split(","));
+				DiceRollView.getInstance().loadFrame();
+				DiceRollView.getInstance().setFromPhaseViewActionListener(event.getEventData().split(",")[0]);
+				break;
+			case "Roll Dices Event":
+				this.gameLoop(event.getEventData().split(","));
+				break;
+			default:
+				return "Invalid Event";
 		}
 		return "event processed";
 	}
