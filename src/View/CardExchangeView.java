@@ -3,7 +3,7 @@ package View;
 import Controller.GameController;
 import Model.*;
 
-//gbquyzfqtgsz
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -39,6 +39,7 @@ public class CardExchangeView implements Observer {
     }
 
     /**
+     *
      * @return an instance of the class because it's a Singleton class
      */
     public static CardExchangeView getInstance() {
@@ -74,7 +75,7 @@ public class CardExchangeView implements Observer {
     /**
      *
      * @param o an object of the Observable class
-     * @param arg an object  of Object class
+     * @param arg an object  of Objact class
      */
     @Override
     public void update(Observable o, Object arg) {
