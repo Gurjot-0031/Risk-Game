@@ -13,10 +13,6 @@ public class Continent {
 	String name;
 	int reward;
 
-	public HashMap<String, Territory> getTerritories() {
-		return territories;
-	}
-
 	HashMap<String, Territory> territories;
 
 	/**

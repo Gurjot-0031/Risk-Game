@@ -117,17 +117,6 @@ public class Map {
 		return continentsArray;
 	}
 
-
-	public ArrayList<Continent> getContinentsAsObjects() {
-		ArrayList<Continent> continentsArray = new ArrayList<>();
-		int ctr = 0;
-		for (java.util.Map.Entry<String, Continent> entry : this.continents.entrySet()) {
-			Continent continentName = entry.getValue();
-			continentsArray.add(continentName) ;
-			ctr++;
-		}
-		return continentsArray;
-	}
 	/**
 	 * Gets the territory array
 	 * 
