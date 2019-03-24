@@ -8,6 +8,7 @@ import Model.Territory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -16,6 +17,12 @@ import java.util.Observer;
 public class DiceRollView implements Observer {
 
     private static DiceRollView instance;
+
+    public JButton getDiceRollBtn() {
+        return diceRollBtn;
+    }
+
+    private JButton diceRollBtn = new JButton("Roll Dices");
     String fromPhaseViewActionListener;
 
     public String getFromPhaseViewActionListener() {
@@ -71,8 +78,11 @@ public class DiceRollView implements Observer {
         diceRollFrame.getContentPane().setBackground(Color.WHITE);
         diceRollFrame.getContentPane().setLayout(null);
 
-        JPanel dicePanel = new JPanel();
-        dicePanel.setBounds(0, 20, 800, 300);
+        JPanel dicePanel1 = new JPanel();
+        dicePanel1.setBounds(0, 0, 800, 300);
+
+        JPanel dicePanel2 = new JPanel();
+        dicePanel2.setBounds(0, 300, 800, 300);
 
         diceInfoLabel = new JLabel();
         diceInfoLabel.setBounds(0, 20, 800, 300);
@@ -83,13 +93,27 @@ public class DiceRollView implements Observer {
 
         diceInfoLabel.setVisible(true);
 
-        dicePanel.add(diceInfoLabel);
-        diceRollFrame.add(dicePanel);
+        dicePanel1.add(diceInfoLabel);
+        diceRollFrame.add(dicePanel1);
 
-        JButton diceRollBtn = new JButton("Roll Dices");
+
         diceRollBtn.setBounds(380, 20, 20, 30);
         diceRollBtn.setVisible(true);
-        dicePanel.add(diceRollBtn);
+        dicePanel1.add(diceRollBtn);
+
+        JButton continueAttackBtn = new JButton("Continue Attack?");
+        continueAttackBtn.setBounds(380, 20, 20, 30);
+
+        dicePanel2.add(continueAttackBtn);
+        dicePanel2.setVisible(false);
+        diceRollFrame.add(dicePanel2);
+
+        //for(Con)
+        if(Game.getInstance().getAttackerObj().getArmies()>=2){
+            continueAttackBtn.setVisible(true);
+        }
+
+
 
         diceRollBtn.addActionListener(new Action() {
             @Override
@@ -130,9 +154,82 @@ public class DiceRollView implements Observer {
                 evntObj.setEventInfo("Roll Dices Event");
                 //PhaseView.getInstance().territoryActionListener
                 GameController.getInstance().eventTriggered(evntObj);
+                dicePanel2.setVisible(true);
             }
 
 
+        });
+
+        continueAttackBtn.addActionListener(new Action() {
+            @Override
+            public Object getValue(String s) {
+                return null;
+            }
+
+            @Override
+            public void putValue(String s, Object o) {
+
+            }
+
+            @Override
+            public void setEnabled(boolean b) {
+
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return false;
+            }
+
+            @Override
+            public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+            }
+
+            @Override
+            public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int attackerDiceLimit;
+                int defenderDiceLimit;
+                if(Game.getInstance().getAttackerObj().getArmies()<3)
+                    attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
+                else
+                    attackerDiceLimit = 3;
+
+                if(Game.getInstance().getAttackedObj().getArmies()<2)
+                    defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
+                else
+                    defenderDiceLimit = 2;
+
+                //diceInfoLabel.setText("");
+                Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
+                        attackerDiceLimit)));
+
+                while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+                {
+                    Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
+                }
+
+                Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+
+                while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+                {
+                    Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+                }
+
+                diceRollBtn.setVisible(true);
+                diceInfoLabel.setText("");
+                GameEvents evntObj = new GameEvents();
+                evntObj.setEventData(fromPhaseViewActionListener);
+                evntObj.setEventInfo("Continue Attack");
+                //PhaseView.getInstance().territoryActionListener
+                GameController.getInstance().eventTriggered(evntObj);
+
+            }
         });
     }
 
@@ -149,7 +246,10 @@ public class DiceRollView implements Observer {
 
     public void displayContent(ArrayList<String> runTimeMessagesFromAttack){
 
-        String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttacker()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defender: "+Game.getInstance().getAttacked()+"</h2></head><body>";
+        String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttacker()+
+                "(Armies: "+Game.getInstance().getAttackerObj().getArmies()+
+                ")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defender: "+Game.getInstance().getAttacked()+
+                "(Armies: "+Game.getInstance().getAttackedObj().getArmies()+")</h2></head><body>";
 
         for(String s:runTimeMessagesFromAttack){
             uiOutput+=s;

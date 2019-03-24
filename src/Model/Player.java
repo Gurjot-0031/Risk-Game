@@ -293,6 +293,7 @@ public class Player extends Observable{
 						diceThrowResults.add(runTimeMessageAttack);
 					}
 					else {
+						Game.getInstance().getAttackerObj().setContinueAttacking(false);
 						System.out.println("Defender has rolled all the dices..Defender Lost");
 						//attackerDiceValues = rollDice(attackerDiceValues.size());
 						runTimeMessageAttack = "Defender has rolled all the dices..Defender Lost<br/>";
@@ -301,6 +302,7 @@ public class Player extends Observable{
 					}
 				}
 				else {
+					Game.getInstance().getAttackerObj().setContinueAttacking(false);
 					System.out.println("Attacker has rolled all the dices..Attacker Lost");
 					runTimeMessageAttack = "Attacker has rolled all the dices..Attacker Lost<br/>";
 					diceThrowResults.add(runTimeMessageAttack);
@@ -309,6 +311,7 @@ public class Player extends Observable{
 		}
 
 		DiceRollView.getInstance().displayContent(diceThrowResults);
+		diceThrowResults.clear();
 		return "Attack Phase";
 	}
    /* public String allOutModeAttack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked){
@@ -369,15 +372,16 @@ public class Player extends Observable{
                     +"Attacker: "+runTimeMessageAttackerDiceValue+"     Defender: "+runTimeMessageAttackedDiceValue
                     +"<br/><br/>"+runTimeMessage+"</html>");*/
 
-			if(attackedDiceValues.size()==0){
+			if(Game.getInstance().getAttackedObj().getArmies()==0){
 				attackFinished = true;
-				System.out.println("Defender rolled all his Dices");
+				//System.out.println("Defender rolled all his Dices");
 				//diceThrowResults.add("Defender rolled all his Dices");
-				if(Game.getInstance().getAttackedObj().getArmies()==0){
-					Game.getInstance().getAttackedObj().setOwner(Game.getInstance().getCurrPlayer());
-					System.out.println("Defender Territory conquered by attacker");
-					diceThrowResults.add("Defender Territory conquered by attacker<br/>");
-				}
+				Game.getInstance().getAttackedObj().setOwner(Game.getInstance().getCurrPlayer());
+				//Card obj = new Card(); card dena hai
+
+				System.out.println("Defender Territory conquered by attacker");
+				diceThrowResults.add("Defender Territory conquered by attacker<br/>");
+
 			}
 
 		}

@@ -69,9 +69,14 @@ public class GameController extends Observable {
 				System.out.println("Game in Attack Phase");
 				//System.out.println("Select attacker territory");
 				clickedTerritory = info[0];
+				//String evntInfo = info[1];
 
 				//System.out.println("Please select a territory to attack..");
-				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+				if(clickedTerritory.equalsIgnoreCase("Continue Attack"))
+					this.handleClick("Continue Attack",Game.getInstance().getGamePhase());
+				else
+					this.handleClick(info[0], Game.getInstance().getGamePhase());
+
 				break;
 			case 4:
 				System.out.println("Game in Fortification Phase");
@@ -207,12 +212,15 @@ public class GameController extends Observable {
 				System.out.println("Attacker:"+Game.getInstance().getAttacker());
 				System.out.println("Attacked:"+Game.getInstance().getAttacked());
 
-				String ret="Dice Roll";
+				//String ret="Dice Roll";
 				//while(Game.getInstance().getAttackerObj().ContinueAttacking())
 
-				return Game.getInstance().getCurrPlayer().
-						attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
-								Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
+				if(info!="Continue Attack")
+					return Game.getInstance().getCurrPlayer().
+							attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
+									Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
+				else
+					DiceRollView.getInstance().getDiceRollBtn().setVisible(true);
 
 			//if(diceRollBtn.clic)
 
@@ -251,6 +259,10 @@ public class GameController extends Observable {
 				break;
 			case "Roll Dices Event":
 				this.gameLoop(event.getEventData().split(","));
+				break;
+			case "Continue Attack":
+				//this.gameLoop(new String[]{event.getEventData().split(",")[0],event.getEventInfo()});
+				this.gameLoop(new String[]{"Continue Attack",""});
 				break;
 			default:
 				return "Invalid Event";

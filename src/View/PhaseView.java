@@ -284,20 +284,31 @@ public class PhaseView extends MouseAdapter implements Observer {
 							if (territory.getName().equalsIgnoreCase(adj)) {
 								Game.getInstance().setAttacked(territory.getName());
 
-								Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Max: 3 and not more than" +
-										Game.getInstance().getAttackerObj().getArmies())));
+								int attackerDiceLimit;
+								int defenderDiceLimit;
+								if(Game.getInstance().getAttackerObj().getArmies()<3)
+									attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
+								else
+									attackerDiceLimit = 3;
+
+								if(Game.getInstance().getAttackedObj().getArmies()<2)
+									defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
+								else
+									defenderDiceLimit = 2;
+
+								Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
+										attackerDiceLimit)));
 
 								while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
 								{
-									Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Max: 3")));
+									Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
 								}
 
-								Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKED): Max: 2 and not more than"
-										+Game.getInstance().getAttackerObj().getArmies())));
+								Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
 
 								while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
 								{
-									Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKED): Max: 3")));
+									Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
 								}
 							}
 
