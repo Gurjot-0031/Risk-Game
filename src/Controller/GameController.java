@@ -23,7 +23,8 @@ import View.WorldDominationView;
  * @author Team38
  *
  */
-public class GameController extends Observable {
+public class GameController extends Observable
+{
 	private static GameController instance;
 
 	/**
@@ -35,8 +36,10 @@ public class GameController extends Observable {
 	 * The method to get singleton instance
 	 * @return The single instance
 	 */
-	public static GameController getInstance() {
-		if(instance == null) {
+	public static GameController getInstance()
+	{
+		if (instance == null)
+		{
 			instance = new GameController();
 		}
 		return instance;
@@ -48,9 +51,11 @@ public class GameController extends Observable {
 	 * The game loop, that calls necessary functions based on game phase.
 	 * @param info The info to be processed
 	 */
-	public void gameLoop(String[] info) {
+	public void gameLoop(String[] info)
+	{
 		String clickedTerritory = null;
-		switch(Game.getInstance().getGamePhase()) {
+		switch (Game.getInstance().getGamePhase())
+		{
 			case 0:
 				this.startNewGame(info);
 				Game.getInstance().nextPhase();
@@ -93,21 +98,25 @@ public class GameController extends Observable {
 	 * This functions starts the new game
 	 * @param info Information received from view
 	 */
-	public void startNewGame(String[] info) {
+	public void startNewGame(String[] info)
+	{
 		try {
-			if(info.length < 2) {
+			if(info.length < 2)
+			{
 				System.out.println("Invalid data received at HomeController:New Game");
 				System.out.println("New Game cannot be started");
 			}
 			Game.getInstance().setNumPlayers(Integer.parseInt(info[0]));
 			Map map = new Map(info[1]);
-			if(map.readMapFile() == false) {
+			if (map.readMapFile() == false)
+			{
 				System.out.println("Selected map is invalid.");
 				return;
 			}
 			Game.getInstance().setMap(map);
 			int initArmies = 0;
-			switch(Game.getInstance().getNumPlayers()) {
+			switch (Game.getInstance().getNumPlayers())
+			{
 				case 2:
 					initArmies = 8;
 					break;
@@ -135,7 +144,8 @@ public class GameController extends Observable {
 
 			//Here, player objects are created and passed onto add player method.
 			//Game.getInstance().addPlayer() method adds it to the players aray list
-			for(int i = 0; i < Integer.parseInt(info[0]); i++) {
+			for(int i = 0; i < Integer.parseInt(info[0]); i++)
+			{
 				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
 			}
 			Game.getInstance().assignTerritoryToPlayers();
@@ -143,10 +153,12 @@ public class GameController extends Observable {
 			PhaseView.getInstance().loadMap(map);
 			WorldDominationView.getInstance().initWorldDominationView();
 		}
-		catch(NumberFormatException e) {
+		catch (NumberFormatException e)
+		{
 			System.out.println("Number of players invalid");
 		}
-		catch(Exception e) {
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			System.out.println("Exception Handled. New Game not started");
 			return;
@@ -161,38 +173,47 @@ public class GameController extends Observable {
 	 * @param gamePhase The current gamephase
 	 * @return The processing information
 	 */
-	public String handleClick(String info, int gamePhase) {
-		if(Game.getInstance().getGameMap().getTerritory(info) == null ||
-				Game.getInstance().getGameMap().getTerritory(info).getOwner() == null) {
+	public String handleClick(String info, int gamePhase)
+	{
+		if (Game.getInstance().getGameMap().getTerritory(info) == null ||
+				Game.getInstance().getGameMap().getTerritory(info).getOwner() == null)
+		{
 			return "Invalid Click";
 		}
-		switch (gamePhase) {
+		switch (gamePhase)
+		{
 			case 1:		//Setup Phase
-				if(Game.getInstance().getGameTurn() ==
-						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
+				if (Game.getInstance().getGameTurn() ==
+						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
+				{
 
 
-					if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+					if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true)
+					{
 						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 						setChanged();
 						notifyObservers(this);
 					}
 
 					boolean nextPhase = true;
-					for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
-						if(Game.getInstance().getPlayerById(i).getArmies() != 0) {
+					for (int i = 0; i < Game.getInstance().getNumPlayers(); i++)
+					{
+						if (Game.getInstance().getPlayerById(i).getArmies() != 0)
+						{
 							nextPhase = false;		//until all of the armies which belong to the players
 							break;					//are not deployed, game cannot go to next phase.
 						}
 					}
 
-					if(nextPhase == true) {
+					if (nextPhase == true)
+					{
 						Game.getInstance().setTurn(0);
 						Game.getInstance().nextPhase();
 						return "Next Game";
 					}
 					Game.getInstance().nextTurn();
-					while(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
+					while (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0)
+					{
 						Game.getInstance().nextTurn();
 						return "Event Processed";
 					}
@@ -200,8 +221,9 @@ public class GameController extends Observable {
 				}
 
 			case 2:			//Reinforcement phase
-				if(Game.getInstance().getGameTurn() ==
-						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
+				if (Game.getInstance().getGameTurn() ==
+						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
+				{
 					return Game.getInstance().getCurrPlayer().reinforce(info);
 				}
 				break;
@@ -215,7 +237,7 @@ public class GameController extends Observable {
 				//String ret="Dice Roll";
 				//while(Game.getInstance().getAttackerObj().ContinueAttacking())
 
-				if(info!="Continue Attack")
+				if (info!="Continue Attack")
 					return Game.getInstance().getCurrPlayer().
 							attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
 									Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
@@ -244,8 +266,10 @@ public class GameController extends Observable {
 	 * @param event The event received
 	 * @return The processed result
 	 */
-	public String eventTriggered(IEvent event) {
-		switch(event.getEventInfo()) {
+	public String eventTriggered(IEvent event)
+	{
+		switch (event.getEventInfo())
+		{
 			case "New Game":
 				this.gameLoop(event.getEventData().split(","));
 				break;
