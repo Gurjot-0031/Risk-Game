@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -36,6 +37,16 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 	}
 
+
+	public HashMap<String, JButton> getBtnTerritories() {
+		return btnTerritories;
+	}
+
+	public void setBtnTerritories(HashMap<String, JButton> btnTerritories) {
+		this.btnTerritories = btnTerritories;
+	}
+
+	private HashMap<String,JButton> btnTerritories = new HashMap<>();
 	private JLabel infoLog;
 	private JLabel infoLog2;
 	String gamePhase ;
@@ -158,12 +169,16 @@ public class PhaseView extends MouseAdapter implements Observer {
 		GameController.getInstance().addObserver(PhaseView.getInstance());
 		ArrayList<Territory> territoryList = map.getTerritories();
 		for(Territory territory : territoryList) {
-			JButton btnTerritory = new JButton(territory.getName());
-			btnTerritory.addActionListener(new territoryActionListener(territory));
-			btnTerritory.addMouseListener(new territoryMouseHover(territory));
-			gameFrame.add(btnTerritory);
-			btnTerritory.setBackground(territory.getOwner().getColor());
-			btnTerritory.setBounds(territory.getX(), territory.getY(), 100, 15);
+			JButton temp = new JButton(territory.getName());
+			temp.addActionListener(new territoryActionListener(territory));
+			temp.addMouseListener(new territoryMouseHover(territory));
+			btnTerritories.put(territory.getName(),temp);
+
+			//btnTerritories.addActionListener(new territoryActionListener(territory));
+			//btnTerritory.addMouseListener(new territoryMouseHover(territory));
+			gameFrame.add(temp);
+			temp.setBackground(territory.getOwner().getColor());
+			temp.setBounds(territory.getX(), territory.getY(), 100, 15);
 		}
 	}
 

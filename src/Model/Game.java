@@ -20,7 +20,11 @@ public class Game extends Observable {
 	}
 
 	ArrayList<Player> players;
-	
+
+	public void setGamePhase(int gamePhase) {
+		this.gamePhase = gamePhase;
+	}
+
 	// 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Attack, 4 = Fortification
 	private int gamePhase;
 	private int gameTurn;
@@ -29,6 +33,13 @@ public class Game extends Observable {
 	private Territory attackerObj;
 
 
+	public void setAttackerObj(Territory attackerObj) {
+		this.attackerObj = attackerObj;
+	}
+
+	public void setAttackedObj(Territory attackedObj) {
+		this.attackedObj = attackedObj;
+	}
 
 	public Territory getAttackerObj() {
 		return Game.getInstance().getGameMap().getTerritory(attacker);

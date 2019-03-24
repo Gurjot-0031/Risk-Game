@@ -1,6 +1,8 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * This class acts as territory model
@@ -144,6 +146,8 @@ public class Territory {
 	 */
 	public void setOwner(Player owner) {
 		this.owner = owner;
+
+
 	}
 
 	/**

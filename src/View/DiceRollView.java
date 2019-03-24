@@ -23,6 +23,12 @@ public class DiceRollView implements Observer {
     }
 
     private JButton diceRollBtn = new JButton("Roll Dices");
+
+    public JButton getContinueAttackBtn() {
+        return continueAttackBtn;
+    }
+
+    private JButton continueAttackBtn = new JButton("Continue Attack?");
     String fromPhaseViewActionListener;
 
     public String getFromPhaseViewActionListener() {
@@ -101,16 +107,29 @@ public class DiceRollView implements Observer {
         diceRollBtn.setVisible(true);
         dicePanel1.add(diceRollBtn);
 
-        JButton continueAttackBtn = new JButton("Continue Attack?");
+
         continueAttackBtn.setBounds(380, 20, 20, 30);
 
         dicePanel2.add(continueAttackBtn);
         dicePanel2.setVisible(false);
         diceRollFrame.add(dicePanel2);
 
+        //Fortrification
+        JButton fortifyBtn = new JButton("Fortify");
+        fortifyBtn.setBounds(420, 20, 20, 30);
+
+        dicePanel2.add(fortifyBtn);
+        dicePanel2.setVisible(false);
+        diceRollFrame.add(dicePanel2);
+        fortifyBtn.setVisible(true);
         //for(Con)
         if(Game.getInstance().getAttackerObj().getArmies()>=2){
             continueAttackBtn.setVisible(true);
+        }
+        else{
+            continueAttackBtn.setVisible(false);
+            JOptionPane.showMessageDialog(null,"<html>Attacker don't have sufficient armies to continue attack..<br/>Attacker can continue with fortification</html>");
+
         }
 
 
@@ -231,7 +250,46 @@ public class DiceRollView implements Observer {
 
             }
         });
+        fortifyBtn.addActionListener(new Action() {
+            @Override
+            public Object getValue(String s) {
+                return null;
+            }
+
+            @Override
+            public void putValue(String s, Object o) {
+
+            }
+
+            @Override
+            public void setEnabled(boolean b) {
+
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return false;
+            }
+
+            @Override
+            public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+            }
+
+            @Override
+            public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                    diceRollFrame.setVisible(false);
+                Game.getInstance().nextPhase();
+                Game.getInstance().getCurrPlayer().fortify(fromPhaseViewActionListener);
+            }
+        });
     }
+
 
 
     @Override
@@ -246,10 +304,8 @@ public class DiceRollView implements Observer {
 
     public void displayContent(ArrayList<String> runTimeMessagesFromAttack){
 
-        String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttacker()+
-                "(Armies: "+Game.getInstance().getAttackerObj().getArmies()+
-                ")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defender: "+Game.getInstance().getAttacked()+
-                "(Armies: "+Game.getInstance().getAttackedObj().getArmies()+")</h2></head><body>";
+        String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttacker()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                "Defender: "+Game.getInstance().getAttacked()+"</h2></head><body>";
 
         for(String s:runTimeMessagesFromAttack){
             uiOutput+=s;

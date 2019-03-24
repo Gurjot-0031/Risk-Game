@@ -259,10 +259,15 @@ public class GameController extends Observable {
 				break;
 			case "Roll Dices Event":
 				this.gameLoop(event.getEventData().split(","));
+				setChanged();
+				notifyObservers();
 				break;
 			case "Continue Attack":
 				//this.gameLoop(new String[]{event.getEventData().split(",")[0],event.getEventInfo()});
-				this.gameLoop(new String[]{"Continue Attack",""});
+                setChanged();
+                notifyObservers();
+                this.gameLoop(new String[]{"Continue Attack",""});
+
 				break;
 			default:
 				return "Invalid Event";

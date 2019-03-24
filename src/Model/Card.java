@@ -1,6 +1,6 @@
 package Model;
 
-import javafx.collections.ObservableArrayBase;
+//import javafx.collections.ObservableArrayBase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Card extends Observable implements Serializable {
     private String cardType;
 
     public Card() {
-
+        this.setCardType();
     }
 
     public String getCardType() {

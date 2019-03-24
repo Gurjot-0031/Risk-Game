@@ -33,11 +33,12 @@ public class WorldDominationView implements Observer {
 
 		Game.getInstance().addObserver(this);
 
+
 	}
 
 	@Override
 	public void update(Observable observable, Object o) {
-		if (o instanceof Game) {
+		if (o instanceof Game || o instanceof GameController) {
 			String label = "<html><head><h1>Map Domination</h1></head><br/><body><center> ";
 
 			territoriesList = Game.getInstance().getGameMap().getTerritories();
@@ -89,9 +90,7 @@ public class WorldDominationView implements Observer {
 
 		}
 
-		else if (o instanceof GameController) {
 
-		}
 	}
 
 	public static WorldDominationView getInstance() {
