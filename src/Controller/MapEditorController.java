@@ -10,7 +10,8 @@ import View.MapEditorView;
  * @author Team38
  *
  */
-public class MapEditorController {
+public class MapEditorController
+{
 
 	/**
 	 * Handles the events triggered from view
@@ -18,13 +19,16 @@ public class MapEditorController {
 	 * @param event
 	 *            Information received from view.
 	 */
-	public void eventTriggered(IEvent event) {
+	public void eventTriggered(IEvent event)
+	{
 		String eventInfo = event.getEventInfo();
 		System.out.println(eventInfo + "triggered at Map Editor Controller");
 
-		switch (eventInfo) {
+		switch (eventInfo)
+		{
 		case "MapEditorBrowse":
-			if (MapController.getInstance().readMapFile(((MapEditorEvents) event).getEventFile()) == false) {
+			if (MapController.getInstance().readMapFile(((MapEditorEvents) event).getEventFile()) == false)
+			{
 				System.out.println("Map Read Error");
 			}
 			break;
