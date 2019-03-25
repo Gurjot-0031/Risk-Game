@@ -27,374 +27,374 @@ import static java.lang.Thread.sleep;
  *
  */
 public class PhaseView extends MouseAdapter implements Observer {
-	private static PhaseView instance;
+    private static PhaseView instance;
 
-	String[] source;
+    String[] source;
 
-	private JFrame gameFrame;
+    private JFrame gameFrame;
 
-	private PhaseView() {
+    private PhaseView() {
 
-	}
-
-
-	public HashMap<String, JButton> getBtnTerritories() {
-		return btnTerritories;
-	}
-
-	public void setBtnTerritories(HashMap<String, JButton> btnTerritories) {
-		this.btnTerritories = btnTerritories;
-	}
-
-	private HashMap<String,JButton> btnTerritories = new HashMap<>();
-	private JLabel infoLog;
-	private JLabel infoLog2;
-	String gamePhase ;
-	String curPlayer = Game.getInstance().getCurrPlayerName();
-	int curPArmies = Game.getInstance().getCurrPlayerArmies();
-	//int curPArmies2 ;
-	boolean armiesChanged =false;
-	boolean phaseChanged =false;
-
-	public JFrame getGameFrame() {
-
-		return gameFrame;
-	}
-
-	/**
-	 * Update the Observer list
-	 * @param observable Observable Object
-	 * @param o Instance of Game Class
-	 */
-	@Override
-	public void update(Observable observable, Object o) {
-		if (o instanceof Game){
-			Game obj = (Game) o;
-
-			if (gamePhase!= obj.getGamePhaseDesc()){
-				phaseChanged = true;
-				gamePhase = obj.getGamePhaseDesc();
-			}
-			curPlayer = obj.getCurrPlayerName();
-			//curPArmies = obj.getCurrPlayerArmies();
-
-		}
-
-		else if (o instanceof GameController){
-			if (curPArmies != Game.getInstance().getCurrPlayerArmies())
-				armiesChanged =true;
-			else
-				armiesChanged = false;
-			curPArmies = Game.getInstance().getCurrPlayerArmies();
-			//curPlayer = Game.getInstance().getCurrPlayerName();
-			//gamePhase = Game.getInstance().getGamePhaseDesc();
-
-		}
-		else if (o instanceof Object){
-			source= o.toString().split(",");
-
-		}
+    }
 
 
-	}
+    public HashMap<String, JButton> getBtnTerritories() {
+        return btnTerritories;
+    }
 
-	/**
-	 * Get the instance of Phase View
-	 * @return PhaseView
-	 */
-	public static PhaseView getInstance() {
-		if (instance == null) {
-			instance = new PhaseView();
-		}
-		return instance;
-	}
+    public void setBtnTerritories(HashMap<String, JButton> btnTerritories) {
+        this.btnTerritories = btnTerritories;
+    }
+
+    private HashMap<String,JButton> btnTerritories = new HashMap<>();
+    private JLabel infoLog;
+    private JLabel infoLog2;
+    String gamePhase ;
+    String curPlayer = Game.getInstance().getCurrPlayerName();
+    int curPArmies = Game.getInstance().getCurrPlayerArmies();
+    //int curPArmies2 ;
+    boolean armiesChanged =false;
+    boolean phaseChanged =false;
+
+    public JFrame getGameFrame() {
+
+        return gameFrame;
+    }
+
+    /**
+     * Update the Observer list
+     * @param observable Observable Object
+     * @param o Instance of Game Class
+     */
+    @Override
+    public void update(Observable observable, Object o) {
+        if (o instanceof Game){
+            Game obj = (Game) o;
+
+            if (gamePhase!= obj.getGamePhaseDesc()){
+                phaseChanged = true;
+                gamePhase = obj.getGamePhaseDesc();
+            }
+            curPlayer = obj.getCurrPlayerName();
+            //curPArmies = obj.getCurrPlayerArmies();
+
+        }
+
+        else if (o instanceof GameController){
+            if (curPArmies != Game.getInstance().getCurrPlayerArmies())
+                armiesChanged =true;
+            else
+                armiesChanged = false;
+            curPArmies = Game.getInstance().getCurrPlayerArmies();
+            //curPlayer = Game.getInstance().getCurrPlayerName();
+            //gamePhase = Game.getInstance().getGamePhaseDesc();
+
+        }
+        else if (o instanceof Object){
+            source= o.toString().split(",");
+
+        }
 
 
-	/**
-	 * Load the Frame
-	 */
-	public void loadFrame() {
-		if (gameFrame == null) {
-			initFrame();
-		}
-		gameFrame.setVisible(true);
-	}
+    }
 
-	/**
-	 * Initialize the Frame
-	 */
-	public void initFrame() {
-		gameFrame = new JFrame("Game");
-		gameFrame.setSize(1566, 768);
-		gameFrame.setSize(1566, 768);
-		gameFrame.setResizable(false);
-		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gameFrame.getContentPane().setBackground(Color.WHITE);
-		gameFrame.getContentPane().setLayout(null);
+    /**
+     * Get the instance of Phase View
+     * @return PhaseView
+     */
+    public static PhaseView getInstance() {
+        if (instance == null) {
+            instance = new PhaseView();
+        }
+        return instance;
+    }
 
-		JPanel infoPanel = new JPanel();
-		infoPanel.setBounds(0, 620, 1024, 118);
-		this.infoLog = new JLabel();
-		this.infoLog.setBounds(10, 660, 1000, 108);
 
-		this.infoLog2 = new JLabel();
-		this.infoLog2.setBounds(10, 660, 1000, 108);
+    /**
+     * Load the Frame
+     */
+    public void loadFrame() {
+        if (gameFrame == null) {
+            initFrame();
+        }
+        gameFrame.setVisible(true);
+    }
 
-		//JTabbedPane tp = new JTabbedPane();
-		//JToolTip tp = new JToolTip();
-		//infoPanel.add(tp);
-		//tp.setToolTipText("PHASE VIEW");
-		//tp.setVisible(true);
-		infoPanel.add(this.infoLog);
-		infoPanel.add(this.infoLog2);
-		gameFrame.add(infoPanel);
+    /**
+     * Initialize the Frame
+     */
+    public void initFrame() {
+        gameFrame = new JFrame("Game");
+        gameFrame.setSize(1566, 768);
+        gameFrame.setSize(1566, 768);
+        gameFrame.setResizable(false);
+        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameFrame.getContentPane().setBackground(Color.WHITE);
+        gameFrame.getContentPane().setLayout(null);
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setBounds(0, 620, 1024, 118);
+        this.infoLog = new JLabel();
+        this.infoLog.setBounds(10, 660, 1000, 108);
+
+        this.infoLog2 = new JLabel();
+        this.infoLog2.setBounds(10, 660, 1000, 108);
+
+        //JTabbedPane tp = new JTabbedPane();
+        //JToolTip tp = new JToolTip();
+        //infoPanel.add(tp);
+        //tp.setToolTipText("PHASE VIEW");
+        //tp.setVisible(true);
+        infoPanel.add(this.infoLog);
+        infoPanel.add(this.infoLog2);
+        gameFrame.add(infoPanel);
 
 		/*JPanel gameDetailsPanel = new JPanel();
 		gameDetailsPanel.setBounds(924, 0, 300, 768);
 		gameFrame.add(gameDetailsPanel);*/
-	}
+    }
 
-	/**
-	 * Load Map
-	 * @param map Map
-	 */
-	public void loadMap(Map map) {
-		if (map == null) {
-			System.out.println("Map not loaded correctly. Cannot be rendered");
-			return;
-		}
-		Game.getInstance().addObserver(PhaseView.getInstance());   //.........*****************************
-
-
-		GameController.getInstance().addObserver(PhaseView.getInstance());
-		ArrayList<Territory> territoryList = map.getTerritories();
-		for (Territory territory : territoryList) {
-			JButton temp = new JButton(territory.getName());
-			temp.addActionListener(new territoryActionListener(territory));
-			temp.addMouseListener(new territoryMouseHover(territory));
-			btnTerritories.put(territory.getName(),temp);
-
-			//btnTerritories.addActionListener(new territoryActionListener(territory));
-			//btnTerritory.addMouseListener(new territoryMouseHover(territory));
-			gameFrame.add(temp);
-			temp.setBackground(territory.getOwner().getColor());
-			temp.setBounds(territory.getX(), territory.getY(), 100, 15);
-		}
-	}
-
-	/**
-	 * View Class for Territory Mouse Hover
-	 * @author Team38
-	 *
-	 */
-	class territoryMouseHover extends MouseAdapter {
-		private final Territory territory;
-
-		territoryMouseHover(final Territory territory) {
-			this.territory = territory;
-		}
-
-		public void mouseEntered(java.awt.event.MouseEvent evt) {
-			String text = "<html><center><head><h2>PHASE VIEW</h2></head><center>Territory: " + territory.getName() + "<br/>Owned By: " +
-					territory.getOwner().getName()+"     Continent: "+territory.getParentContinent().getName()+"<br/>Armies: " + territory.getArmies() + "<br/></html>";
-			infoLog.setText(text);
-		}
-
-		public void mouseExited(java.awt.event.MouseEvent evt) {
-			if (gamePhase!="Game Phase: Attack")
-				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
-						curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-			else if (gamePhase=="Game Phase: Attack") {
-				if (Game.getInstance().getAttacker() == null)
-					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the attacker<br/>" + gamePhase + "<br/>Current Player: " +
-							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-				else
-					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacker() + "<br/>" + gamePhase + "<br/>Current Player: " +
-							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-				if (Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() == null)
-					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the Defender<br/>" + gamePhase + "<br/>Current Player: " +
-							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-				else if(Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() != null)
-					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacked() + "<br/>" + gamePhase + "<br/>Current Player: " +
-							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-			}
-
-			else
-				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
-						curPlayer + "<br/></html>");
-		}
-	}
-
-	/**
-	 * View Class for Territory Action Listener
-	 * @author Team38
-	 *
-	 */
-	class territoryActionListener implements ActionListener {
-		private final Territory territory;
+    /**
+     * Load Map
+     * @param map Map
+     */
+    public void loadMap(Map map) {
+        if (map == null) {
+            System.out.println("Map not loaded correctly. Cannot be rendered");
+            return;
+        }
+        Game.getInstance().addObserver(PhaseView.getInstance());   //.........*****************************
 
 
-		/**
-		 * Constructor
-		 *
-		 * @param territory Territory
-		 */
-		territoryActionListener(final Territory territory) {
-			super();
-			this.territory = territory;
-		}
+        GameController.getInstance().addObserver(PhaseView.getInstance());
+        ArrayList<Territory> territoryList = map.getTerritories();
+        for (Territory territory : territoryList) {
+            JButton temp = new JButton(territory.getName());
+            temp.addActionListener(new territoryActionListener(territory));
+            temp.addMouseListener(new territoryMouseHover(territory));
+            btnTerritories.put(territory.getName(),temp);
 
-		/**
-		 * Function to notice Clicks on Territory
-		 *
-		 * @param e Action Event
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			GameEvents objEvent = new GameEvents();
-			objEvent.setEventInfo("");
-			objEvent.setEventData("");
-			//if(Game.getInstance().getGamePhase()==3) {
-			//	Game.getInstance().setAttacker(territory.getName());
-			//	objEvent.setEventInfo("Territory Clicked");
-			//	objEvent.setEventData(territory.getName()+","+territory.getArmies());
-			//}
+            //btnTerritories.addActionListener(new territoryActionListener(territory));
+            //btnTerritory.addMouseListener(new territoryMouseHover(territory));
+            gameFrame.add(temp);
+            temp.setBackground(territory.getOwner().getColor());
+            temp.setBounds(territory.getX(), territory.getY(), 100, 15);
+        }
+    }
 
-			infoLog2.setText("");
-			if (Game.getInstance().getGamePhase() == 3) {
-				if (Game.getInstance().getAttacker() == null) {
+    /**
+     * View Class for Territory Mouse Hover
+     * @author Team38
+     *
+     */
+    class territoryMouseHover extends MouseAdapter {
+        private final Territory territory;
 
-					if (Game.getInstance().getGameMap().getTerritory(territory.getName()).getArmies() >= 2) {
+        territoryMouseHover(final Territory territory) {
+            this.territory = territory;
+        }
 
-						if (Game.getInstance().getCurrPlayer().getId() == Game.getInstance().getGameMap().getTerritory(territory.getName()).getOwner().getId()) {
-							Game.getInstance().setAttacker(territory.getName());
-							System.out.println("Please select a target territory to attack..");
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            String text = "<html><center><head><h2>PHASE VIEW</h2></head><center>Territory: " + territory.getName() + "<br/>Owned By: " +
+                    territory.getOwner().getName()+"     Continent: "+territory.getParentContinent().getName()+"<br/>Armies: " + territory.getArmies() + "<br/></html>";
+            infoLog.setText(text);
+        }
 
-							if (Game.getInstance().getAttacked()==null && Game.getInstance().getAttacked()!=null)
-								infoLog2.setText("Please select a target territory to attack..");
-							objEvent.setEventInfo("Attacker Set");
-							objEvent.setEventData(territory.getName() + "," + territory.getArmies());
-						}
-						else {
-							System.out.println("Territory does not belong to current player..");
-							infoLog2.setText("<html><body>Territory does not belong to current player..<br/></body></html>");
-						}
-					}
-					else {
-						System.out.println("Territory selected have less than 2 armies..");
-						infoLog2.setText("<html><body>Territory selected have less than 2 armies..<br/></body></html>");
-					}
-				}
-				else if (Game.getInstance().getAttacker() != null && Game.getInstance().getAttacked() == null) {
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            if (gamePhase!="Game Phase: Attack")
+                infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
+                        curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+            else if (gamePhase=="Game Phase: Attack") {
+                if (Game.getInstance().getAttacker() == null)
+                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the attacker<br/>" + gamePhase + "<br/>Current Player: " +
+                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+                else
+                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacker() + "<br/>" + gamePhase + "<br/>Current Player: " +
+                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+                if (Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() == null)
+                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the Defender<br/>" + gamePhase + "<br/>Current Player: " +
+                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+                else if(Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() != null)
+                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacked() + "<br/>" + gamePhase + "<br/>Current Player: " +
+                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+            }
 
-					if (territory.getOwner().getName() == Game.getInstance().getCurrPlayerName()) {
-						System.out.println("Attack cannot be done to a player's own territory");
-						System.out.println("Please select a valid territory to attack..");
-						infoLog2.setText("<html><body>Attack cannot be done to a player's own territory<br/>Please select a valid territory to attack..<br/></body></html>");
-						objEvent.setEventInfo("Attack Phase:Invalid attacked selected");
-						objEvent.setEventData(territory.getName() + "," + territory.getArmies());
-					}
-					else {
-						for (String adj : Game.getInstance().getGameMap().getAdjacents(Game.getInstance().getAttacker())) {
-							if (territory.getName().equalsIgnoreCase(adj)) {
-								Game.getInstance().setAttacked(territory.getName());
+            else
+                infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
+                        curPlayer + "<br/></html>");
+        }
+    }
 
-								int attackerDiceLimit;
-								int defenderDiceLimit;
-								if (Game.getInstance().getAttackerObj().getArmies()<3)
-									attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
-								else
-									attackerDiceLimit = 3;
-
-								if (Game.getInstance().getAttackedObj().getArmies()<2)
-									defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
-								else
-									defenderDiceLimit = 2;
-
-								Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
-										attackerDiceLimit)));
-
-								while (Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
-								{
-									Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
-								}
-
-								Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
-
-								while (Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
-								{
-									Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
-								}
-							}
+    /**
+     * View Class for Territory Action Listener
+     * @author Team38
+     *
+     */
+    class territoryActionListener implements ActionListener {
+        private final Territory territory;
 
 
-						}
-						if (Game.getInstance().getAttacked() == null) {
-							System.out.println("Select an adjacent territory...");
-							infoLog2.setText("<html><body>Select an adjacent territory...<br/></body></html>");
-						}
+        /**
+         * Constructor
+         *
+         * @param territory Territory
+         */
+        territoryActionListener(final Territory territory) {
+            super();
+            this.territory = territory;
+        }
 
-						objEvent.setEventInfo("Attack Phase:attacked territory selected");
-						objEvent.setEventData(territory.getName() + "," + territory.getArmies());
-					}
+        /**
+         * Function to notice Clicks on Territory
+         *
+         * @param e Action Event
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            GameEvents objEvent = new GameEvents();
+            objEvent.setEventInfo("");
+            objEvent.setEventData("");
+            //if(Game.getInstance().getGamePhase()==3) {
+            //	Game.getInstance().setAttacker(territory.getName());
+            //	objEvent.setEventInfo("Territory Clicked");
+            //	objEvent.setEventData(territory.getName()+","+territory.getArmies());
+            //}
 
-				}
-				//infoLog2.setText("</body></html>");
-			}
-			else {
-				objEvent.setEventInfo("Territory Clicked");
-				objEvent.setEventData(territory.getName() + "," + territory.getArmies());
+            infoLog2.setText("");
+            if (Game.getInstance().getGamePhase() == 3) {
+                if (Game.getInstance().getAttacker() == null) {
 
-			}
-			GameController.getInstance().eventTriggered(objEvent);
+                    if (Game.getInstance().getGameMap().getTerritory(territory.getName()).getArmies() >= 2) {
 
-			//if(armiesChanged==true){
-			switch (gamePhase) {
-				case "Game Phase: Setup":
-					if (armiesChanged == true) {
-						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Setup<br/>"
-								+ "1 army got deployed on " + this.territory.getName() + "</html>");
+                        if (Game.getInstance().getCurrPlayer().getId() == Game.getInstance().getGameMap().getTerritory(territory.getName()).getOwner().getId()) {
+                            Game.getInstance().setAttacker(territory.getName());
+                            System.out.println("Please select a target territory to attack..");
 
-					} else
-						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
-					break;
-				case "Game Phase: Reinforcement":
+                            if (Game.getInstance().getAttacked()==null && Game.getInstance().getAttacked()!=null)
+                                infoLog2.setText("Please select a target territory to attack..");
+                            objEvent.setEventInfo("Attacker Set");
+                            objEvent.setEventData(territory.getName() + "," + territory.getArmies());
+                        }
+                        else {
+                            System.out.println("Territory does not belong to current player..");
+                            infoLog2.setText("<html><body>Territory does not belong to current player..<br/></body></html>");
+                        }
+                    }
+                    else {
+                        System.out.println("Territory selected have less than 2 armies..");
+                        infoLog2.setText("<html><body>Territory selected have less than 2 armies..<br/></body></html>");
+                    }
+                }
+                else if (Game.getInstance().getAttacker() != null && Game.getInstance().getAttacked() == null) {
 
-					if (armiesChanged == true) {
-						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Reinforcement<br/>"
-								+ "1 reinforcement deployed on " + this.territory.getName() + "</html>");
-					} else
-						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
-					break;
-				case "Game Phase: Attack":
-					//throws null pointer exception, unable to get the source values from the game controller.
-					String temp;
-					if (Game.getInstance().getAttacker() != null && Game.getInstance().getAttacked() != null) {
-						temp = "<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Attack<br/>Attacker territory: " + Game.getInstance().getAttacker()
-								+ "<br/>Attacked territory: " + Game.getInstance().getAttacked() + "</html>";
-					} else
-						temp = "<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Attack<br/></html>";
-					infoLog.setText(temp);
-					//source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
-					break;
-				case "Game Phase: Fortification":
-					//throws null pointer exception, unable to get the source values from the game controller.
+                    if (territory.getOwner().getName() == Game.getInstance().getCurrPlayerName()) {
+                        System.out.println("Attack cannot be done to a player's own territory");
+                        System.out.println("Please select a valid territory to attack..");
+                        infoLog2.setText("<html><body>Attack cannot be done to a player's own territory<br/>Please select a valid territory to attack..<br/></body></html>");
+                        objEvent.setEventInfo("Attack Phase:Invalid attacked selected");
+                        objEvent.setEventData(territory.getName() + "," + territory.getArmies());
+                    }
+                    else {
+                        for (String adj : Game.getInstance().getGameMap().getAdjacents(Game.getInstance().getAttacker())) {
+                            if (territory.getName().equalsIgnoreCase(adj)) {
+                                Game.getInstance().setAttacked(territory.getName());
 
-					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Fortification<br/></html>");
-					//source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
-					break;
-				default:
-					infoLog.setText("Invalid");
+                                int attackerDiceLimit;
+                                int defenderDiceLimit;
+                                if (Game.getInstance().getAttackerObj().getArmies()<3)
+                                    attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
+                                else
+                                    attackerDiceLimit = 3;
 
-					armiesChanged = false;
+                                if (Game.getInstance().getAttackedObj().getArmies()<2)
+                                    defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
+                                else
+                                    defenderDiceLimit = 2;
+
+                                Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
+                                        attackerDiceLimit)));
+
+                                while (Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+                                {
+                                    Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
+                                }
+
+                                Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+
+                                while (Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+                                {
+                                    Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+                                }
+                            }
 
 
-					if (phaseChanged == true && curPArmies == 0) {
-						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/><br/></html>");
-						phaseChanged = false;
-					}
+                        }
+                        if (Game.getInstance().getAttacked() == null) {
+                            System.out.println("Select an adjacent territory...");
+                            infoLog2.setText("<html><body>Select an adjacent territory...<br/></body></html>");
+                        }
 
-			}
-		}
-	}
+                        objEvent.setEventInfo("Attack Phase:attacked territory selected");
+                        objEvent.setEventData(territory.getName() + "," + territory.getArmies());
+                    }
+
+                }
+                //infoLog2.setText("</body></html>");
+            }
+            else {
+                objEvent.setEventInfo("Territory Clicked");
+                objEvent.setEventData(territory.getName() + "," + territory.getArmies());
+
+            }
+            GameController.getInstance().eventTriggered(objEvent);
+
+            //if(armiesChanged==true){
+            switch (gamePhase) {
+                case "Game Phase: Setup":
+                    if (armiesChanged == true) {
+                        infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Setup<br/>"
+                                + "1 army got deployed on " + this.territory.getName() + "</html>");
+
+                    } else
+                        infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
+                    break;
+                case "Game Phase: Reinforcement":
+
+                    if (armiesChanged == true) {
+                        infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Reinforcement<br/>"
+                                + "1 reinforcement deployed on " + this.territory.getName() + "</html>");
+                    } else
+                        infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
+                    break;
+                case "Game Phase: Attack":
+                    //throws null pointer exception, unable to get the source values from the game controller.
+                    String temp;
+                    if (Game.getInstance().getAttacker() != null && Game.getInstance().getAttacked() != null) {
+                        temp = "<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Attack<br/>Attacker territory: " + Game.getInstance().getAttacker()
+                                + "<br/>Attacked territory: " + Game.getInstance().getAttacked() + "</html>";
+                    } else
+                        temp = "<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Attack<br/></html>";
+                    infoLog.setText(temp);
+                    //source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
+                    break;
+                case "Game Phase: Fortification":
+                    //throws null pointer exception, unable to get the source values from the game controller.
+
+                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Fortification<br/></html>");
+                    //source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
+                    break;
+                default:
+                    infoLog.setText("Invalid");
+
+                    armiesChanged = false;
+
+
+                    if (phaseChanged == true && curPArmies == 0) {
+                        infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/><br/></html>");
+                        phaseChanged = false;
+                    }
+
+            }
+        }
+    }
 }
