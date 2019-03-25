@@ -15,11 +15,9 @@ public class MainController
 	 * @param args
 	 *            Command line arguments
 	 */
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		HomeController objHomeController = new HomeController();
-		javax.swing.SwingUtilities.invokeLater(new Runnable()
-		{
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				objHomeController.initHomeWindow();
 			}

@@ -10,8 +10,7 @@ import java.util.List;
  * @author Team38
  *
  */
-public class PlayerController
-{
+public class PlayerController {
 	private String playerName;
 	private List<Territory> territoriesOwned;
 

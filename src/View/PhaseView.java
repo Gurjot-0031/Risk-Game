@@ -68,10 +68,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 	 */
 	@Override
 	public void update(Observable observable, Object o) {
-		if(o instanceof Game){
+		if (o instanceof Game){
 			Game obj = (Game) o;
 
-			if(gamePhase!= obj.getGamePhaseDesc()){
+			if (gamePhase!= obj.getGamePhaseDesc()){
 				phaseChanged = true;
 				gamePhase = obj.getGamePhaseDesc();
 			}
@@ -80,8 +80,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 		}
 
-		else if(o instanceof GameController){
-			if(curPArmies != Game.getInstance().getCurrPlayerArmies())
+		else if (o instanceof GameController){
+			if (curPArmies != Game.getInstance().getCurrPlayerArmies())
 				armiesChanged =true;
 			else
 				armiesChanged = false;
@@ -90,7 +90,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 			//gamePhase = Game.getInstance().getGamePhaseDesc();
 
 		}
-		else if(o instanceof Object){
+		else if (o instanceof Object){
 			source= o.toString().split(",");
 
 		}
@@ -103,7 +103,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 	 * @return PhaseView
 	 */
 	public static PhaseView getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new PhaseView();
 		}
 		return instance;
@@ -114,7 +114,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 	 * Load the Frame
 	 */
 	public void loadFrame() {
-		if(gameFrame == null) {
+		if (gameFrame == null) {
 			initFrame();
 		}
 		gameFrame.setVisible(true);
@@ -159,7 +159,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 	 * @param map Map
 	 */
 	public void loadMap(Map map) {
-		if(map == null) {
+		if (map == null) {
 			System.out.println("Map not loaded correctly. Cannot be rendered");
 			return;
 		}
@@ -168,7 +168,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 		GameController.getInstance().addObserver(PhaseView.getInstance());
 		ArrayList<Territory> territoryList = map.getTerritories();
-		for(Territory territory : territoryList) {
+		for (Territory territory : territoryList) {
 			JButton temp = new JButton(territory.getName());
 			temp.addActionListener(new territoryActionListener(territory));
 			temp.addMouseListener(new territoryMouseHover(territory));
@@ -201,10 +201,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 		}
 
 		public void mouseExited(java.awt.event.MouseEvent evt) {
-			if(gamePhase!="Game Phase: Attack")
+			if (gamePhase!="Game Phase: Attack")
 				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
 						curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-			else if(gamePhase=="Game Phase: Attack") {
+			else if (gamePhase=="Game Phase: Attack") {
 				if (Game.getInstance().getAttacker() == null)
 					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the attacker<br/>" + gamePhase + "<br/>Current Player: " +
 							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
@@ -270,7 +270,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 							Game.getInstance().setAttacker(territory.getName());
 							System.out.println("Please select a target territory to attack..");
 
-							if(Game.getInstance().getAttacked()==null && Game.getInstance().getAttacked()!=null)
+							if (Game.getInstance().getAttacked()==null && Game.getInstance().getAttacked()!=null)
 								infoLog2.setText("Please select a target territory to attack..");
 							objEvent.setEventInfo("Attacker Set");
 							objEvent.setEventData(territory.getName() + "," + territory.getArmies());
@@ -301,12 +301,12 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 								int attackerDiceLimit;
 								int defenderDiceLimit;
-								if(Game.getInstance().getAttackerObj().getArmies()<3)
+								if (Game.getInstance().getAttackerObj().getArmies()<3)
 									attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
 								else
 									attackerDiceLimit = 3;
 
-								if(Game.getInstance().getAttackedObj().getArmies()<2)
+								if (Game.getInstance().getAttackedObj().getArmies()<2)
 									defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
 								else
 									defenderDiceLimit = 2;
@@ -314,14 +314,14 @@ public class PhaseView extends MouseAdapter implements Observer {
 								Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
 										attackerDiceLimit)));
 
-								while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+								while (Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
 								{
 									Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
 								}
 
 								Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
 
-								while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+								while (Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
 								{
 									Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
 								}

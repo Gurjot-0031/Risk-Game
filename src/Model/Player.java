@@ -145,7 +145,7 @@ public class Player extends Observable {
 	 * @return Success or failure
 	 */
 	public boolean removeArmy(int num) {
-		if(num > this.armies) {
+		if (num > this.armies) {
 			System.out.println("Army removal Failed");
 			return false;
 		}
@@ -209,14 +209,14 @@ public class Player extends Observable {
 	public String reinforce(String info){
 
 
-		if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+		if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 			Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 			setChanged();
 			notifyObservers(this);
 		}
 
 
-		if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
+		if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
 			Game.getInstance().nextTurn();
 			//If a player has no army to deploy, the next player's turn comes
 		}
@@ -226,7 +226,7 @@ public class Player extends Observable {
 		}
 
 		boolean nextPhase = true;
-		for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
+		for (int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
 			if(Game.getInstance().getPlayerById(i).getArmies() > 0) {
 				Game.getInstance().setTurn(i);
 				//Each Player deploys the reinforcement armies
@@ -253,7 +253,7 @@ public class Player extends Observable {
 	 */
 	public String fortify(String info){
 		boolean fortificationPossible = false;
-		for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
+		for (Territory t : Game.getInstance().getGameMap().getTerritories()) {
 			if(t.getOwner().getId() == Game.getInstance().getGameTurn() &&
 					t.getArmies() > 1) {
 				for(String adjacent : t.getAdjacents()) {
@@ -265,7 +265,7 @@ public class Player extends Observable {
 			}
 		}
 
-		if(fortificationPossible == false) {
+		if (fortificationPossible == false) {
 			System.out.println("Fortification move not possible for Player " + Game.getInstance().getCurrPlayerName());
 			JOptionPane.showMessageDialog(null,"Fortification move not possible for Player " + Game.getInstance().getCurrPlayerName());
 			Game.getInstance().nextTurn();
@@ -277,7 +277,7 @@ public class Player extends Observable {
 			return "Territory does not belong to current player";
 		}
 
-		if(Game.getInstance().fortification_source == null) {
+		if (Game.getInstance().fortification_source == null) {
 			for(String adjacent : tmpTerritory.getAdjacents()) {
 				Territory adjT = Game.getInstance().getGameMap().getTerritory(adjacent);
 				if(adjT != null && adjT.getOwner() == tmpTerritory.getOwner() && tmpTerritory.getArmies() > 1) {
@@ -290,7 +290,7 @@ public class Player extends Observable {
 			return "No adjacent territory can be fortified from " + info + ". Please select other territory";
 		}
 		else {
-			if(tmpTerritory.getAdjacents().contains(Game.getInstance().fortification_source)) {
+			if (tmpTerritory.getAdjacents().contains(Game.getInstance().fortification_source)) {
 				Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
 				int toMove = 0;
 				while(true) {
@@ -340,7 +340,7 @@ public class Player extends Observable {
 	ArrayList<String> diceThrowResults= new ArrayList<>();
 	public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked) throws NullPointerException{
 
-		if(attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
+		if (attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
 			//int remainingDiceAttacker = numOfDiceAttacker;
 			//int remainingDiceAttacked = numOfDiceAttacker;
 			//DiceRollView.getInstance().loadFrame();
@@ -355,7 +355,7 @@ public class Player extends Observable {
 			diceThrowResults.add("First dice roll<br/>");
 			//this.defenderConqueredFlag = false;
 			while(Game.getInstance().getAttackerObj().ContinueAttacking()==true){
-				if(attackerDiceValues.size()>0) {
+				if (attackerDiceValues.size()>0) {
 					if (attackedDiceValues.size() > 0) {
 						System.out.println("Next Dice Roll");
 						runTimeMessageAttack = "Next Dice Roll<br/>";
@@ -405,7 +405,7 @@ public class Player extends Observable {
 		diceVal.add(6);
 
 		Collections.shuffle(diceVal);
-		for(int i=0;i<noOfDices;i++)
+		for (int i=0; i<noOfDices; i++)
 		{
 			Collections.shuffle(diceVal);
 			output.add(diceVal.get(i));
@@ -424,7 +424,7 @@ public class Player extends Observable {
 		String runTimeMessage = "";
 		String runTimeMessageAttackerDiceValue = ""+highValue[0];
 		String runTimeMessageAttackedDiceValue = ""+highValue[1];;
-		if(highValue[0]>highValue[1]){
+		if (highValue[0]>highValue[1]){
 			System.out.println("Attacker won a dice roll");
 			Game.getInstance().getAttackedObj().removeArmies(1);
 			runTimeMessage = "Attacker Dice Value: "+highValue[0]+"&nbsp; Defender Dice Value: "+highValue[1]+"<br/>Attacker won a dice roll, so, Defender lost an army<br/>" +
@@ -442,7 +442,7 @@ public class Player extends Observable {
                     +"Attacker: "+runTimeMessageAttackerDiceValue+"     Defender: "+runTimeMessageAttackedDiceValue
                     +"<br/><br/>"+runTimeMessage+"</html>");*/
 
-			if(Game.getInstance().getAttackedObj().getArmies()==0){
+			if (Game.getInstance().getAttackedObj().getArmies()==0){
 				attackFinished = true;
 				//System.out.println("Defender rolled all his Dices");
 				//diceThrowResults.add("Defender rolled all his Dices");
@@ -454,17 +454,17 @@ public class Player extends Observable {
 				diceThrowResults.add("Defender Territory conquered by attacker<br/>Attacker received a card ");
 				DiceRollView.getInstance().displayContent(diceThrowResults);
 				diceThrowResults.clear();
-				for(JButton btn:PhaseView.getInstance().getBtnTerritories().values()){
+				for (JButton btn:PhaseView.getInstance().getBtnTerritories().values()){
 					if(btn.getText()==Game.getInstance().getAttackedObj().getName()){
 						btn.setBackground(Game.getInstance().getCurrPlayer().getColor());
 					}
 				}
-				if(isThereAWinner()){
+				if (isThereAWinner()){
 					JOptionPane.showMessageDialog(null,Game.getInstance().getAttacker()+" has won the Game");
 
 				}
 				JOptionPane.showConfirmDialog(null,Game.getInstance().getCurrPlayerName()+" continue attacking other territories?");
-				if(JOptionPane.YES_OPTION==0) {
+				if (JOptionPane.YES_OPTION==0) {
 					//DiceRollView.getInstance().getDiceRollFrame().dispatchEvent(new WindowEvent(DiceRollView.getInstance().getDiceRollFrame().WIN));
 					//DiceRollView.getInstance().getDiceRollFrame().dispose();
 					//PhaseView.getInstance().loadMap(Game.getInstance().getGameMap());
@@ -487,7 +487,7 @@ public class Player extends Observable {
 			}
 
 		}
-		else{
+		else {
 			System.out.println("Defender Won a dice roll");
 			Game.getInstance().getAttackerObj().removeArmies(1);
 			runTimeMessage = "Attacker Dice Value: "+highValue[0]+"&nbsp; Defender Dice Value: "+highValue[1]+"<br/>Defender won a dice roll, so, Attacker lost an army<br/>" +
@@ -499,14 +499,14 @@ public class Player extends Observable {
 
 			System.out.println("Attacker lost a army");
 			System.out.println("Attacker armies left:"+Game.getInstance().getAttackerObj().getArmies());
-			if(Game.getInstance().getAttackerObj().getArmies()==0){
+			if (Game.getInstance().getAttackerObj().getArmies()==0){
 				System.out.println("Attacker lost all his armies, nothing conquered");
 				JOptionPane.showMessageDialog(null,"Attacker lost all his armies, attacker can now fortify:");
 				//runTimeMessage = "Attacker lost all his armies, attacker can now fortify..";
 				DiceRollView.getInstance().getContinueAttackBtn().setVisible(false);
 				attackFinished = true;
 			}
-			if(attackerDiceValues.size()==0){
+			if (attackerDiceValues.size()==0){
 				attackFinished = true;
 				System.out.println("Attacker rolled all his Dices");
 
@@ -530,8 +530,8 @@ public class Player extends Observable {
 		int attackerHighest = 0;
 		int attackedHighest = 0;
 		int index=-1;
-		for(int i=0;i<attackerDiceValues.size();i++){
-			if(attackerHighest<attackerDiceValues.get(i)) {
+		for (int i=0; i<attackerDiceValues.size(); i++){
+			if (attackerHighest<attackerDiceValues.get(i)) {
 				attackerHighest = attackerDiceValues.get(i);
 				index = i;
 			}
@@ -541,13 +541,13 @@ public class Player extends Observable {
 		// Remove the previous maximum value from the current attackerDiceValues array
 		// Also continue with the only "remaining dice values" of attackerDiceValues array
 		// if the attacker chooses to continue attacking
-		if(index!=-1)
+		if (index!=-1)
 			attackerDiceValues.remove(index);
 
 		index = -1;
 
-		for(int i=0;i<attackedDiceValues.size();i++){
-			if(attackedHighest<attackedDiceValues.get(i)) {
+		for (int i=0; i<attackedDiceValues.size(); i++){
+			if (attackedHighest<attackedDiceValues.get(i)) {
 				attackedHighest = attackedDiceValues.get(i);
 				index = i;
 
@@ -557,15 +557,15 @@ public class Player extends Observable {
 		// Remove the previous maximum value from the current attackedDiceValues array
 		// Also continue with the only "remaining dice values" of attackedDiceValues array
 		// if the defender is attacked again
-		if(index!=-1)
+		if (index!=-1)
 			attackedDiceValues.remove(index);
 
 		return new int[]{attackerHighest,attackedHighest};
 	}
 
 	public boolean isThereAWinner(){
-		for(Territory ter:Game.getInstance().getGameMap().getTerritories()){
-			if(ter.getOwner().getName() != Game.getInstance().getAttacker())
+		for (Territory ter:Game.getInstance().getGameMap().getTerritories()){
+			if (ter.getOwner().getName() != Game.getInstance().getAttacker())
 				return false;
 		}
 		return true;

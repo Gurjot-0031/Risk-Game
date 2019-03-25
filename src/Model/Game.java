@@ -15,7 +15,8 @@ public class Game extends Observable {
 	private int numPlayers;
 	Map gameMap;
 
-	public ArrayList<Player> getPlayers() {
+	public ArrayList<Player> getPlayers()
+	{
 		return players;
 	}
 
@@ -41,29 +42,35 @@ public class Game extends Observable {
 		this.attackedObj = attackedObj;
 	}
 
-	public Territory getAttackerObj() {
+	public Territory getAttackerObj()
+	{
 		return Game.getInstance().getGameMap().getTerritory(attacker);
 	}
 
-	public Territory getAttackedObj() {
+	public Territory getAttackedObj()
+	{
 		return Game.getInstance().getGameMap().getTerritory(attacked);
 	}
 
 	private Territory attackedObj = null;
-	public int getNumOfDiceAttacker() {
+	public int getNumOfDiceAttacker()
+	{
 		return numOfDiceAttacker;
 	}
 
-	public int getNumOfDiceAttacked() {
+	public int getNumOfDiceAttacked()
+	{
 		return numOfDiceAttacked;
 	}
 
 
-	public void setNumOfDiceAttacker(int numOfDiceAttacker) {
+	public void setNumOfDiceAttacker(int numOfDiceAttacker)
+	{
 		this.numOfDiceAttacker = numOfDiceAttacker;
 	}
 
-	public void setNumOfDiceAttacked(int numOfDiceAttacked) {
+	public void setNumOfDiceAttacked(int numOfDiceAttacked)
+	{
 		this.numOfDiceAttacked = numOfDiceAttacked;
 	}
 
@@ -87,7 +94,8 @@ public class Game extends Observable {
 	 * Gets the game map
 	 * @return The game map
 	 */
-	public Map getGameMap() {
+	public Map getGameMap()
+	{
 		return this.gameMap;
 	}
 
@@ -95,7 +103,8 @@ public class Game extends Observable {
 	 * Gets the attacker territory
 	 * @return The attacker territory
 	 */
-	public String getAttacker() {
+	public String getAttacker()
+	{
 		return this.attacker;
 	}
 
@@ -103,7 +112,8 @@ public class Game extends Observable {
 	 * Gets the defender territory
 	 * @return The defender territory
 	 */
-	public String getAttacked() {
+	public String getAttacked()
+	{
 		return this.attacked;
 	}
 
@@ -111,7 +121,8 @@ public class Game extends Observable {
 	 * Set the current attacker territory
 	 * @param attacker name of the attacking territory
 	 */
-	public void setAttacker(String attacker) {
+	public void setAttacker(String attacker)
+	{
 		this.attacker = attacker;
 	}
 
@@ -119,7 +130,8 @@ public class Game extends Observable {
 	 * Set the current attacked/defending territory
 	 * @param attacked name of the defending territory
 	 */
-	public void setAttacked(String attacked) {
+	public void setAttacked(String attacked)
+	{
 		this.attacked = attacked;
 	}
 	
@@ -127,7 +139,8 @@ public class Game extends Observable {
 	 * Sets the current turn
 	 * @param turn The input turn
 	 */
-	public void setTurn(int turn) {
+	public void setTurn(int turn)
+	{
 		this.gameTurn = turn;
 	}
 	
@@ -135,7 +148,8 @@ public class Game extends Observable {
 	 * Gets number of players
 	 * @return number of players
 	 */
-	public int getNumPlayers() {
+	public int getNumPlayers()
+	{
 		return this.numPlayers;
 	}
 	
@@ -144,7 +158,8 @@ public class Game extends Observable {
 	 * @param id The input player id
 	 * @return returns the Player
 	 */
-	public Player getPlayerById(int id) {
+	public Player getPlayerById(int id)
+	{
 		return this.players.get(id);
 	}
 	
@@ -152,7 +167,8 @@ public class Game extends Observable {
 	 * Gets the currrent player name
 	 * @return The current player name
 	 */
-	public String getCurrPlayerName() {
+	public String getCurrPlayerName()
+	{
 		return this.players.get(this.gameTurn).getName();
 	}
 
@@ -160,7 +176,8 @@ public class Game extends Observable {
 	 * Gets the entire object for current player
 	 * @return Player type object in every gameturn
 	 */
-	public Player getCurrPlayer() {
+	public Player getCurrPlayer()
+	{
 		return this.players.get(this.gameTurn);
 	}
 	
@@ -168,15 +185,17 @@ public class Game extends Observable {
 	 * Gets the current player armies
 	 * @return The current player armies
 	 */
-	public int getCurrPlayerArmies() {
+	public int getCurrPlayerArmies()
+	{
 		return this.players.get(this.gameTurn).getArmies();
 	}
-	
+
 	/**
 	 * Gets the current game phase
 	 * @return Gamephase
 	 */
-	public int getGamePhase() {
+	public int getGamePhase()
+	{
 		return this.gamePhase;
 	}
 	
@@ -184,8 +203,10 @@ public class Game extends Observable {
 	 * Gets the game phase description
 	 * @return The game phase description
 	 */
-	public String getGamePhaseDesc() {
-		switch (this.gamePhase) {
+	public String getGamePhaseDesc()
+	{
+		switch (this.gamePhase)
+		{
 		case 0:
 			return "Game Phase: Initialisation";
 		case 1:
@@ -205,7 +226,8 @@ public class Game extends Observable {
 	 * Gets game turn
 	 * @return The game turn
 	 */
-	public int getGameTurn() {
+	public int getGameTurn()
+	{
 		return this.gameTurn;
 	}
 
@@ -220,21 +242,21 @@ public class Game extends Observable {
 	 */
 	public void nextPhase() {
 		this.gamePhase += 1;
-		if(this.gamePhase == 5) {
+		if (this.gamePhase == 5) {
 			this.gamePhase = 2;
 		}
 		
-		if(this.gamePhase == 2) {		//Reinforcement phase
+		if (this.gamePhase == 2) {		//Reinforcement phase
 			
 			System.out.println("Setup Phase ends..");
 			System.out.println("Reinforcement Phase starts..");
-			for(int i = 0; i < this.numPlayers; i++) {
+			for (int i = 0; i < this.numPlayers; i++) {
 				int armies = this.calcReinforcementArmies(i);
 				this.players.get(i).setArmies(armies);
 							
 			}
 		}
-		else if(this.gamePhase == 3) {
+		else if (this.gamePhase == 3) {
 			System.out.println("Please select the attacker territory..");
 			
 		}
@@ -247,9 +269,9 @@ public class Game extends Observable {
 	 */
 	public void nextTurn() {
 		this.gameTurn += 1;
-		if(this.gameTurn == this.numPlayers) {
+		if (this.gameTurn == this.numPlayers) {
 			this.gameTurn = 0;
-			if(this.gamePhase == 4) {
+			if (this.gamePhase == 4) {
 				this.nextPhase();
 			}
 		}
@@ -262,7 +284,7 @@ public class Game extends Observable {
 	 * @return The singleton instance
 	 */
 	public static Game getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new Game();
 		}
 		return instance;
@@ -276,12 +298,12 @@ public class Game extends Observable {
 		Collections.shuffle(territories);
 		int ctr = 0;
 
-		for(Territory territory : territories) {
+		for (Territory territory : territories) {
 			territory.setOwner(this.players.get(ctr));
 			territory.addArmy(1);
 			this.players.get(ctr).removeArmy(1);
 			ctr++;
-			if(ctr == this.players.size()) {
+			if (ctr == this.players.size()) {
 				ctr = 0;
 			}
 		}
@@ -291,7 +313,8 @@ public class Game extends Observable {
 	 * Adds player to game
 	 * @param player The input player
 	 */
-	public void addPlayer(Player player) {
+	public void addPlayer(Player player)
+	{
 		this.players.add(player);
 	}
 	
@@ -300,8 +323,8 @@ public class Game extends Observable {
 	 * @param player Input player
 	 */
 	public void deletePlayer(String player) {
-		for(Player tmpPlayer : this.players) {
-			if(tmpPlayer.getName().equals(player)) {
+		for (Player tmpPlayer : this.players) {
+			if (tmpPlayer.getName().equals(player)) {
 				this.players.remove(tmpPlayer);
 			}
 		}
@@ -312,10 +335,10 @@ public class Game extends Observable {
 	 * @return Success or failure
 	 */
 	public boolean checkGameConfig() {
-		if(this.numPlayers < 2) {
+		if (this.numPlayers < 2) {
 			return false;
 		}
-		if(this.gameMap == null) {
+		if (this.gameMap == null) {
 			return false;
 		}
 		
@@ -326,7 +349,8 @@ public class Game extends Observable {
 	 * Sets number of players
 	 * @param numPlayers Input number of players
 	 */
-	public void setNumPlayers(int numPlayers) {
+	public void setNumPlayers(int numPlayers)
+	{
 		this.numPlayers = numPlayers;
 	}
 	
@@ -334,7 +358,8 @@ public class Game extends Observable {
 	 * Sets the game map
 	 * @param gameMap The game map
 	 */
-	public void setMap(Map gameMap) {
+	public void setMap(Map gameMap)
+	{
 		this.gameMap = gameMap;
 	}
 	
@@ -351,27 +376,27 @@ public class Game extends Observable {
 		int reinforcment = 0;
 		int numTerr = 0;
 
-		for(Territory territory : this.getGameMap().getTerritories()) {
-			if(territory.getOwner().getId() == id) {
+		for (Territory territory : this.getGameMap().getTerritories()) {
+			if (territory.getOwner().getId() == id) {
 				numTerr++;
 			}
 		}
 		
-		if((numTerr / 3) < 3) {
+		if ((numTerr / 3) < 3) {
 			reinforcment += 3;
 		}
 		else {
 			reinforcment += numTerr / 3;
-		}
+			}
 		
-		for(java.util.Map.Entry<String, Continent> entry : this.gameMap.continents.entrySet()) {
+		for (java.util.Map.Entry<String, Continent> entry : this.gameMap.continents.entrySet()) {
 			//Iterates through the list of continents, to check whether a continent has an owner or not.
-			if(entry.getValue().checkOwner(id) == true) {
+			if (entry.getValue().checkOwner(id) == true) {
 				try {
 					System.out.println("Player " + this.players.get(id).getName() + " owns the " + entry.getKey() + " and gains " +
 						entry.getValue().getReward() + " extra armies");
 				}
-				catch(Exception e) {
+				catch (Exception e) {
 					
 				}
 				reinforcment += entry.getValue().getReward();
@@ -380,7 +405,7 @@ public class Game extends Observable {
 		try {
 			System.out.println("Player " + this.players.get(id).getName() + " receives total of " + reinforcment + " reinforcements.");
 		}
-		catch(Exception e) {
+		catch (Exception e) {
 			
 		}
 		return reinforcment;

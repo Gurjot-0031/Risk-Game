@@ -28,7 +28,8 @@ public class MapEditorEvents implements IEvent {
 	 * 
 	 * @return Event file
 	 */
-	public File getEventFile() {
+	public File getEventFile()
+	{
 		return eventFile;
 	}
 
@@ -38,7 +39,8 @@ public class MapEditorEvents implements IEvent {
 	 * @param eventInfo
 	 *            The input event information
 	 */
-	public void setEventInfo(String eventInfo) {
+	public void setEventInfo(String eventInfo)
+	{
 		this.eventInfo = eventInfo;
 	}
 
@@ -47,7 +49,8 @@ public class MapEditorEvents implements IEvent {
 	 * 
 	 * @return String event information
 	 */
-	public String getEventInfo() {
+	public String getEventInfo()
+	{
 		return this.eventInfo;
 	}
 
@@ -57,7 +60,8 @@ public class MapEditorEvents implements IEvent {
 	 * @param eventData
 	 *            The input event data
 	 */
-	public void setEventData(String eventData) {
+	public void setEventData(String eventData)
+	{
 		this.eventData = eventData;
 	}
 

@@ -13,8 +13,7 @@ import View.MapEditorView;
  * @author Team38
  *
  */
-public class HomeController
-{
+public class HomeController {
 
 	HomeView objHomeView;
 	HomeMenu objHomeMenu;
@@ -24,8 +23,7 @@ public class HomeController
 	/**
 	 * This is the constructor
 	 */
-	public void initHomeWindow()
-	{
+	public void initHomeWindow() {
 		objHomeView = new HomeView(this);
 		objHomeView.initFrame();
 		initHomeMenu();
@@ -35,8 +33,7 @@ public class HomeController
 	/**
 	 * This function initializes the home window.
 	 */
-	private void initHomeMenu()
-	{
+	private void initHomeMenu() {
 		objHomeMenu = new HomeMenu(this);
 		objHomeMenu.initMenuBar();
 	}
@@ -47,19 +44,16 @@ public class HomeController
 	 * @param event
 	 *            The event received from view
 	 */
-	public void eventTriggered(IEvent event)
-	{
+	public void eventTriggered(IEvent event) {
 		String eventInfo = event.getEventInfo();
 		String[] eventData;
-		if (eventInfo.equals("MapEditor") == false)
-		{
+		if (eventInfo.equals("MapEditor") == false) {
 			eventData = event.getEventData().split(",");
 		}
 
 		System.out.println(eventInfo + "triggered at home controller");
 
-		switch (eventInfo)
-		{
+		switch (eventInfo) {
 		case "MapEditor":
 			MapEditorView.getInstance(new MapEditorController()).loadFrame();
 			break;

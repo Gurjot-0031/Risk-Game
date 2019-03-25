@@ -15,16 +15,14 @@ import Model.Territory;
  * @author Team38
  *
  */
-public class MapController
-{
+public class MapController {
 	private Map map;
 	private static MapController instance;
 
 	/**
 	 * This is the private constructor
 	 */
-	private MapController()
-	{
+	private MapController() {
 	}
 
 	/**
@@ -32,10 +30,8 @@ public class MapController
 	 * 
 	 * @return The singleton instance
 	 */
-	public static MapController getInstance()
-	{
-		if (instance == null)
-		{
+	public static MapController getInstance() {
+		if (instance == null) {
 			instance = new MapController();
 		}
 		return instance;
@@ -47,8 +43,7 @@ public class MapController
 	 * @param info
 	 *            Information received from view.
 	 */
-	public void createMapFile(String info)
-	{
+	public void createMapFile(String info) {
 		String[] infoA = info.split(",");
 		String author = infoA[0];
 		String path = infoA[1];
@@ -73,15 +68,12 @@ public class MapController
 	 *            The input map file
 	 * @return Success or Failure
 	 */
-	public boolean readMapFile(File mapFile)
-	{
-		try
-		{
+	public boolean readMapFile(File mapFile) {
+		try {
 			this.map = new Map(mapFile.getAbsolutePath());
 			this.map.readMapFile();
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception Handled. Map Load Failed");
 			return false;
@@ -94,13 +86,11 @@ public class MapController
 	 * 
 	 * @return Continent List
 	 */
-	public ArrayList<String> getContinentsList()
-	{
+	public ArrayList<String> getContinentsList() {
 		ArrayList<String> rt = new ArrayList<String>();
 		String[] continents = this.getContinentsArray();
 
-		for (int i = 0; i < continents.length; i++)
-		{
+		for (int i = 0; i < continents.length; i++) {
 			rt.add(continents[i]);
 		}
 
@@ -114,13 +104,11 @@ public class MapController
 	 *            The input continent
 	 * @return The territory list
 	 */
-	public ArrayList<String> getTerritoriesList(String continent)
-	{
+	public ArrayList<String> getTerritoriesList(String continent) {
 		ArrayList<String> rt = new ArrayList<String>();
 		String[] territories = this.getTerritoriesArray(continent);
 
-		for (int i = 0; i < territories.length; i++)
-		{
+		for (int i = 0; i < territories.length; i++) {
 			rt.add(territories[i]);
 		}
 
@@ -132,10 +120,8 @@ public class MapController
 	 * 
 	 * @return The continent array
 	 */
-	public String[] getContinentsArray()
-	{
-		if (this.map == null)
-		{
+	public String[] getContinentsArray() {
+		if (this.map == null) {
 			return null;
 		}
 		return this.map.getContinentsArray();
@@ -148,8 +134,7 @@ public class MapController
 	 *            The input continent
 	 * @return The territory array
 	 */
-	public String[] getTerritoriesArray(String selectedContinent)
-	{
+	public String[] getTerritoriesArray(String selectedContinent) {
 		return this.map.getTerritoriesArray(selectedContinent);
 	}
 
@@ -161,13 +146,10 @@ public class MapController
 	 * @param reward
 	 *            Continent reward
 	 */
-	public void addContinent(String name, int reward)
-	{
+	public void addContinent(String name, int reward) {
 		String continents[] = map.getContinentsArray();
-		for (int i = 0; i < continents.length; i++)
-		{
-			if (continents[i].equals(name) == true)
-			{
+		for (int i = 0; i < continents.length; i++) {
+			if (continents[i].equals(name) == true) {
 				System.out.println("Continent already exists");
 				return;
 			}

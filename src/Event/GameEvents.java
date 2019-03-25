@@ -17,7 +17,8 @@ public class GameEvents implements IEvent {
 	 * Gets the event information
 	 */
 	@Override
-	public String getEventInfo() {
+	public String getEventInfo()
+	{
 		return this.eventInfo;
 	}
 
@@ -25,7 +26,8 @@ public class GameEvents implements IEvent {
 	 * Gets the event data
 	 */
 	@Override
-	public String getEventData() {
+	public String getEventData()
+	{
 		return this.eventData;
 	}
 
@@ -35,7 +37,8 @@ public class GameEvents implements IEvent {
 	 * @param info
 	 *            Information received from view.
 	 */
-	public void setEventInfo(String info) {
+	public void setEventInfo(String info)
+	{
 		this.eventInfo = info;
 	}
 
