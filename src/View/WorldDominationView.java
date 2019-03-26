@@ -33,7 +33,7 @@ public class WorldDominationView implements Observer {
 	PieDataset dt;
 
 
-	public void initWorldDominationView() {
+    public void initWorldDominationView() {
 
 		worldDominationViewLabel.setBounds(1024, 0, 310, 300);
 		frameFromPhase = PhaseView.getInstance().getGameFrame();
@@ -43,10 +43,10 @@ public class WorldDominationView implements Observer {
 		worldDominationViewPanel.add(worldDominationViewLabel);
 		frameFromPhase.add(worldDominationViewPanel);
 
-		Game.getInstance().addObserver(this);
+        Game.getInstance().addObserver(this);
 
 
-	}
+    }
 
 	@Override
 	public void update(Observable observable, Object o) {
