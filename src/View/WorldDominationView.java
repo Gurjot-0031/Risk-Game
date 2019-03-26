@@ -32,7 +32,9 @@ public class WorldDominationView implements Observer {
 	JFrame frameFromPhase;
 	PieDataset dt;
 
-
+	/**
+	 * Show the World domination panel on the right side of the game screen
+	 */
     public void initWorldDominationView() {
 
 		worldDominationViewLabel.setBounds(1024, 0, 310, 300);
@@ -48,6 +50,11 @@ public class WorldDominationView implements Observer {
 
     }
 
+	/**
+	 * The update method corresponding to the observer pattern
+	 * @param observable object of Observable class
+	 * @param o object of Object class
+	 */
 	@Override
 	public void update(Observable observable, Object o) {
 		if (o instanceof Game || o instanceof GameController) {
@@ -123,6 +130,12 @@ public class WorldDominationView implements Observer {
 
 	}
 
+	/**
+	 * Creating a dataset for the pie chart
+	 * @param plname string array of names of the player
+	 * @param value	float array for the percentage value
+	 * @return
+	 */
 	public static PieDataset createDataset(String[] plname,Float[] value) {
 		DefaultPieDataset dataset = new DefaultPieDataset( );
 		for(int i =0; i< plname.length;i++){
@@ -136,6 +149,11 @@ public class WorldDominationView implements Observer {
 		return dataset;
 	}*/
 
+	/**
+	 * The method to create a pie chart using JFreechart
+	 * @param dataset object of PieDataset
+	 * @return
+	 */
 	public static JFreeChart createChart(PieDataset dataset ) {
 		JFreeChart chart = ChartFactory.createPieChart(
 				"Player Map Domination: Territorywise",   // chart title

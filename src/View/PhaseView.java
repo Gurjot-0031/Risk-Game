@@ -37,11 +37,18 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 	}
 
-
+	/**
+	 * get the updated button property of territories on the game screen
+	 * @return
+	 */
 	public HashMap<String, JButton> getBtnTerritories() {
 		return btnTerritories;
 	}
 
+	/**
+	 * set the button property of territories on the game screen
+	 * @param btnTerritories territory button
+	 */
 	public void setBtnTerritories(HashMap<String, JButton> btnTerritories) {
 		this.btnTerritories = btnTerritories;
 	}
@@ -65,6 +72,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 	boolean armiesChanged =false;
 	boolean phaseChanged =false;
 
+	/**
+	 * Get the frame in Game screen
+	 * @return
+	 */
     public JFrame getGameFrame() {
 
         return gameFrame;
