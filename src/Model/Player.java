@@ -47,29 +47,23 @@ public class Player extends Observable {
         this.armies = armies;
     }
 
-    public boolean isCardExchangePossible() {
-        if (hasArtilleryCard(this.cardList) && hasCalvaryCard(this.cardList) && hasInfantaryCard(this.cardList)) {
+    public Player() {
+
+    }
+
+    public boolean isCardExchangePossible(ArrayList<String> cards) {
+        if (hasArtilleryCard(cards) && hasCalvaryCard(cards) && hasInfantaryCard(cards)) {
 
             return true;
 
         } else
-            return hasThreeArtillery(this.cardList) || hasThreeCalvary(this.cardList) || hasThreeInfantry(this.cardList);
+            return hasThreeArtillery(cards) || hasThreeCalvary(cards) || hasThreeInfantry(cards);
     }
 
-    public boolean hasArtilleryCard(ArrayList<Card> card) {
+    public boolean hasArtilleryCard(ArrayList<String> card) {
 
-        for (Card o : card) {
-            if (o.getCardType().equalsIgnoreCase("ARTILLERY")) {
-                return true;
-            }
-
-        }
-        return false;
-    }
-    public boolean hasInfantaryCard(ArrayList<Card> card) {
-
-        for (Card o : card) {
-            if (o.getCardType().equalsIgnoreCase("INFANTRY")) {
+        for (String o : card) {
+            if (o.equalsIgnoreCase("ARTILLERY")) {
                 return true;
             }
 
@@ -77,46 +71,58 @@ public class Player extends Observable {
         return false;
     }
 
-    public boolean hasCalvaryCard(ArrayList<Card> card) {
+    public boolean hasInfantaryCard(ArrayList<String> card) {
 
-        for (Card o : card) {
-            if (o.getCardType().equalsIgnoreCase("CALVARY")) {
+        for (String o : card) {
+            if (o.equalsIgnoreCase("INFANTRY")) {
                 return true;
             }
 
         }
         return false;
     }
-    public boolean hasThreeArtillery(ArrayList<Card> card) {
+
+    public boolean hasCalvaryCard(ArrayList<String> card) {
+
+        for (String o : card) {
+            if (o.equalsIgnoreCase("CALVARY")) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public boolean hasThreeArtillery(ArrayList<String> card) {
 
         int count = 0;
-        for (Card o : card) {
+        for (String o : card) {
 
-            if (o.getCardType().equalsIgnoreCase("ARTILLERY")) {
+            if (o.equalsIgnoreCase("ARTILLERY")) {
                 count++;
             }
         }
         return count == 3;
     }
 
-    public boolean hasThreeCalvary(ArrayList<Card> card) {
+    public boolean hasThreeCalvary(ArrayList<String> card) {
 
         int count = 0;
-        for (Card o : card) {
+        for (String o : card) {
 
-            if (o.getCardType().equalsIgnoreCase("CALVARY")) {
+            if (o.equalsIgnoreCase("CALVARY")) {
                 count++;
             }
         }
         return count == 3;
     }
 
-    public boolean hasThreeInfantry(ArrayList<Card> card) {
+    public boolean hasThreeInfantry(ArrayList<String> card) {
 
         int count = 0;
-        for (Card o : card) {
+        for (String o : card) {
 
-            if (o.getCardType().equalsIgnoreCase("INFANTRY")) {
+            if (o.equalsIgnoreCase("INFANTRY")) {
                 count++;
             }
         }
@@ -406,8 +412,7 @@ public class Player extends Observable {
         diceVal.add(6);
 
         Collections.shuffle(diceVal);
-        for (int i=0; i<noOfDices; i++)
-        {
+        for (int i = 0; i < noOfDices; i++) {
             Collections.shuffle(diceVal);
             output.add(diceVal.get(i));
         }

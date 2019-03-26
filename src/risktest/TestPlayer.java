@@ -2,6 +2,7 @@ package risktest;
 
 import Model.Card;
 
+import Model.Player;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,14 +13,24 @@ import java.util.ArrayList;
 public class TestPlayer {
 
     ArrayList<String> cards = new ArrayList<>();
+    Player pObject = new Player();
     Card cardObject = new Card();
-
+    ArrayList<Integer> diceValue = new ArrayList<Integer>();
+    ArrayList<Integer> output = new ArrayList<Integer>();
 
     /**
      * Function called before each test case
      */
     @Before
     public void setUp() {
+
+
+        diceValue.add(6);
+        diceValue.add(5);
+        diceValue.add(4);
+        diceValue.add(3);
+        diceValue.add(2);
+        diceValue.add(1);
 
         cards.add("ARTILLERY");
         cards.add("ARTILLERY");
@@ -117,5 +128,30 @@ public class TestPlayer {
         assertEquals(count, 3);
     }
 
+    /**
+     * Testing method rollDice
+     */
+    @Test
+    public void testRollDice() {
+        int numberOfDie = 3;
+        assertEquals(numberOfDie, pObject.rollDice(numberOfDie).size());
+    }
+
+    /**
+     * Testing method isThereAWinner
+     */
+    @Test
+    public void testIsThereAWinner() {
+        assertFalse(pObject.isThereAWinner());
+    }
+
+    /**
+     * Testing method isCardExchangePossible
+     */
+    @Test
+    public void testIsCardExchangePossible() {
+
+        assertTrue(pObject.isCardExchangePossible(cards));
+    }
 
 }
