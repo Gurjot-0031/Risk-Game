@@ -40,7 +40,6 @@ public class DiceRollView implements Observer {
     }
 
 
-
     public JFrame getDiceRollFrame() {
         return diceRollFrame;
     }
@@ -123,15 +122,13 @@ public class DiceRollView implements Observer {
         diceRollFrame.add(dicePanel2);
         fortifyBtn.setVisible(true);
         //for(Con)
-        if(Game.getInstance().getAttackerObj().getArmies()>=2){
+        if (Game.getInstance().getAttackerObj().getArmies() >= 2) {
             continueAttackBtn.setVisible(true);
-        }
-        else{
+        } else {
             continueAttackBtn.setVisible(false);
-            JOptionPane.showMessageDialog(null,"<html>Attacker don't have sufficient armies to continue attack..<br/>Attacker can continue with fortification</html>");
+            JOptionPane.showMessageDialog(null, "<html>Attacker don't have sufficient armies to continue attack..<br/>Attacker can continue with fortification</html>");
 
         }
-
 
 
         diceRollBtn.addActionListener(new Action() {
@@ -214,12 +211,12 @@ public class DiceRollView implements Observer {
             public void actionPerformed(ActionEvent actionEvent) {
                 int attackerDiceLimit;
                 int defenderDiceLimit;
-                if(Game.getInstance().getAttackerObj().getArmies()<3)
+                if (Game.getInstance().getAttackerObj().getArmies() < 3)
                     attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
                 else
                     attackerDiceLimit = 3;
 
-                if(Game.getInstance().getAttackedObj().getArmies()<2)
+                if (Game.getInstance().getAttackedObj().getArmies() < 2)
                     defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
                 else
                     defenderDiceLimit = 2;
@@ -228,16 +225,14 @@ public class DiceRollView implements Observer {
                 Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
                         attackerDiceLimit)));
 
-                while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
-                {
-                    Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
+                while (Game.getInstance().getNumOfDiceAttacker() > 3 || Game.getInstance().getNumOfDiceAttacker() > Game.getInstance().getAttackerObj().getArmies()) {
+                    Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" + attackerDiceLimit)));
                 }
 
-                Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+                Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than" + defenderDiceLimit)));
 
-                while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
-                {
-                    Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+                while (Game.getInstance().getNumOfDiceAttacked() > 2 || Game.getInstance().getNumOfDiceAttacker() > Game.getInstance().getAttackerObj().getArmies()) {
+                    Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than" + defenderDiceLimit)));
                 }
 
                 diceRollBtn.setVisible(true);
@@ -292,27 +287,27 @@ public class DiceRollView implements Observer {
 
 
 
-    @Override
-    public void update(Observable observable, Object o) {
-        //if(o instanceof Player || o instanceof Game){
-        //  diceInfoLabel.setText("<html>Attacker:"+ Game.getInstance().getAttacker()+" Armies left: "+
-        //        Game.getInstance().getAttackerObj().getArmies()+"<br/>Attacked:"+Game.getInstance().getAttacked()
-        //      +" Armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/></html>");
-        //}
+        @Override
+        public void update (Observable observable, Object o){
+            //if(o instanceof Player || o instanceof Game){
+            //  diceInfoLabel.setText("<html>Attacker:"+ Game.getInstance().getAttacker()+" Armies left: "+
+            //        Game.getInstance().getAttackerObj().getArmies()+"<br/>Attacked:"+Game.getInstance().getAttacked()
+            //      +" Armies left: "+Game.getInstance().getAttackedObj().getArmies()+"<br/></html>");
+            //}
 
-    }
-
-    public void displayContent(ArrayList<String> runTimeMessagesFromAttack){
-
-        String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttacker()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                "Defender: "+Game.getInstance().getAttacked()+"</h2></head><body>";
-
-        for(String s:runTimeMessagesFromAttack){
-            uiOutput+=s;
         }
-        diceInfoLabel.setVisible(true);
-        diceInfoLabel.setText(uiOutput+"</body></html>");
+
+        public void displayContent (ArrayList < String > runTimeMessagesFromAttack) {
+
+            String uiOutput = "<html><head><h2>Attacker: " + Game.getInstance().getAttacker() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                    "Defender: " + Game.getInstance().getAttacked() + "</h2></head><body>";
+
+            for (String s : runTimeMessagesFromAttack) {
+                uiOutput += s;
+            }
+            diceInfoLabel.setVisible(true);
+            diceInfoLabel.setText(uiOutput + "</body></html>");
 
 
-    }
+        }
 }

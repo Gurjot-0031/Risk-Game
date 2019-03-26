@@ -52,6 +52,15 @@ public class PhaseView extends MouseAdapter implements Observer {
 	String gamePhase ;
 	String curPlayer = Game.getInstance().getCurrPlayerName();
 	int curPArmies = Game.getInstance().getCurrPlayerArmies();
+
+	public boolean isArmiesChanged() {
+		return armiesChanged;
+	}
+
+	public void setArmiesChanged(boolean armiesChanged) {
+		this.armiesChanged = armiesChanged;
+	}
+
 	//int curPArmies2 ;
 	boolean armiesChanged =false;
 	boolean phaseChanged =false;
@@ -76,6 +85,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 				gamePhase = obj.getGamePhaseDesc();
 			}
 			curPlayer = obj.getCurrPlayerName();
+			//String temp = curPlayer;
 			//curPArmies = obj.getCurrPlayerArmies();
 
 		}
@@ -83,8 +93,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 		else if(o instanceof GameController){
 			if(curPArmies != Game.getInstance().getCurrPlayerArmies())
 				armiesChanged =true;
-			else
-				armiesChanged = false;
+			/*else
+				armiesChanged = false;*/
 			curPArmies = Game.getInstance().getCurrPlayerArmies();
 			//curPlayer = Game.getInstance().getCurrPlayerName();
 			//gamePhase = Game.getInstance().getGamePhaseDesc();
@@ -195,8 +205,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 		}
 
 		public void mouseEntered(java.awt.event.MouseEvent evt) {
-			String text = "<html><center><head><h2>PHASE VIEW</h2></head><center>Territory: " + territory.getName() + "<br/>Owned By: " +
-					territory.getOwner().getName()+"     Continent: "+territory.getParentContinent().getName()+"<br/>Armies: " + territory.getArmies() + "<br/></html>";
+			String text = "<html><center><head><h2>PHASE VIEW</h2></head><center>Territory: &nbsp;&nbsp;&nbsp;" + territory.getName() + "<br/>" +
+					"Owned By: &nbsp;&nbsp;&nbsp;" +territory.getOwner().getName()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continent: "+ territory.getParentContinent().getName()+"<br/>"+
+					"Adjacents: &nbsp;&nbsp;&nbsp;"+territory.getAdjacents()+"<br/>"+
+					"Armies: &nbsp;&nbsp;&nbsp;" +territory.getArmies() + "<br/></html>";
 			infoLog.setText(text);
 		}
 
@@ -351,16 +363,18 @@ public class PhaseView extends MouseAdapter implements Observer {
 			//if(armiesChanged==true){
 			switch (gamePhase) {
 				case "Game Phase: Setup":
+					String setplayer = Game.getInstance().getGameMap().getTerritory(territory.getName()).getOwner().getName();
 					if (armiesChanged == true) {
 						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>Game Phase : Setup<br/>"
 								+ "1 army got deployed on " + this.territory.getName() + "</html>");
 
-					} else
+					}
+					else
 						infoLog.setText("<html><center><b>PHASE VIEW<b><center><br/><br/>No armies gets deployed as this territory does not belong to " + curPlayer + "</html>");
 					break;
 				case "Game Phase: Reinforcement":
 
-					if (armiesChanged == true) {
+					if (armiesChanged == true && curPlayer == Game.getInstance().getGameMap().getTerritory(territory.getName()).getOwner().getName() ) {
 						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Reinforcement<br/>"
 								+ "1 reinforcement deployed on " + this.territory.getName() + "</html>");
 					} else

@@ -136,8 +136,8 @@ public class GameController extends Observable
 
 			ArrayList<Color> pColors = new ArrayList<Color>();
 			pColors.add(new Color(255,0,0));
-			pColors.add(new Color(0,255,0));
 			pColors.add(new Color(0,0,255));
+			pColors.add(new Color(0,255,0));
 			pColors.add(new Color(255,255,0));
 			pColors.add(new Color(255,0,255));
 			pColors.add(new Color(0,255,255));
@@ -191,6 +191,7 @@ public class GameController extends Observable
 					if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true)
 					{
 						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
+						//PhaseView.getInstance().setArmiesChanged(true);
 						setChanged();
 						notifyObservers(this);
 					}
