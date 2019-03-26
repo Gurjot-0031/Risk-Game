@@ -17,7 +17,7 @@ import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
-import com.sun.org.apache.bcel.internal.generic.INEG;
+//import com.sun.org.apache.bcel.internal.generic.INEG;
 
 import static java.lang.Thread.sleep;
 
@@ -81,10 +81,7 @@ public class PhaseView extends MouseAdapter implements Observer {
         }
 
         else if (o instanceof GameController){
-            if (curPArmies != Game.getInstance().getCurrPlayerArmies())
-                armiesChanged =true;
-            else
-                armiesChanged = false;
+            armiesChanged = curPArmies != Game.getInstance().getCurrPlayerArmies();
             curPArmies = Game.getInstance().getCurrPlayerArmies();
             //curPlayer = Game.getInstance().getCurrPlayerName();
             //gamePhase = Game.getInstance().getGamePhaseDesc();

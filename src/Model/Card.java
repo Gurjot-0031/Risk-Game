@@ -17,7 +17,8 @@ public class Card extends Observable implements Serializable {
     private String cardType;
 
     public Card() {
-        this.setCardType();
+
+
     }
 
     public String getCardType() {

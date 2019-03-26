@@ -26,6 +26,7 @@ public class Player extends Observable {
     private ArrayList<Card> cardList = new ArrayList<>();
 
     public ArrayList<Card> getCardList() {
+
         return this.cardList;
     }
 
@@ -423,7 +424,7 @@ public class Player extends Observable {
         int[] highValue = getMax();
         String runTimeMessage = "";
         String runTimeMessageAttackerDiceValue = ""+highValue[0];
-        String runTimeMessageAttackedDiceValue = ""+highValue[1];;
+        String runTimeMessageAttackedDiceValue = "" + highValue[1];
         if (highValue[0]>highValue[1]){
             System.out.println("Attacker won a dice roll");
             Game.getInstance().getAttackedObj().removeArmies(1);

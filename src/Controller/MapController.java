@@ -23,6 +23,7 @@ public class MapController {
      * This is the private constructor
      */
     private MapController() {
+
     }
 
     /**
@@ -147,7 +148,7 @@ public class MapController {
      *            Continent reward
      */
     public void addContinent(String name, int reward) {
-        String continents[] = map.getContinentsArray();
+        String[] continents = map.getContinentsArray();
         for (int i = 0; i < continents.length; i++) {
             if (continents[i].equals(name) == true) {
                 System.out.println("Continent already exists");

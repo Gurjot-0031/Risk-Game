@@ -13,8 +13,8 @@ public class Continent {
     String name;
     int reward;
 
-    public HashMap<String, Territory> getTerritories()
-    {
+    public HashMap<String, Territory> getTerritories() {
+
         return territories;
     }
 
@@ -39,9 +39,19 @@ public class Continent {
      *
      * @return Continent name
      */
-    public String getName()
-    {
+    public String getName() {
+
         return this.name;
+    }
+
+    /**
+     * Gets the continent reward
+     *
+     * @return Continent reward
+     */
+    public int getReward() {
+
+        return this.reward;
     }
 
     /**
@@ -50,19 +60,9 @@ public class Continent {
      * @param reward
      *            The input reward
      */
-    public void setReward(int reward)
-    {
-        this.reward = reward;
-    }
+    public void setReward(int reward) {
 
-    /**
-     * Gets the continent reward
-     *
-     * @return Continent reward
-     */
-    public int getReward()
-    {
-        return this.reward;
+        this.reward = reward;
     }
 
     /**
@@ -70,8 +70,8 @@ public class Continent {
      *
      * @return Number of territories
      */
-    public int getNumTerritories()
-    {
+    public int getNumTerritories() {
+
         return territories.size();
     }
 
@@ -81,8 +81,8 @@ public class Continent {
      * @param territory
      *            The new territory
      */
-    public void addTerritory(Territory territory)
-    {
+    public void addTerritory(Territory territory) {
+
         this.territories.put(territory.getName(), territory);
     }
 
@@ -141,8 +141,7 @@ public class Continent {
     public boolean deleteTerritory(String territory) {
         if (this.territories.containsKey(territory)) {
             this.territories.remove(territory);
-        } else
-        {
+        } else {
             return false;
         }
         return true;

@@ -15,15 +15,16 @@ public class Game extends Observable {
     private int numPlayers;
     Map gameMap;
 
-    public ArrayList<Player> getPlayers()
-    {
+    public ArrayList<Player> getPlayers() {
+
         return players;
     }
 
     ArrayList<Player> players;
 
-    public void setGamePhase(int gamePhase) {
-        this.gamePhase = gamePhase;
+    public Territory getAttackerObj() {
+
+        return Game.getInstance().getGameMap().getTerritory(attacker);
     }
 
     // 0 = Init, 1 = Setup, 2 = Reinforcement, 3 = Attack, 4 = Fortification
@@ -33,45 +34,51 @@ public class Game extends Observable {
     private String attacked;
     private Territory attackerObj;
 
-
     public void setAttackerObj(Territory attackerObj) {
+
         this.attackerObj = attackerObj;
     }
 
-    public void setAttackedObj(Territory attackedObj) {
-        this.attackedObj = attackedObj;
-    }
+    public Territory getAttackedObj() {
 
-    public Territory getAttackerObj()
-    {
-        return Game.getInstance().getGameMap().getTerritory(attacker);
-    }
-
-    public Territory getAttackedObj()
-    {
         return Game.getInstance().getGameMap().getTerritory(attacked);
     }
 
-    private Territory attackedObj = null;
-    public int getNumOfDiceAttacker()
-    {
+    public void setAttackedObj(Territory attackedObj) {
+
+        this.attackedObj = attackedObj;
+    }
+
+    public int getNumOfDiceAttacker() {
+
         return numOfDiceAttacker;
     }
 
-    public int getNumOfDiceAttacked()
-    {
-        return numOfDiceAttacked;
-    }
+    private Territory attackedObj = null;
 
+    public void setNumOfDiceAttacker(int numOfDiceAttacker) {
 
-    public void setNumOfDiceAttacker(int numOfDiceAttacker)
-    {
         this.numOfDiceAttacker = numOfDiceAttacker;
     }
 
-    public void setNumOfDiceAttacked(int numOfDiceAttacked)
-    {
+    public int getNumOfDiceAttacked() {
+
+        return numOfDiceAttacked;
+    }
+
+    public void setNumOfDiceAttacked(int numOfDiceAttacked) {
+
         this.numOfDiceAttacked = numOfDiceAttacked;
+    }
+
+    /**
+     * Gets the game map
+     *
+     * @return The game map
+     */
+    public Map getGameMap() {
+
+        return this.gameMap;
     }
 
     private int numOfDiceAttacker =-1;
@@ -89,49 +96,39 @@ public class Game extends Observable {
         gameTurn = 0;
     }
 
-
-    /**
-     * Gets the game map
-     * @return The game map
-     */
-    public Map getGameMap()
-    {
-        return this.gameMap;
-    }
-
     /**
      * Gets the attacker territory
      * @return The attacker territory
      */
-    public String getAttacker()
-    {
-        return this.attacker;
-    }
+    public String getAttacker() {
 
-    /**
-     * Gets the defender territory
-     * @return The defender territory
-     */
-    public String getAttacked()
-    {
-        return this.attacked;
+        return this.attacker;
     }
 
     /**
      * Set the current attacker territory
      * @param attacker name of the attacking territory
      */
-    public void setAttacker(String attacker)
-    {
+    public void setAttacker(String attacker) {
+
         this.attacker = attacker;
+    }
+
+    /**
+     * Gets the defender territory
+     *
+     * @return The defender territory
+     */
+    public String getAttacked() {
+
+        return this.attacked;
     }
 
     /**
      * Set the current attacked/defending territory
      * @param attacked name of the defending territory
      */
-    public void setAttacked(String attacked)
-    {
+    public void setAttacked(String attacked) {
         this.attacked = attacked;
     }
 
@@ -139,8 +136,7 @@ public class Game extends Observable {
      * Sets the current turn
      * @param turn The input turn
      */
-    public void setTurn(int turn)
-    {
+    public void setTurn(int turn) {
         this.gameTurn = turn;
     }
 
@@ -148,8 +144,7 @@ public class Game extends Observable {
      * Gets number of players
      * @return number of players
      */
-    public int getNumPlayers()
-    {
+    public int getNumPlayers() {
         return this.numPlayers;
     }
 
@@ -158,8 +153,7 @@ public class Game extends Observable {
      * @param id The input player id
      * @return returns the Player
      */
-    public Player getPlayerById(int id)
-    {
+    public Player getPlayerById(int id) {
         return this.players.get(id);
     }
 
@@ -167,8 +161,7 @@ public class Game extends Observable {
      * Gets the currrent player name
      * @return The current player name
      */
-    public String getCurrPlayerName()
-    {
+    public String getCurrPlayerName() {
         return this.players.get(this.gameTurn).getName();
     }
 
@@ -176,8 +169,8 @@ public class Game extends Observable {
      * Gets the entire object for current player
      * @return Player type object in every gameturn
      */
-    public Player getCurrPlayer()
-    {
+    public Player getCurrPlayer() {
+
         return this.players.get(this.gameTurn);
     }
 
@@ -185,8 +178,8 @@ public class Game extends Observable {
      * Gets the current player armies
      * @return The current player armies
      */
-    public int getCurrPlayerArmies()
-    {
+    public int getCurrPlayerArmies() {
+
         return this.players.get(this.gameTurn).getArmies();
     }
 
@@ -194,19 +187,22 @@ public class Game extends Observable {
      * Gets the current game phase
      * @return Gamephase
      */
-    public int getGamePhase()
-    {
+    public int getGamePhase() {
+
         return this.gamePhase;
+    }
+
+    public void setGamePhase(int gamePhase) {
+
+        this.gamePhase = gamePhase;
     }
 
     /**
      * Gets the game phase description
      * @return The game phase description
      */
-    public String getGamePhaseDesc()
-    {
-        switch (this.gamePhase)
-        {
+    public String getGamePhaseDesc() {
+        switch (this.gamePhase) {
             case 0:
                 return "Game Phase: Initialisation";
             case 1:
@@ -226,8 +222,8 @@ public class Game extends Observable {
      * Gets game turn
      * @return The game turn
      */
-    public int getGameTurn()
-    {
+    public int getGameTurn() {
+
         return this.gameTurn;
     }
 
@@ -313,8 +309,8 @@ public class Game extends Observable {
      * Adds player to game
      * @param player The input player
      */
-    public void addPlayer(Player player)
-    {
+    public void addPlayer(Player player) {
+
         this.players.add(player);
     }
 
@@ -338,11 +334,7 @@ public class Game extends Observable {
         if (this.numPlayers < 2) {
             return false;
         }
-        if (this.gameMap == null) {
-            return false;
-        }
-
-        return true;
+        return this.gameMap != null;
     }
 
     /**
