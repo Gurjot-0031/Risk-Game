@@ -1,0 +1,21 @@
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
+
+[Continents]
+North America=2
+South America=2
+
+[Territories]
+Alaska,70,126,North America,Alberta,Kamchatka
+Northwest Territory,80,24,South America,Alberta,Kamchatka
+Kamchatka,56,34,North America,Northwest Territory,Alberta,Alaska
+Alberta,76,54,South America,Kamchatka,Northwest Territory,Alaska
+
+
+
+
+
