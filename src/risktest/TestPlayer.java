@@ -22,7 +22,7 @@ public class TestPlayer {
      * Function called before each test case
      */
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
 
 
         diceValue.add(6);
@@ -49,10 +49,10 @@ public class TestPlayer {
      */
     @Test
     public void testHasArtilleryCard() {
-
+        System.out.println("Test Case testHasArtilleryCard");
         for (String c : cards) {
             if (c.equalsIgnoreCase(cards.get(0))) {
-                assertTrue(c.equalsIgnoreCase(cards.get(0)));
+                assertFalse(c.equalsIgnoreCase(cards.get(3)));
             }
         }
     }
@@ -62,7 +62,7 @@ public class TestPlayer {
      */
     @Test
     public void testHasCalvaryCard() {
-
+        System.out.println("Test Case testHasCalvaryCard");
         for (String c : cards) {
             if (c.equalsIgnoreCase(cards.get(2))) {
                 assertTrue(c.equalsIgnoreCase(cards.get(2)));
@@ -75,7 +75,7 @@ public class TestPlayer {
      */
     @Test
     public void testHasInfantryCard() {
-
+        System.out.println("Test Case testHasInfantryCard");
         for (String c : cards) {
             if (c.equalsIgnoreCase(cards.get(1))) {
                 assertTrue(c.equalsIgnoreCase(cards.get(1)));
@@ -88,6 +88,7 @@ public class TestPlayer {
      */
     @Test
     public void testHasThreeInfantryCard() {
+        System.out.println("Test Case testHasThreeInfantryCard");
         int count = 0;
         for (int i = 0; i < cards.size(); i++) {
 
@@ -103,6 +104,7 @@ public class TestPlayer {
      */
     @Test
     public void testHasThreeCalvaryCard() {
+        System.out.println("Test Case testHasThreeCalvaryCard");
         int count = 0;
         for (int i = 0; i < cards.size(); i++) {
 
@@ -118,6 +120,7 @@ public class TestPlayer {
      */
     @Test
     public void testHasThreeArtilleryCard() {
+        System.out.println("Test Case testHasThreeArtilleryCard");
         int count = 0;
         for (int i = 0; i < cards.size(); i++) {
 
@@ -133,6 +136,7 @@ public class TestPlayer {
      */
     @Test
     public void testRollDice() {
+        System.out.println("Test Case testRollDice");
         int numberOfDie = 3;
         assertEquals(numberOfDie, pObject.rollDice(numberOfDie).size());
     }
@@ -142,6 +146,7 @@ public class TestPlayer {
      */
     @Test
     public void testIsThereAWinner() {
+        System.out.println("testIsThereAWinner");
         assertFalse(pObject.isThereAWinner());
     }
 
@@ -150,7 +155,7 @@ public class TestPlayer {
      */
     @Test
     public void testIsCardExchangePossible() {
-
+        System.out.println("Test Case testIsCardExchangePossible");
         assertTrue(pObject.isCardExchangePossible(cards));
     }
 

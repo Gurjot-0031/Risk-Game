@@ -73,10 +73,9 @@ public class WorldDominationView implements Observer {
 					}
 				}
 				percentage = (float) 100.0 * tempTerritoryCount / Game.getInstance().getGameMap().getTerritories().size();
-				/*label = label + Game.getInstance().getPlayerById(i).getName() + " owns " + percentage
+				label = label + Game.getInstance().getPlayerById(i).getName() + " owns " + percentage
 						+ " % territories and owns " + PhaseView.getInstance().curPArmies + "<br/>";
 				worldDominationViewLabel.setText(label);
-*/
 				//dt = createDataset(Game.getInstance().getPlayerById(i).getName(),percentage);
 
 				//createDataset(Game.getInstance().getPlayerById(i).getName(),percentage);
@@ -128,6 +127,7 @@ public class WorldDominationView implements Observer {
 
 		}
 
+
 	}
 
 	/**
@@ -170,5 +170,4 @@ public class WorldDominationView implements Observer {
 		}
 		return instance;
 	}
-
 }

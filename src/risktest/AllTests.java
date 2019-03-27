@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 
         mapValidation.class,
-        TestPlayer.class
+        TestPlayer.class,
+        checkStartupPhase.class
 })
 public class AllTests {
 

@@ -103,8 +103,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 		else if(o instanceof GameController){
 			if(curPArmies != Game.getInstance().getCurrPlayerArmies())
 				armiesChanged =true;
-			else
-				armiesChanged = false;
+			/*else
+				armiesChanged = false;*/
 			curPArmies = Game.getInstance().getCurrPlayerArmies();
 			//curPlayer = Game.getInstance().getCurrPlayerName();
 			//gamePhase = Game.getInstance().getGamePhaseDesc();
