@@ -34,7 +34,8 @@ public class Card extends Observable implements Serializable {
     }
 
     public Card() {
-        this.setCardType();
+
+
     }
 
     public String getCardType() {

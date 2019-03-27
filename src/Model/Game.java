@@ -26,6 +26,9 @@ public class Game extends Observable {
 
 	private int prevPhase=1;
 	Map gameMap;
+    private static Game instance;
+    private int numPlayers;
+    Map gameMap;
 
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -236,7 +239,7 @@ public class Game extends Observable {
 			this.setPrevPhase(5);
 			this.gamePhase = 2;
 		}
-		
+
 		if(this.gamePhase == 2) {		//Reinforcement phase
 			this.setPrevPhase(1);
 			System.out.println("Setup Phase ends..");
@@ -244,14 +247,14 @@ public class Game extends Observable {
 			for(int i = 0; i < this.numPlayers; i++) {
 				int armies = this.calcReinforcementArmies(i);
 				this.players.get(i).setArmies(armies);
-							
+
 			}
 		}
 		else if(this.gamePhase == 3) {
 			PhaseView.getInstance().getResetAttackerBtn().setVisible(true);
 			this.setPrevPhase(2);
 			System.out.println("Please select the attacker territory..");
-			
+
 		}
 		else if(this.gamePhase == 4) {
 			PhaseView.getInstance().getResetAttackerBtn().setVisible(false);

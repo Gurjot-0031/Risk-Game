@@ -26,9 +26,10 @@ public class Player extends Observable {
 
 	private ArrayList<Card> cardList = new ArrayList<>();
 
-	public ArrayList<Card> getCardList() {
-		return this.cardList;
-	}
+    public ArrayList<Card> getCardList() {
+
+        return this.cardList;
+    }
 
 	public static ArrayList<Integer> attackerDiceValues;
 	public static ArrayList<Integer> attackedDiceValues;

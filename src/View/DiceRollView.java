@@ -23,33 +23,61 @@ public class DiceRollView implements Observer {
     }
 
     private JButton fortifyBtn = new JButton("Fortify");
+    /**
+     * Get the button for dice roll
+     * @return
+     */
     public JButton getDiceRollBtn() {
         return diceRollBtn;
     }
 
+    /**
+     * Creating the dice roll button
+     */
     private JButton diceRollBtn = new JButton("Roll Dices");
 
+    /**
+     * Get the button for continuing attack
+     * @return
+     */
     public JButton getContinueAttackBtn() {
         return continueAttackBtn;
     }
 
+    /**
+     * Creating the continue attack button
+     */
     private JButton continueAttackBtn = new JButton("Continue Attack?");
     String fromPhaseViewActionListener;
 
+    /**
+     * getter for phase view actions
+     * @return
+     */
     public String getFromPhaseViewActionListener() {
         return fromPhaseViewActionListener;
     }
 
+    /**
+     * setter for phaseview actions
+     * @param fromPhaseViewActionListener
+     */
     public void setFromPhaseViewActionListener(String fromPhaseViewActionListener) {
         this.fromPhaseViewActionListener = fromPhaseViewActionListener;
     }
 
-
-
+    /**
+     * get the dice roll frame
+     * @return
+     */
     public JFrame getDiceRollFrame() {
         return diceRollFrame;
     }
 
+    /**
+     * get the dice info label
+     * @return
+     */
     public JLabel getDiceInfoLabel() {
         return diceInfoLabel;
     }
@@ -83,6 +111,9 @@ public class DiceRollView implements Observer {
         //Game.getInstance().attackerObj.addObserver(this);
     }
 
+    /**
+     * intialize the dice roll frame and its contents
+     */
     public void initDiceRollFrame() {
         diceRollFrame = new JFrame("Dice Roll");
         diceRollFrame.setSize(800, 600);
@@ -123,7 +154,7 @@ public class DiceRollView implements Observer {
         diceRollFrame.add(dicePanel2);
 
         //Fortrification
-
+        JButton fortifyBtn = new JButton("Fortify");
         fortifyBtn.setBounds(420, 20, 20, 30);
 
         dicePanel2.add(fortifyBtn);
@@ -173,6 +204,10 @@ public class DiceRollView implements Observer {
 
             }
 
+            /**
+             * Actions to be performed on click of dice roll button
+             * @param actionEvent object of action event
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 diceRollBtn.setVisible(false);
@@ -218,6 +253,10 @@ public class DiceRollView implements Observer {
 
             }
 
+            /**
+             * Actions to be performed on click of continue attack button
+             * @param actionEvent object of action event
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 int attackerDiceLimit;
@@ -289,6 +328,10 @@ public class DiceRollView implements Observer {
 
             }
 
+            /**
+             * Actions to be performed on click of fortify button on dice roll view
+             * @param actionEvent object of action event
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                     diceRollFrame.setVisible(false);
@@ -310,7 +353,11 @@ public class DiceRollView implements Observer {
 
     }
 
-    public void displayContent(ArrayList<String> runTimeMessagesFromAttack){
+    /**
+     * Display content for the results after dice roll
+     * @param runTimeMessagesFromAttack arraylist of messages due to attack execution
+     */
+    public void displayContent (ArrayList < String > runTimeMessagesFromAttack) {
 
         String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttacker()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "Defender: "+Game.getInstance().getAttacked()+"</h2></head><body>";
