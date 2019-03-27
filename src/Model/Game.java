@@ -1,5 +1,7 @@
 package Model;
 
+import View.PhaseView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observable;
@@ -13,6 +15,16 @@ import java.util.Observable;
 public class Game extends Observable {
 	private static Game instance;
 	private int numPlayers;
+
+	public void setPrevPhase(int prevPhase) {
+		this.prevPhase = prevPhase;
+	}
+
+	public int getPrevPhase() {
+		return prevPhase;
+	}
+
+	private int prevPhase=1;
 	Map gameMap;
 
 	public ArrayList<Player> getPlayers() {
@@ -221,11 +233,12 @@ public class Game extends Observable {
 	public void nextPhase() {
 		this.gamePhase += 1;
 		if(this.gamePhase == 5) {
+			this.setPrevPhase(5);
 			this.gamePhase = 2;
 		}
 		
 		if(this.gamePhase == 2) {		//Reinforcement phase
-			
+			this.setPrevPhase(1);
 			System.out.println("Setup Phase ends..");
 			System.out.println("Reinforcement Phase starts..");
 			for(int i = 0; i < this.numPlayers; i++) {
@@ -235,8 +248,13 @@ public class Game extends Observable {
 			}
 		}
 		else if(this.gamePhase == 3) {
+			PhaseView.getInstance().getResetAttackerBtn().setVisible(true);
+			this.setPrevPhase(2);
 			System.out.println("Please select the attacker territory..");
 			
+		}
+		else if(this.gamePhase == 4) {
+			PhaseView.getInstance().getResetAttackerBtn().setVisible(false);
 		}
 		setChanged();
 		notifyObservers(this);

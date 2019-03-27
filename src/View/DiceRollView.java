@@ -18,6 +18,11 @@ public class DiceRollView implements Observer {
 
     private static DiceRollView instance;
 
+    public JButton getFortifyBtn() {
+        return fortifyBtn;
+    }
+
+    private JButton fortifyBtn = new JButton("Fortify");
     public JButton getDiceRollBtn() {
         return diceRollBtn;
     }
@@ -70,6 +75,9 @@ public class DiceRollView implements Observer {
         if (diceRollFrame == null) {
             initDiceRollFrame();
         }
+        diceInfoLabel.setVisible(true);
+        diceRollBtn.setVisible(true);
+        continueAttackBtn.setVisible(true);
         diceRollFrame.setVisible(true);
         Game.getInstance().addObserver(this);
         //Game.getInstance().attackerObj.addObserver(this);
@@ -115,7 +123,7 @@ public class DiceRollView implements Observer {
         diceRollFrame.add(dicePanel2);
 
         //Fortrification
-        JButton fortifyBtn = new JButton("Fortify");
+
         fortifyBtn.setBounds(420, 20, 20, 30);
 
         dicePanel2.add(fortifyBtn);

@@ -13,6 +13,7 @@ import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
+import View.CardExchangeView;
 import View.DiceRollView;
 import View.PhaseView;
 import View.WorldDominationView;
@@ -118,10 +119,10 @@ public class GameController extends Observable
 			switch (Game.getInstance().getNumPlayers())
 			{
 				case 2:
-					initArmies = 8;
+					initArmies = 40;
 					break;
 				case 3:
-					initArmies = 10;
+					initArmies = 35;
 					break;
 				case 4:
 					initArmies = 30;
@@ -149,6 +150,7 @@ public class GameController extends Observable
 				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
 			}
 			Game.getInstance().assignTerritoryToPlayers();
+			//Game.getInstance().getpla
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
 			WorldDominationView.getInstance().initWorldDominationView();
@@ -221,11 +223,16 @@ public class GameController extends Observable
 				}
 
 			case 2:			//Reinforcement phase
-				if (Game.getInstance().getGameTurn() ==
+                if(Game.getInstance().getPrevPhase()!=1 && Game.getInstance().getCurrPlayer().getArmies()==0) {
+                    CardExchangeView.getInstance().loadCardExchangeView();
+
+                }
+                else if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
 				{
 					return Game.getInstance().getCurrPlayer().reinforce(info);
 				}
+
 				break;
 
 			case 3: //Attack Phase...
@@ -278,13 +285,14 @@ public class GameController extends Observable
 				break;
 			case "Attack Phase:attacked territory selected":
 				//this.gameLoop(event.getEventData().split(","));
-				DiceRollView.getInstance().loadFrame();
+				if(Game.getInstance().getAttackedObj()!=null)
+                    DiceRollView.getInstance().loadFrame();
 				DiceRollView.getInstance().setFromPhaseViewActionListener(event.getEventData().split(",")[0]);
 				break;
 			case "Roll Dices Event":
-				this.gameLoop(event.getEventData().split(","));
-				setChanged();
-				notifyObservers();
+                setChanged();
+                notifyObservers();
+			    this.gameLoop(event.getEventData().split(","));
 				break;
 			case "Continue Attack":
 				//this.gameLoop(new String[]{event.getEventData().split(",")[0],event.getEventInfo()});

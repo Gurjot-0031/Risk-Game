@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -48,6 +49,17 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 	private HashMap<String,JButton> btnTerritories = new HashMap<>();
 	private JLabel infoLog;
+
+	public JButton getResetAttackerBtn() {
+		return resetAttackerBtn;
+	}
+
+	public void setResetAttackerBtn(JButton resetAttackerBtn) {
+		this.resetAttackerBtn = resetAttackerBtn;
+	}
+
+	private JButton resetAttackerBtn = new JButton("Reset Attacker");
+
 	private JLabel infoLog2;
 	String gamePhase ;
 	String curPlayer = Game.getInstance().getCurrPlayerName();
@@ -134,6 +146,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(0, 620, 1024, 118);
+
+
 		this.infoLog = new JLabel();
 		this.infoLog.setBounds(10, 660, 1000, 108);
 
@@ -180,6 +194,48 @@ public class PhaseView extends MouseAdapter implements Observer {
 			temp.setBackground(territory.getOwner().getColor());
 			temp.setBounds(territory.getX(), territory.getY(), 100, 15);
 		}
+		gameFrame.add(resetAttackerBtn);
+		resetAttackerBtn.setBounds(5,5,80,20);
+		resetAttackerBtn.setVisible(false);
+		resetAttackerBtn.addActionListener(new Action() {
+			@Override
+			public Object getValue(String s) {
+				return null;
+			}
+
+			@Override
+			public void putValue(String s, Object o) {
+
+			}
+
+			@Override
+			public void setEnabled(boolean b) {
+
+			}
+
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
+
+			@Override
+			public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+			}
+
+			@Override
+			public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				Game.getInstance().setAttackerObj(null);
+				Game.getInstance().setAttacker(null);
+				System.out.println("Please select the new attacker..");
+				JOptionPane.showMessageDialog(null,"Please select new attacker territory..");
+			}
+		});
 	}
 
 	/**
@@ -294,37 +350,46 @@ public class PhaseView extends MouseAdapter implements Observer {
 						objEvent.setEventInfo("Attack Phase:Invalid attacked selected");
 						objEvent.setEventData(territory.getName() + "," + territory.getArmies());
 					}
+					else if(territory.getArmies()<=0){
+						infoLog2.setText("<html><body>Attack cannot be done to a territory with no armies<br/>Please select a valid territory to attack..<br/></body></html>");
+					}
+
 					else {
 						for (String adj : Game.getInstance().getGameMap().getAdjacents(Game.getInstance().getAttacker())) {
-							if (territory.getName().equalsIgnoreCase(adj)) {
-								Game.getInstance().setAttacked(territory.getName());
+							try {
+								if (territory.getName().equalsIgnoreCase(adj)) {
+									Game.getInstance().setAttacked(territory.getName());
 
-								int attackerDiceLimit;
-								int defenderDiceLimit;
-								if(Game.getInstance().getAttackerObj().getArmies()<3)
-									attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
-								else
-									attackerDiceLimit = 3;
+									int attackerDiceLimit;
+									int defenderDiceLimit;
+									if(Game.getInstance().getAttackerObj().getArmies()<3)
+										attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
+									else
+										attackerDiceLimit = 3;
 
-								if(Game.getInstance().getAttackedObj().getArmies()<2)
-									defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
-								else
-									defenderDiceLimit = 2;
+									if(Game.getInstance().getAttackedObj().getArmies()<2)
+										defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
+									else
+										defenderDiceLimit = 2;
 
-								Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
-										attackerDiceLimit)));
+									Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
+											attackerDiceLimit)));
 
-								while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
-								{
-									Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
-								}
+									while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+									{
+										Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
+									}
 
-								Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
-
-								while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
-								{
 									Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+
+									while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+									{
+										Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+									}
 								}
+							}
+							catch (Exception e1){
+								System.out.println(e1.getMessage());
 							}
 
 
