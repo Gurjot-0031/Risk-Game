@@ -65,7 +65,7 @@ public class CardExchangeView implements Observer {
         //GameController.getInstance().addObserver(CardExchangeView.getInstance());
         cardViewFrame = new JFrame("CARD EXCHANGE");
         cardViewFrame.setSize(600, 600);
-        cardViewFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        cardViewFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //cardViewFrame.getContentPane().setBackground(Color.PINK);
         cardViewFrame.setVisible(true);
 

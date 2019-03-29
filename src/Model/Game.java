@@ -15,20 +15,27 @@ import java.util.Observable;
 public class Game extends Observable {
 	private static Game instance;
 	private int numPlayers;
+	Map gameMap;
 
-	public void setPrevPhase(int prevPhase) {
-		this.prevPhase = prevPhase;
-	}
+    public boolean isAlloutMode() {
+        return alloutMode;
+    }
+
+    public void setAlloutMode(boolean alloutMode) {
+        this.alloutMode = alloutMode;
+    }
+
+    private boolean alloutMode=false;
 
 	public int getPrevPhase() {
 		return prevPhase;
 	}
 
-	private int prevPhase=1;
-	Map gameMap;
-    private static Game instance;
-    private int numPlayers;
-    Map gameMap;
+	public void setPrevPhase(int prevPhase) {
+		this.prevPhase = prevPhase;
+	}
+
+	private int prevPhase = 1;
 
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -256,9 +263,7 @@ public class Game extends Observable {
 			System.out.println("Please select the attacker territory..");
 
 		}
-		else if(this.gamePhase == 4) {
-			PhaseView.getInstance().getResetAttackerBtn().setVisible(false);
-		}
+		else
 		setChanged();
 		notifyObservers(this);
 	}

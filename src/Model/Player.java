@@ -215,6 +215,7 @@ public class Player extends Observable {
 	 */
 	public String reinforce(String info){
 
+
 		if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 			Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 			setChanged();
@@ -354,9 +355,7 @@ public class Player extends Observable {
 	public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked) throws NullPointerException{
 
 		if(attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
-			//int remainingDiceAttacker = numOfDiceAttacker;
-			//int remainingDiceAttacked = numOfDiceAttacker;
-			//DiceRollView.getInstance().loadFrame();
+
 			System.out.println("Attacker dice # "+Game.getInstance().getNumOfDiceAttacker());
 			System.out.println("Attacked dice # "+Game.getInstance().getNumOfDiceAttacked());
 

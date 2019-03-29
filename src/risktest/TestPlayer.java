@@ -2,19 +2,29 @@ package risktest;
 
 import Model.Card;
 
+import Model.Game;
 import Model.Player;
+import Model.Territory;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class TestPlayer {
 
     ArrayList<String> cards = new ArrayList<>();
-    Player pObject = new Player();
+    Player pObject = new Player(1,"Jai", Color.RED,5);
+    //Territory chn= new Territory("India",10,20,new ArrayList<>());
+    //ArrayList<Territory> adj = new ArrayList<>();
+    //adj.add(chn[3]);
+    Territory ind = new Territory("India",10,20,new ArrayList<>());
+
     Card cardObject = new Card();
+
+
     ArrayList<Integer> diceValue = new ArrayList<Integer>();
     ArrayList<Integer> output = new ArrayList<Integer>();
 
@@ -24,7 +34,7 @@ public class TestPlayer {
     @Before
     public void setUp() throws Exception {
 
-
+        Game.getInstance().setAttackerObj(ind);
         diceValue.add(6);
         diceValue.add(5);
         diceValue.add(4);
@@ -156,7 +166,9 @@ public class TestPlayer {
     @Test
     public void testIsCardExchangePossible() {
         System.out.println("Test Case testIsCardExchangePossible");
-        assertTrue(pObject.isCardExchangePossible(cards));
+        //assertTrue(pObject.isCardExchangePossible(cards));
+
+        assertTrue(pObject.isCardExchangePossible());
     }
 
 }

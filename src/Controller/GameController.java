@@ -198,7 +198,7 @@ public class GameController extends Observable {
 					{
 						Game.getInstance().setTurn(0);
 						Game.getInstance().nextPhase();
-						return "Next Game";
+						return "Next Phase";
 					}
 					Game.getInstance().nextTurn();
 					while (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0)
