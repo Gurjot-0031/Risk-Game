@@ -259,6 +259,51 @@ public class DiceRollView implements Observer {
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                int attackerDiceLimit;
+                int defenderDiceLimit;
+                if(!Game.getInstance().isAlloutMode()){
+                    if(Game.getInstance().getAttackerObj().getArmies()<3)
+                        attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
+                    else
+                        attackerDiceLimit = 3;
+
+                    if(Game.getInstance().getAttackedObj().getArmies()<2)
+                        defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
+                    else
+                        defenderDiceLimit = 2;
+
+                    //diceInfoLabel.setText("");
+                    Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
+                            attackerDiceLimit)));
+
+                    while(Game.getInstance().getNumOfDiceAttacker()>3 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+                    {
+                        Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
+                    }
+
+                    Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+
+                    while(Game.getInstance().getNumOfDiceAttacked()>2 || Game.getInstance().getNumOfDiceAttacker()>Game.getInstance().getAttackerObj().getArmies())
+                    {
+                        Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+                    }
+
+                    diceRollBtn.setVisible(true);
+                    diceInfoLabel.setText("");
+                    GameEvents evntObj = new GameEvents();
+                    evntObj.setEventData(fromPhaseViewActionListener);
+                    evntObj.setEventInfo("Continue Attack");
+                    //PhaseView.getInstance().territoryActionListener
+                    GameController.getInstance().eventTriggered(evntObj);
+
+                }
+                else if(Game.getInstance().isAlloutMode()){
+                    attackerDiceLimit = 3;
+                    defenderDiceLimit = 2;
+
+
+                    Game.getInstance().setNumOfDiceAttacker(attackerDiceLimit);
+                    Game.getInstance().setNumOfDiceAttacked(defenderDiceLimit);
 
                     diceRollBtn.setVisible(true);
                     diceInfoLabel.setText("");
@@ -268,7 +313,7 @@ public class DiceRollView implements Observer {
                     //PhaseView.getInstance().territoryActionListener
                     GameController.getInstance().eventTriggered(evntObj);
                 }
-
+            }
         });
         fortifyBtn.addActionListener(new Action() {
             @Override
@@ -307,7 +352,7 @@ public class DiceRollView implements Observer {
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                    diceRollFrame.setVisible(false);
+                diceRollFrame.setVisible(false);
                 Game.getInstance().nextPhase();
                 Game.getInstance().getCurrPlayer().fortify(fromPhaseViewActionListener);
             }

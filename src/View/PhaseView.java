@@ -67,15 +67,15 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 	private JButton resetAttackerBtn = new JButton("Reset Attacker");
 
-    public JLabel getInfoLog() {
-        return infoLog;
-    }
+	public JLabel getInfoLog() {
+		return infoLog;
+	}
 
-    public JLabel getInfoLog2() {
-        return infoLog2;
-    }
+	public JLabel getInfoLog2() {
+		return infoLog2;
+	}
 
-    private JLabel infoLog2;
+	private JLabel infoLog2;
 	String gamePhase =Game.getInstance().getGamePhaseDesc();
 	String curPlayer = Game.getInstance().getCurrPlayerName();
 	int curPArmies = Game.getInstance().getCurrPlayerArmies();
@@ -96,7 +96,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 	 * Get the frame in Game screen
 	 * @return
 	 */
-    public JFrame getGameFrame() {
+	public JFrame getGameFrame() {
 
 		return gameFrame;
 	}
@@ -117,8 +117,8 @@ public class PhaseView extends MouseAdapter implements Observer {
 		}
 
 		else if(o instanceof GameController){
-				armiesChanged =true;
-				//armiesChanged = false;
+			armiesChanged =true;
+			//armiesChanged = false;
 			gamePhase = Game.getInstance().getGamePhaseDesc();
 			curPArmies = Game.getInstance().getCurrPlayerArmies();
 
@@ -279,64 +279,64 @@ public class PhaseView extends MouseAdapter implements Observer {
 			infoLog.setText(text);
 		}
 
-        public void mouseExited(java.awt.event.MouseEvent evt) {
+		public void mouseExited(java.awt.event.MouseEvent evt) {
 
 			gamePhase = Game.getInstance().getGamePhaseDesc();
-            if (gamePhase!="Game Phase: Attack")
-                infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
-                        curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-            else if (gamePhase=="Game Phase: Attack") {
-                if (Game.getInstance().getAttacker() == null)
-                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the attacker<br/>" + gamePhase + "<br/>Current Player: " +
-                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-                else
-                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacker() + "<br/>" + gamePhase + "<br/>Current Player: " +
-                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-                if (Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() == null)
-                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the Defender<br/>" + gamePhase + "<br/>Current Player: " +
-                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-                else if(Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() != null)
-                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacked() + "<br/>" + gamePhase + "<br/>Current Player: " +
-                            curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
-            }
+			if (gamePhase!="Game Phase: Attack")
+				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
+						curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+			else if (gamePhase=="Game Phase: Attack") {
+				if (Game.getInstance().getAttacker() == null)
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the attacker<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+				else
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacker() + "<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+				if (Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() == null)
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Please select the Defender<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+				else if(Game.getInstance().getAttacker()!=null && Game.getInstance().getAttacked() != null)
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Attacker: " + Game.getInstance().getAttacked() + "<br/>" + gamePhase + "<br/>Current Player: " +
+							curPlayer + "<br/>Remaining Armies: " + curPArmies + "</html>");
+			}
 
-            else
-                infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
-                        curPlayer + "<br/></html>");
-        }
-    }
+			else
+				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
+						curPlayer + "<br/></html>");
+		}
+	}
 
-    /**
-     * View Class for Territory Action Listener
-     * @author Team38
-     *
-     */
-    class territoryActionListener implements ActionListener {
-        private final Territory territory;
+	/**
+	 * View Class for Territory Action Listener
+	 * @author Team38
+	 *
+	 */
+	class territoryActionListener implements ActionListener {
+		private final Territory territory;
 
 
-        /**
-         * Constructor
-         *
-         * @param territory Territory
-         */
-        territoryActionListener(final Territory territory) {
-            super();
-            this.territory = territory;
-        }
+		/**
+		 * Constructor
+		 *
+		 * @param territory Territory
+		 */
+		territoryActionListener(final Territory territory) {
+			super();
+			this.territory = territory;
+		}
 
-        /**
-         * Function to notice Clicks on Territory
-         *
-         * @param e Action Event
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            GameEvents objEvent = new GameEvents();
-            objEvent.setEventInfo("");
-            objEvent.setEventData("");
+		/**
+		 * Function to notice Clicks on Territory
+		 *
+		 * @param e Action Event
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			GameEvents objEvent = new GameEvents();
+			objEvent.setEventInfo("");
+			objEvent.setEventData("");
 
-            infoLog2.setText("");
+			infoLog2.setText("");
 			objEvent.setEventInfo("Territory Clicked");
 			objEvent.setEventData(territory.getName() + "," + territory.getArmies());
 
@@ -375,19 +375,19 @@ public class PhaseView extends MouseAdapter implements Observer {
 				case "Game Phase: Fortification":
 					//throws null pointer exception, unable to get the source values from the game controller.
 
-                    infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Fortification<br/></html>");
-                    //source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
-                    break;
-                default:
-                    infoLog.setText("Invalid");
+					infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/>Game Phase : Fortification<br/></html>");
+					//source[2]+" fortifications sent from "+source[0]+" to "+source[1]);
+					break;
+				default:
+					infoLog.setText("Invalid");
 
-                    armiesChanged = false;
+					armiesChanged = false;
 
 
-                    if (phaseChanged == true && curPArmies == 0) {
-                        infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/><br/></html>");
-                        phaseChanged = false;
-                    }
+					if (phaseChanged == true && curPArmies == 0) {
+						infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center><br/><br/></html>");
+						phaseChanged = false;
+					}
 					//playerBeforeClick = curPlayer;
 
 			}
