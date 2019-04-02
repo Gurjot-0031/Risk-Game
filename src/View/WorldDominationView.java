@@ -8,13 +8,17 @@ import Model.Player;
 import Model.Territory;
 import View.PhaseView;
 import org.jfree.chart.*;
+import org.jfree.chart.editor.ChartEditor;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.util.Rotation;
 
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.sql.Array;
 import java.util.ArrayList;
@@ -47,7 +51,6 @@ public class WorldDominationView implements Observer {
 
         Game.getInstance().addObserver(this);
 
-
     }
 
 	/**
@@ -79,23 +82,23 @@ public class WorldDominationView implements Observer {
 				//dt = createDataset(Game.getInstance().getPlayerById(i).getName(),percentage);
 
 				//createDataset(Game.getInstance().getPlayerById(i).getName(),percentage);
-				for(int j=0; j<Game.getInstance().getNumPlayers();j++){
-					name[j] = Game.getInstance().getPlayerById(j).getName();
-					value[j] = percentage;
-				}
-
-				dt = createDataset(name,value);
-
-				//chartPanel = new ChartPanel(createChart(createDataset(name,value)));
-
+				//for(int j=0; j<Game.getInstance().getNumPlayers();j++){
+					name[i] = Game.getInstance().getPlayerById(i).getName();
+				//}
+				if(name[i] != null)
+			{
+				value[i] = percentage;
 			}
+			//dt = createDataset(name,value);
+			//chartPanel = new ChartPanel(createChart(createDataset(name,value)));
 
-			chartPanel = new ChartPanel(createChart(dt));
-
-			chartPanel.setBounds(1024,0,310,300);//390
-			chartPanel.setVisible(true);
-			frameFromPhase.add(chartPanel);
-			worldDominationViewLabel.setText(label + "</body></html>");
+		}
+		dt = createDataset(name,value);
+		chartPanel = new ChartPanel(createChart(dt));
+		chartPanel.setBounds(1024,0,310,300);//390
+		chartPanel.setVisible(true);
+		frameFromPhase.add(chartPanel);
+		worldDominationViewLabel.setText(label + "</body></html>");
 
 			// Continent domination starts here...
 
@@ -127,7 +130,6 @@ public class WorldDominationView implements Observer {
 
 		}
 
-
 	}
 
 	/**
@@ -136,15 +138,17 @@ public class WorldDominationView implements Observer {
 	 * @param value	float array for the percentage value
 	 * @return
 	 */
-	public static PieDataset createDataset(String[] plname,Float[] value) {
-		DefaultPieDataset dataset = new DefaultPieDataset( );
+	public static PieDataset createDataset(String[] plname,Float[] value){
+		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(int i =0; i< plname.length;i++){
+			//dataset.addChangeListener(Object::notify);
 			dataset.setValue(plname[i],value[i]);
+
 		}
 		return dataset;
 	}
 	/*public static PieDataset createDataset(String plname,float value) {
-		DefaultPieDataset dataset = new DefaultPieDataset( );
+		DefaultPieDataset dataset = new DefaultPieDataset();
 		dataset.setValue(plname,value);
 		return dataset;
 	}*/
@@ -161,6 +165,14 @@ public class WorldDominationView implements Observer {
 				true,             // include legend
 				true,
 				false);
+		/*PiePlot plot = (PiePlot) chart.getPlot();
+		plot.setStartAngle(0);
+
+		plot.setDirection(org.jfree.chart.util.Rotation.CLOCKWISE);
+		plot.setBackgroundPaint(null);
+		plot.setOutlinePaint(null);
+		plot.setForegroundAlpha(0.5f);
+		plot.setLabelGenerator(null);*/
 
 		return chart;
 	}

@@ -3,6 +3,7 @@ package Model;
 import View.CardExchangeView;
 import View.DiceRollView;
 import View.PhaseView;
+import View.WorldDominationView;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
@@ -683,9 +684,6 @@ public class Player extends Observable {
 					Game.getInstance().setNumOfDiceAttacker(-1);
 					Game.getInstance().setNumOfDiceAttacked(-1);
 				}
-
-
-
 			}
 
 		}

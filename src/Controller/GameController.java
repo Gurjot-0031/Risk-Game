@@ -114,7 +114,7 @@ public class GameController extends Observable {
 			switch (Game.getInstance().getNumPlayers())
 			{
 				case 2:
-					initArmies = 8;
+					initArmies = 26;
 					break;
 				case 3:
 					initArmies = 35;
@@ -180,7 +180,7 @@ public class GameController extends Observable {
                 {
 
 
-                    if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+                  	if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
                         Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
                         setChanged();
                         notifyObservers(this);

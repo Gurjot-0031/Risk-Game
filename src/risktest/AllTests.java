@@ -9,9 +9,9 @@ import org.junit.runners.Suite;
 
         mapValidation.class,
         TestPlayer.class,
-        checkStartupPhase.class
+        checkStartupPhase.class,
+        checkReinforcementArmies.class
 })
 public class AllTests {
-
 
 }

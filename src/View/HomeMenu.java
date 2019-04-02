@@ -85,6 +85,8 @@ public class HomeMenu {
                 configPanel.setSize(600, 600);
                 Integer[] values = { 2, 3, 4, 5, 6 };
                 JComboBox<Integer> numPlayers = new JComboBox<Integer>(values);
+                String[] playerType = {"human", "aggressive", "benevolent", "random", "cheater"};
+                JComboBox<String> typePlayers = new JComboBox<>(playerType);
 
                 final JFileChooser fileChooser = new JFileChooser();
 
@@ -102,6 +104,7 @@ public class HomeMenu {
                 });
 
                 configPanel.add(numPlayers);
+                configPanel.add(typePlayers);
                 configPanel.add(loadMap);
                 int result = JOptionPane.showConfirmDialog(null, configPanel, "Please Configure",
                         JOptionPane.OK_CANCEL_OPTION);
