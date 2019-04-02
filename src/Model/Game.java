@@ -25,7 +25,7 @@ public class Game extends Observable {
         this.alloutMode = alloutMode;
     }
 
-    private boolean alloutMode=false;
+    private boolean alloutMode = false;
 
 	public int getPrevPhase() {
 		return prevPhase;
@@ -263,7 +263,7 @@ public class Game extends Observable {
 			System.out.println("Please select the attacker territory..");
 
 		}
-		else
+
 		setChanged();
 		notifyObservers(this);
 	}
@@ -381,8 +381,8 @@ public class Game extends Observable {
 			if(territory.getOwner().getId() == id) {
 				numTerr++;
 			}
-		}
-		
+	}
+
 		if((numTerr / 3) < 3) {
 			reinforcment += 3;
 		}

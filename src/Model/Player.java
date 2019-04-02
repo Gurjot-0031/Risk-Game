@@ -46,6 +46,7 @@ public class Player extends Observable {
 		this.setColor(color);
 		this.setName(name);
 		this.armies = armies;
+		//addObserver(PhaseView.getInstance());
 	}
 
 	public boolean isCardExchangePossible() {
@@ -215,8 +216,43 @@ public class Player extends Observable {
 	 */
 	public String reinforce(String info){
 
+		if(Game.getInstance().getGameTurn() ==
+				Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
 
-		if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+			if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+				Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
+			}
+
+
+			if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
+				Game.getInstance().nextTurn();
+			}
+
+			if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() > 0) {
+				return "Event Processed";
+			}
+
+			boolean nextPhase = true;
+			for(int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
+				if(Game.getInstance().getPlayerById(i).getArmies() > 0) {
+					Game.getInstance().setTurn(i);
+					nextPhase = false;
+				}
+			}
+			if(nextPhase == true) {
+				Game.getInstance().setTurn(0);
+				Game.getInstance().nextPhase();
+				return "Next Phase";
+			}
+
+			return "Event Processed";
+		}
+
+		return "Please select a territory owned by you..";
+
+
+
+		/*if(Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
 			Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
 			setChanged();
 			notifyObservers(this);
@@ -250,7 +286,7 @@ public class Player extends Observable {
 
 		}
 
-		return "Event Processed";
+		return "Event Processed";*/
 	}
 
 	/**
@@ -352,12 +388,128 @@ public class Player extends Observable {
 	 * @return
 	 */
 	ArrayList<String> diceThrowResults= new ArrayList<>();
-	public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked) throws NullPointerException{
+	/*public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked) throws NullPointerException{*/
+    public String attack(String clickedTerritory) throws NullPointerException{
+        Territory clickedTerritoryObj = Game.getInstance().getGameMap().getTerritory(clickedTerritory);
 
+        if(Game.getInstance().getAttackerObj() == null && Game.getInstance().getAttackedObj() ==null){
+            /*int input = JOptionPane.showConfirmDialog(null,"Press YES for all out mode, else press NO","SELECT ATTACK MODE",JOptionPane.YES_NO_OPTION);
+            if(input == 0)
+                Game.getInstance().setAlloutMode(true);
+            else if(input == 1)
+                Game.getInstance().setAlloutMode(false);*/
+
+            if (Game.getInstance().getAttacker() == null) {
+
+                if (clickedTerritoryObj.getArmies() >= 2) {
+
+                    if (Game.getInstance().getCurrPlayer() == clickedTerritoryObj.getOwner()) {
+                        Game.getInstance().setAttacker(clickedTerritoryObj.getName());
+                        System.out.println("Please select a target territory to attack..");
+
+                        if (Game.getInstance().getAttacked()==null && Game.getInstance().getAttacker()!=null)
+                            PhaseView.getInstance().getInfoLog2().setText("Please select a target territory to attack..");
+                    }
+                    else {
+                        System.out.println("Territory does not belong to current player..");
+                        PhaseView.getInstance().getInfoLog2().setText("<html><body>Territory does not belong to current player..<br/></body></html>");
+                    }
+                }
+                else {
+                    System.out.println("Territory selected have less than 2 armies..");
+                    PhaseView.getInstance().getInfoLog2().setText("<html><body>Territory selected have less than 2 armies..<br/></body></html>");
+                }
+            }
+            else if (Game.getInstance().getAttacker() != null && Game.getInstance().getAttacked() == null) {
+
+                if (clickedTerritoryObj.getOwner().getName() == Game.getInstance().getCurrPlayerName()) {
+                    System.out.println("Attack cannot be done to a player's own territory");
+                    System.out.println("Please select a valid territory to attack..");
+                    PhaseView.getInstance().getInfoLog2().setText("<html><body>Attack cannot be done to a player's own territory<br/>Please select a valid territory to attack..<br/></body></html>");
+                }
+                else if(clickedTerritoryObj.getArmies()<=0){
+                    PhaseView.getInstance().getInfoLog2().setText("<html><body>Attack cannot be done to a territory with no armies<br/>Please select a valid territory to attack..<br/></body></html>");
+                }
+
+                else {
+                    for (String adj : Game.getInstance().getGameMap().getAdjacents(Game.getInstance().getAttacker())) {
+                        try {
+                            if (clickedTerritoryObj.getName().equalsIgnoreCase(adj)) {
+                                Game.getInstance().setAttacked(clickedTerritoryObj.getName());
+                            }
+                        }
+                        catch (Exception e1){
+                            System.out.println(e1.getMessage());
+                        }
+
+
+                    }
+                    if (Game.getInstance().getAttacked() == null) {
+                        System.out.println("Select an adjacent territory...");
+                        PhaseView.getInstance().getInfoLog2().setText("<html><body>Select an adjacent territory...<br/></body></html>");
+                    }
+
+                }
+
+            }
+
+        }
+
+        int input = JOptionPane.showConfirmDialog(null,"Press YES for all out mode, else press NO","SELECT ATTACK MODE",JOptionPane.YES_NO_OPTION);
+        if(input == 0)
+            Game.getInstance().setAlloutMode(true);
+        else if(input == 1)
+            Game.getInstance().setAlloutMode(false);
+
+        if(Game.getInstance().isAlloutMode()){
+            Game.getInstance().setNumOfDiceAttacker(3);
+            Game.getInstance().setNumOfDiceAttacked(2);
+
+        }
+        else if(!Game.getInstance().isAlloutMode()){
+            int attackerDiceLimit;
+            int defenderDiceLimit;
+            if(Game.getInstance().getAttackerObj().getArmies()<3)
+                attackerDiceLimit = Game.getInstance().getAttackerObj().getArmies();
+            else
+                attackerDiceLimit = 3;
+
+            if(Game.getInstance().getAttackedObj().getArmies()<2)
+                defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
+            else
+                defenderDiceLimit = 2;
+
+            Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than" +
+                    attackerDiceLimit)));
+
+            while(Game.getInstance().getNumOfDiceAttacker()<=0 || Game.getInstance().getNumOfDiceAttacker()>attackerDiceLimit)
+            {
+                Game.getInstance().setNumOfDiceAttacker(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (ATTACKER): Min: 1 and not more than"+attackerDiceLimit)));
+            }
+
+            Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+
+            while(Game.getInstance().getNumOfDiceAttacked()<=0 || Game.getInstance().getNumOfDiceAttacked()>defenderDiceLimit)
+            {
+                Game.getInstance().setNumOfDiceAttacked(Integer.parseInt(JOptionPane.showInputDialog("Enter the number of Dices to be thrown (DEFENDER): Min: 1 and not more than"+defenderDiceLimit)));
+            }
+        }
+
+
+        Territory attacker = Game.getInstance().getAttackerObj();
+        Territory attacked = Game.getInstance().getAttackedObj();
+        int numOfDiceAttacker = Game.getInstance().getNumOfDiceAttacker();
+        int numOfDiceAttacked = Game.getInstance().getNumOfDiceAttacked();
+
+        DiceRollView.getInstance().loadFrame();
+        DiceRollView.getInstance().setFromPhaseViewActionListener(clickedTerritory);
+
+//-------------------------------------------------------------------------------------------------
+	    //PhaseView.getInstance().ac
 		if(attacker!=null && attacked!=null && numOfDiceAttacker!=-1 && numOfDiceAttacked!=-1) {
 
-			System.out.println("Attacker dice # "+Game.getInstance().getNumOfDiceAttacker());
-			System.out.println("Attacked dice # "+Game.getInstance().getNumOfDiceAttacked());
+			System.out.println("Attacker dice # "+numOfDiceAttacker);
+			System.out.println("Attacked dice # "+numOfDiceAttacked);
 
 			String runTimeMessageAttack = "";
 			attackerDiceValues = rollDice(numOfDiceAttacker);

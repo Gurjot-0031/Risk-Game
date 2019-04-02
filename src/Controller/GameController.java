@@ -73,10 +73,10 @@ public class GameController extends Observable {
                 //String evntInfo = info[1];
 
                 //System.out.println("Please select a territory to attack..");
-                if(clickedTerritory.equalsIgnoreCase("Continue Attack"))
-                    this.handleClick("Continue Attack",Game.getInstance().getGamePhase());
-                else
-                    this.handleClick(info[0], Game.getInstance().getGamePhase());
+                //if(clickedTerritory.equalsIgnoreCase("Continue Attack"))
+                //    this.handleClick("Continue Attack",Game.getInstance().getGamePhase());
+                //else
+                    this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
 
                 break;
             case 4:
@@ -114,7 +114,7 @@ public class GameController extends Observable {
 			switch (Game.getInstance().getNumPlayers())
 			{
 				case 2:
-					initArmies = 40;
+					initArmies = 8;
 					break;
 				case 3:
 					initArmies = 35;
@@ -210,7 +210,7 @@ public class GameController extends Observable {
 				}
 
 			case 2:			//Reinforcement phase
-                if(Game.getInstance().getPrevPhase()!=1 && Game.getInstance().getCurrPlayer().getArmies()==0) {
+                if(Game.getInstance().getPrevPhase()!=1) {
                     CardExchangeView.getInstance().loadCardExchangeView();
 
                 }
@@ -228,23 +228,17 @@ public class GameController extends Observable {
 				System.out.println("Attacker:"+Game.getInstance().getAttacker());
 				System.out.println("Attacked:"+Game.getInstance().getAttacked());
 
-				//String ret="Dice Roll";
-				//while(Game.getInstance().getAttackerObj().ContinueAttacking())
 
-				if (info!="Continue Attack")
+				/*if (info!="Continue Attack")
 					return Game.getInstance().getCurrPlayer().
 							attack(Game.getInstance().getAttackerObj(),Game.getInstance().getAttackedObj(),
 									Game.getInstance().getNumOfDiceAttacker(),Game.getInstance().getNumOfDiceAttacked());
 				else
-					DiceRollView.getInstance().getDiceRollBtn().setVisible(true);
-
-			//if(diceRollBtn.clic)
+					DiceRollView.getInstance().getDiceRollBtn().setVisible(true);*/
 
 
-			//if(!Game.getInstance().getAttackerObj().ContinueAttacking())
-			//	return "Attack Discontinued by the attacker";
+				return Game.getInstance().getCurrPlayer().attack(info);
 
-			//break;
 			case 4:
 				return Game.getInstance().getCurrPlayer().fortify(info);
 			//break;
@@ -270,12 +264,12 @@ public class GameController extends Observable {
 			case "Territory Clicked":
 				this.gameLoop(event.getEventData().split(","));
 				break;
-			case "Attack Phase:attacked territory selected":
+			/*case "Attack Phase:attacked territory selected":
 				//this.gameLoop(event.getEventData().split(","));
 				if(Game.getInstance().getAttackedObj()!=null)
                     DiceRollView.getInstance().loadFrame();
 				DiceRollView.getInstance().setFromPhaseViewActionListener(event.getEventData().split(",")[0]);
-				break;
+				break;*/
 			case "Roll Dices Event":
                 setChanged();
                 notifyObservers();
