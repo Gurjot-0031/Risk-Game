@@ -1,3 +1,4 @@
+/*
 package risktest;
 
 
@@ -15,3 +16,4 @@ import org.junit.runners.Suite;
 public class AllTests {
 
 }
+*/

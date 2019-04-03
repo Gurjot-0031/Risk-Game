@@ -227,7 +227,10 @@ public class GameController extends Observable {
 
 				System.out.println("Attacker:"+Game.getInstance().getAttacker());
 				System.out.println("Attacked:"+Game.getInstance().getAttacked());
-
+                /*if(Game.getInstance().getAttackerObj()==null)
+                    JOptionPane.showMessageDialog(null,"Please select attacker territory");
+                else if(Game.getInstance().getAttackedObj()==null)
+                    JOptionPane.showMessageDialog(null,"Please select the defender territory");*/
 
 				/*if (info!="Continue Attack")
 					return Game.getInstance().getCurrPlayer().
@@ -270,16 +273,17 @@ public class GameController extends Observable {
                     DiceRollView.getInstance().loadFrame();
 				DiceRollView.getInstance().setFromPhaseViewActionListener(event.getEventData().split(",")[0]);
 				break;*/
-			case "Roll Dices Event":
+			/*case "Roll Dices Event":
 				setChanged();
 				notifyObservers();
 				this.gameLoop(event.getEventData().split(","));
-				break;
+				break;*/
 			case "Continue Attack":
 				//this.gameLoop(new String[]{event.getEventData().split(",")[0],event.getEventInfo()});
 				setChanged();
 				notifyObservers();
-				this.gameLoop(new String[]{"Continue Attack",""});
+				//this.gameLoop(new String[]{"Continue Attack",""});
+				this.gameLoop(event.getEventData().split(","));
 
 				break;
 			default:
