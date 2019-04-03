@@ -1,4 +1,4 @@
-package risktest;
+//package risktest;
 
 import static org.junit.Assert.*;
 
@@ -209,7 +209,7 @@ public class mapValidation {
             Game.getInstance().setTurn(0);
 
             for (int i = 0; i < 2; i++) {
-                Game.getInstance().addPlayer(new Player(i, "", null, 0));
+                Game.getInstance().addPlayer(new Player(i, "", null, 0, "AGGRESSIVE"));
             }
 
             Game.getInstance().assignTerritoryToPlayers();
@@ -245,10 +245,10 @@ public class mapValidation {
             int ctr = 0;
             for (Territory t : Game.getInstance().getGameMap().getTerritories()) {
                 if (ctr == 0) {
-                    t.setOwner(new Player(0, "", null, 0));
+                    t.setOwner(new Player(0, "", null, 0,"AGGRESSIVE"));
                     ctr++;
                 } else {
-                    t.setOwner(new Player(1, "", null, 0));
+                    t.setOwner(new Player(1, "", null, 0,"AGGRESSIVE"));
                 }
             }
             int reinforce = Game.getInstance().calcReinforcementArmies(1);

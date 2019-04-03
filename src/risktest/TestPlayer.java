@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TestPlayer {
 
     ArrayList<String> cards = new ArrayList<>();
-    Player pObject = new Player(1,"Jai", Color.RED,5);
+    Player pObject = new Player(1,"Jai", Color.RED,5,"AGGRESSIVE");
     //Territory chn= new Territory("India",10,20,new ArrayList<>());
     //ArrayList<Territory> adj = new ArrayList<>();
     //adj.add(chn[3]);

@@ -273,7 +273,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 		public void mouseEntered(java.awt.event.MouseEvent evt) {
 			String text = "<html><center><head><h2>PHASE VIEW</h2></head><center>Territory: &nbsp;&nbsp;&nbsp;" + territory.getName() + "<br/>" +
-					"Owned By: &nbsp;&nbsp;&nbsp;" +territory.getOwner().getName()+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continent: "+ territory.getParentContinent().getName()+"<br/>"+
+					"Owned By: &nbsp;&nbsp;&nbsp;" +territory.getOwner().getName()+"&nbsp;&nbsp;("+territory.getOwner().getPlayerType()+")&nbsp;&nbsp;&nbsp;Continent: "+ territory.getParentContinent().getName()+"<br/>"+
 					"Adjacents: &nbsp;&nbsp;&nbsp;"+territory.getAdjacents()+"<br/>"+
 					"Armies: &nbsp;&nbsp;&nbsp;" +territory.getArmies() + "<br/></html>";
 			infoLog.setText(text);
@@ -302,7 +302,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 			else
 				infoLog.setText("<html><center><head><h2>PHASE VIEW</h2></head><center>Waiting for user action<br/>" + gamePhase + "<br/>Current Player: " +
-						curPlayer + "<br/></html>");
+						curPlayer + "("+Game.getInstance().getCurrPlayer().getPlayerType()+")<br/></html>");
 		}
 	}
 

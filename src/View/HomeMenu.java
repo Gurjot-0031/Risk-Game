@@ -83,10 +83,17 @@ public class HomeMenu {
                 System.out.println("New Game");
                 JPanel configPanel = new JPanel();
                 configPanel.setSize(600, 600);
+
                 Integer[] values = { 2, 3, 4, 5, 6 };
                 JComboBox<Integer> numPlayers = new JComboBox<Integer>(values);
-                String[] playerType = {"human", "aggressive", "benevolent", "random", "cheater"};
-                JComboBox<String> typePlayers = new JComboBox<>(playerType);
+
+                for (int i = 0; i < Integer.parseInt(numPlayers.getSelectedItem().toString()) ; i++) {
+                    JLabel templabel = new JLabel("Player");
+                }
+
+
+
+
 
                 final JFileChooser fileChooser = new JFileChooser();
 
@@ -104,23 +111,40 @@ public class HomeMenu {
                 });
 
                 configPanel.add(numPlayers);
-                configPanel.add(typePlayers);
+                //configPanel.add(typePlayers);
                 configPanel.add(loadMap);
                 int result = JOptionPane.showConfirmDialog(null, configPanel, "Please Configure",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     if (fileChooser.getSelectedFile() != null) {
                         String names = "";
+                        String[] playerType = {"HUMAN", "AGGRESSIVE", "BENEVOLENT", "RANDOM", "CHEATER"};
 
+
+                        String name = "";
+                        String type = "";
                         for (int i = 0; i < Integer.parseInt(numPlayers.getSelectedItem().toString()); i++) {
-                            String name = JOptionPane.showInputDialog("Player " + i + " name: ");
+                            //String name = JOptionPane.showInputDialog("Player " + i+1 + " name: ");
+                            JTextField playerName = new JTextField();
+                            JComboBox<String> typePlayers = new JComboBox<>(playerType);
+                            Object[] message = {
+                                    "Player " + (1+i) + " name: ", playerName,
+                                    "Input value 2:", typePlayers,
+                            };
+                            int option = JOptionPane.showConfirmDialog(null, message, "Enter all your values", JOptionPane.OK_CANCEL_OPTION);
+
+                            if (option == JOptionPane.OK_OPTION)
+                            {
+                                name = playerName.getText();
+                                type = typePlayers.getSelectedItem().toString();
+                            }
                             if (name == null || name.length() < 1) {
                                 System.out.println("Name cannot be empty. Try again");
-                                System.out.println("*" + name + "*");
+                                System.out.println("*" + playerName + "*");
                                 i--;
                                 continue;
                             }
-                            names += "," + name;
+                            names += "," + name + "," + type;
                         }
                         GameEvents objEvent = new GameEvents();
                         objEvent.setEventInfo("New Game");

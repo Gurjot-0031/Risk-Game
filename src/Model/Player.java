@@ -16,10 +16,13 @@ import javax.swing.*;
  * @author Team38
  *d
  */
-public class Player extends Observable {
+public class Player extends Observable implements PlayerStrategyInterface{
     private int id;
     private String name;
     private Color color;
+    private String playerType;
+    //private PlayerStrategyInterface strategy;
+
     //boolean defenderConqueredFlag = false;
 
     int armies;
@@ -29,6 +32,14 @@ public class Player extends Observable {
     public ArrayList<Card> getCardList() {
 
         return this.cardList;
+    }
+
+    public String getPlayerType() {
+        return playerType;
+    }
+
+    public void setPlayerType(String playerType) {
+        this.playerType = playerType;
     }
 
     public static ArrayList<Integer> attackerDiceValues;
@@ -41,11 +52,12 @@ public class Player extends Observable {
      * @param color Player color
      * @param armies Player armies
      */
-    public Player(int Id, String name, Color color, int armies) {
+    public Player(int Id, String name, Color color, int armies, String playerType) {
         this.setId(Id);
         this.setColor(color);
         this.setName(name);
         this.armies = armies;
+        this.playerType = playerType;
         //addObserver(PhaseView.getInstance());
     }
 
@@ -797,4 +809,22 @@ public class Player extends Observable {
         }
         return true;
     }
+
+    /*public void setStrategy(PlayerStrategyInterface strategy) {
+        this.strategy=strategy;
+    }
+
+
+    public String reinforcement() {
+        return this.strategy.reinforce(null);
+    }
+
+    public String attack() {
+        return this.strategy.attack(null);
+    }
+
+    public String fortify() {
+        return this.strategy.fortify(null);
+    }*/
 }
+

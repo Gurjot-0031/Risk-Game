@@ -140,8 +140,12 @@ public class GameController extends Observable {
 
 			//Here, player objects are created and passed onto add player method.
 			//Game.getInstance().addPlayer() method adds it to the players aray list
-			for (int i = 0; i < Integer.parseInt(info[0]); i++) {
-				Game.getInstance().addPlayer(new Player(i, info[i + 2], pColors.get(i), initArmies));
+
+            int j=0;
+			//for (int i = 2; i < Integer.parseInt(info[0])+2; i+=2) {
+            for (int i = 2; i < info.length; i+=2) {
+				Game.getInstance().addPlayer(new Player(j, info[i], pColors.get(j), initArmies,info[i+1]));
+				j++;
 			}
 			Game.getInstance().assignTerritoryToPlayers();
 			//Game.getInstance().getpla
@@ -168,6 +172,7 @@ public class GameController extends Observable {
 	 * @return The processing information
 	 */
 	public String handleClick(String info, int gamePhase) {
+		Player currentPlayer = Game.getInstance().getCurrPlayer();
 		if (Game.getInstance().getGameMap().getTerritory(info) == null ||
 				Game.getInstance().getGameMap().getTerritory(info).getOwner() == null) {
 			return "Invalid Click";
@@ -217,10 +222,26 @@ public class GameController extends Observable {
 				else if(Game.getInstance().getGameTurn() ==
 						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
 				{
-					return Game.getInstance().getCurrPlayer().reinforce(info);
-				}
 
-				break;
+                    return Game.getInstance().getCurrPlayer().reinforce(info);
+					/*switch (currentPlayer.getPlayerType()){
+						case "HUMAN":
+
+							return Game.getInstance().getCurrPlayer().reinforce(info);
+						case "AGGRESSIVE":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        case "BENEVOLENT":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        case "RANDOM":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        case "CHEATER":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        default:*/
+
+
+
+					}
+
 
 			case 3: //Attack Phase...
 
