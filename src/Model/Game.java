@@ -64,11 +64,11 @@ public class Game extends Observable {
 	}
 
 	public Territory getAttackerObj() {
-		return Game.getInstance().getGameMap().getTerritory(attacker);
+		return attackerObj;
 	}
 
 	public Territory getAttackedObj() {
-		return Game.getInstance().getGameMap().getTerritory(attacked);
+		return attackedObj;
 	}
 
 	private Territory attackedObj = null;
@@ -92,6 +92,7 @@ public class Game extends Observable {
 	private int numOfDiceAttacker =-1;
 	private int numOfDiceAttacked =-1;
 	public String fortification_source;
+	public String fortification_destination;
 
 	/**
 	 * The constructor

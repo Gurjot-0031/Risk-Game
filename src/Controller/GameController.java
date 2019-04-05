@@ -9,10 +9,7 @@ import java.util.Observable;
 import javax.swing.*;
 
 import Event.IEvent;
-import Model.Game;
-import Model.Map;
-import Model.Player;
-import Model.Territory;
+import Model.*;
 import View.CardExchangeView;
 import View.DiceRollView;
 import View.PhaseView;
@@ -64,7 +61,7 @@ public class GameController extends Observable {
 			case 2:
 				System.out.println("Game in Reinforcement Phase");
 				clickedTerritory = info[0];
-				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+                System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
 				break;
 			case 3:
 				System.out.println("Game in Attack Phase");
@@ -76,13 +73,13 @@ public class GameController extends Observable {
 				//if(clickedTerritory.equalsIgnoreCase("Continue Attack"))
 				//    this.handleClick("Continue Attack",Game.getInstance().getGamePhase());
 				//else
-				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+                System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
 
 				break;
 			case 4:
 				System.out.println("Game in Fortification Phase");
 				clickedTerritory = info[0];
-				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+                System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
 				break;
 			default:
 				System.out.println("Invalid Game Game. Critical Error");
@@ -145,6 +142,11 @@ public class GameController extends Observable {
 			//for (int i = 2; i < Integer.parseInt(info[0])+2; i+=2) {
             for (int i = 2; i < info.length; i+=2) {
 				Game.getInstance().addPlayer(new Player(j, info[i], pColors.get(j), initArmies,info[i+1]));
+
+				StrategyContextSetter strategy = new StrategyContextSetter();
+                Game.getInstance().getPlayerById(j).setStrategy((strategy.getStrategyObject(Game.getInstance().getPlayerById(j).getPlayerType())));
+
+
 				j++;
 			}
 			Game.getInstance().assignTerritoryToPlayers();
@@ -173,10 +175,15 @@ public class GameController extends Observable {
 	 */
 	public String handleClick(String info, int gamePhase) {
 		Player currentPlayer = Game.getInstance().getCurrPlayer();
-		if (Game.getInstance().getGameMap().getTerritory(info) == null ||
+		if(info.equalsIgnoreCase("Continue_Button_Clicked")){
+            if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
+                return "Please click the territory owned by "+Game.getInstance().getCurrPlayer().getName();
+        }
+		/*else if (Game.getInstance().getGameMap().getTerritory(info) == null ||
 				Game.getInstance().getGameMap().getTerritory(info).getOwner() == null) {
 			return "Invalid Click";
-		}
+		}*/
+
 		switch (gamePhase)
 		{
 			case 1:		//Setup Phase
@@ -211,26 +218,23 @@ public class GameController extends Observable {
 						Game.getInstance().nextTurn();
 						return "Event Processed";
 					}
-					break;
 				}
+                break;
 
 			case 2:			//Reinforcement phase
 				if(Game.getInstance().getPrevPhase()!=1) {
 					CardExchangeView.getInstance().loadCardExchangeView();
 
 				}
-				else if(Game.getInstance().getGameTurn() ==
-						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
-				{
-
-                    return Game.getInstance().getCurrPlayer().reinforce(info);
-					/*switch (currentPlayer.getPlayerType()){
-						case "HUMAN":
-
-							return Game.getInstance().getCurrPlayer().reinforce(info);
-						case "AGGRESSIVE":
+				/*else if(Game.getInstance().getGameTurn() ==
+						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())*/
+				else {
+                    switch (currentPlayer.getPlayerType()) {
+                        case "HUMAN":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
-                        case "BENEVOLENT":
+                        case "AGGRESSIVE":
+                            return Game.getInstance().getCurrPlayer().getStrategy().reinforce(info);
+                        /*case "BENEVOLENT":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         case "RANDOM":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
@@ -239,9 +243,9 @@ public class GameController extends Observable {
                         default:*/
 
 
-
-					}
-
+                    }
+                }
+				break;
 
 			case 3: //Attack Phase...
 
@@ -261,11 +265,37 @@ public class GameController extends Observable {
 					DiceRollView.getInstance().getDiceRollBtn().setVisible(true);*/
 
 
-				return Game.getInstance().getCurrPlayer().attack(info);
+
+            switch (currentPlayer.getPlayerType()) {
+                case "HUMAN":
+                    return Game.getInstance().getCurrPlayer().attack(info);
+                case "AGGRESSIVE":
+                    return Game.getInstance().getCurrPlayer().getStrategy().attack(info);
+                        /*case "BENEVOLENT":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        case "RANDOM":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        case "CHEATER":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        default:*/
+            }
+            break;
 
 			case 4:
-				return Game.getInstance().getCurrPlayer().fortify(info);
-			//break;
+                switch (currentPlayer.getPlayerType()) {
+                    case "HUMAN":
+                        return Game.getInstance().getCurrPlayer().fortify(info);
+                    case "AGGRESSIVE":
+                        return Game.getInstance().getCurrPlayer().getStrategy().fortify(info);
+                        /*case "BENEVOLENT":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        case "RANDOM":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        case "CHEATER":
+                            return Game.getInstance().getCurrPlayer().reinforce(info);
+                        default:*/
+                }
+                break;
 			default:
 				System.out.println("Invalid Game");
 				return "Invalid Game";

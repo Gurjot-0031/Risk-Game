@@ -18,9 +18,6 @@ import Model.Game;
 import Model.Map;
 import Model.Player;
 import Model.Territory;
-import com.sun.org.apache.bcel.internal.generic.INEG;
-
-import static java.lang.Thread.sleep;
 
 /**
  * View Class for Phase View
@@ -66,6 +63,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 	}
 
 	private JButton resetAttackerBtn = new JButton("Reset Attacker");
+    private JButton nextEventBtn = new JButton("CONTINUE");
 
 	public JLabel getInfoLog() {
 		return infoLog;
@@ -215,8 +213,51 @@ public class PhaseView extends MouseAdapter implements Observer {
 			temp.setBackground(territory.getOwner().getColor());
 			temp.setBounds(territory.getX(), territory.getY(), 100, 15);
 		}
+        resetAttackerBtn.setBounds(600,5,100,20);
+        nextEventBtn.setBounds(800,5,100,20);
 		gameFrame.add(resetAttackerBtn);
-		resetAttackerBtn.setBounds(5,5,80,20);
+		gameFrame.add(nextEventBtn);
+
+		nextEventBtn.setVisible(true);
+		nextEventBtn.addActionListener(new Action() {
+            @Override
+            public Object getValue(String s) {
+                return null;
+            }
+
+            @Override
+            public void putValue(String s, Object o) {
+
+            }
+
+            @Override
+            public void setEnabled(boolean b) {
+
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return false;
+            }
+
+            @Override
+            public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+            }
+
+            @Override
+            public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                GameEvents evnt = new GameEvents();
+                evnt.setEventInfo("Territory Clicked");
+                evnt.setEventData("Continue_Button_Clicked");
+                GameController.getInstance().eventTriggered(evnt);
+            }
+        });
 		resetAttackerBtn.setVisible(false);
 		resetAttackerBtn.addActionListener(new Action() {
 			@Override
