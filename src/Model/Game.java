@@ -261,9 +261,17 @@ public class Game extends Observable {
 		else if(this.gamePhase == 3) {
 			PhaseView.getInstance().getResetAttackerBtn().setVisible(true);
 			this.setPrevPhase(2);
-			System.out.println("Please select the attacker territory..");
+			if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
+                System.out.println("Please select the attacker territory..");
+			else
+                System.out.println("ATTACK PHASE");
 
 		}
+        else if(this.gamePhase == 4) {
+            this.setPrevPhase(3);
+            System.out.println("Fortification Phase");
+
+        }
 
 		setChanged();
 		notifyObservers(this);

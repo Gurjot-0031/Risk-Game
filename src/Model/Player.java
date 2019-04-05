@@ -416,11 +416,22 @@ public class Player extends Observable implements PlayerStrategyInterface{
                 }
             }
         }
-        else{
+        else if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("AGGRESSIVE")){
             int toMove;
             Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
             Territory destinationT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_destination);
             toMove = sourceT.armies;
+            sourceT.removeArmies(toMove);
+            destinationT.addArmy(toMove);
+            System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + destinationT.getName());
+            Game.getInstance().fortification_source = null;
+        }
+        else if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("BENEVOLENT")){
+            int toMove;
+            Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
+            Territory destinationT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_destination);
+            toMove = (sourceT.armies - destinationT.armies)/2;
+
             sourceT.removeArmies(toMove);
             destinationT.addArmy(toMove);
             System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + destinationT.getName());

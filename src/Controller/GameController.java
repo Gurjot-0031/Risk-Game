@@ -234,9 +234,9 @@ public class GameController extends Observable {
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         case "AGGRESSIVE":
                             return Game.getInstance().getCurrPlayer().getStrategy().reinforce(info);
-                        /*case "BENEVOLENT":
-                            return Game.getInstance().getCurrPlayer().reinforce(info);
-                        case "RANDOM":
+                        case "BENEVOLENT":
+                            return Game.getInstance().getCurrPlayer().getStrategy().reinforce(info);
+                        /*case "RANDOM":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         case "CHEATER":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
@@ -271,9 +271,9 @@ public class GameController extends Observable {
                     return Game.getInstance().getCurrPlayer().attack(info);
                 case "AGGRESSIVE":
                     return Game.getInstance().getCurrPlayer().getStrategy().attack(info);
-                        /*case "BENEVOLENT":
-                            return Game.getInstance().getCurrPlayer().reinforce(info);
-                        case "RANDOM":
+                case "BENEVOLENT":
+                    return Game.getInstance().getCurrPlayer().getStrategy().attack(info);
+                        /*case "RANDOM":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         case "CHEATER":
                             return Game.getInstance().getCurrPlayer().reinforce(info);

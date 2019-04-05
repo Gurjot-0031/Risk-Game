@@ -20,6 +20,9 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         Game.getInstance().getCurrPlayer().setArmies(0);
         System.out.println("Strongest territory::"+getStrongestTerritory().getName()+" Updated Armies::"+getStrongestTerritory().armies);
         Game.getInstance().nextTurn();
+        if(Game.getInstance().getGameTurn() == 0)
+            Game.getInstance().nextPhase();
+
         return "aggressiVE player reinforcement completed";
     }
 
@@ -45,12 +48,16 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
                 System.out.println("No armies left in all the territories except "+territoryWithMaxArmies.getName());
                 System.out.println("Next Player's turn");
                 Game.getInstance().nextTurn();
+                if(Game.getInstance().getGameTurn() == 0)
+                    Game.getInstance().nextPhase();
             }
         }
         else{
             System.out.println("There is no territory with atleast 1 army");
             System.out.println("Next Player's turn");
             Game.getInstance().nextTurn();
+            if(Game.getInstance().getGameTurn() == 0)
+                Game.getInstance().nextPhase();
         }
 
         return null;
