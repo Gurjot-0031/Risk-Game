@@ -74,7 +74,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 	}
 
 	private JLabel infoLog2;
-	String gamePhase =Game.getInstance().getGamePhaseDesc();
+	String gamePhase = Game.getInstance().getGamePhaseDesc();
 	String curPlayer = Game.getInstance().getCurrPlayerName();
 	int curPArmies = Game.getInstance().getCurrPlayerArmies();
 

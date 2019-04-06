@@ -21,6 +21,7 @@ import org.jfree.data.xy.XYDataset;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -37,6 +38,7 @@ public class WorldDominationView implements Observer {
 	JFrame frameFromPhase;
 	PieDataset dt;
 
+
 	/**
 	 * Show the World domination panel on the right side of the game screen
 	 */
@@ -44,7 +46,7 @@ public class WorldDominationView implements Observer {
 
 		worldDominationViewLabel.setBounds(1024, 0, 310, 300);
 		frameFromPhase = PhaseView.getInstance().getGameFrame();
-		JPanel worldDominationViewPanel = new JPanel();
+        JPanel worldDominationViewPanel = new JPanel();
 		worldDominationViewPanel.setBounds(1024, 310, 310, 600);
 
 		worldDominationViewPanel.add(worldDominationViewLabel);
@@ -61,7 +63,7 @@ public class WorldDominationView implements Observer {
 	 */
 	@Override
 	public void update(Observable observable, Object o) {
-		if (o instanceof Game || o instanceof GameController) {
+		if (o instanceof Game || o instanceof GameController || o instanceof Player) {
 			String label = "<html><head><h1>World Domination View</h1></head><body> ";
 
 			territoriesList = Game.getInstance().getGameMap().getTerritories();
@@ -96,9 +98,21 @@ public class WorldDominationView implements Observer {
 		}
 		dt = createDataset(name,value);
 		chartPanel = new ChartPanel(createChart(dt));
+		//chartPanel.repaint();
 		chartPanel.setBounds(1024,0,310,300);//390
 		chartPanel.setVisible(true);
+		chartPanel.add(new JButton(new AbstractAction("Refresh Chart") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //createDataset(name,value);
+                createChart(dt);
+                chartPanel.repaint();
+
+            }
+        }),BorderLayout.SOUTH);
+
 		frameFromPhase.add(chartPanel);
+
 		worldDominationViewLabel.setText(label + "</body></html>");
 
 			// Continent domination starts here...
@@ -131,8 +145,8 @@ public class WorldDominationView implements Observer {
 
 		}
 
-	}
 
+	}
 	/**
 	 * Creating a dataset for the pie chart
 	 * @param plname string array of names of the player
@@ -140,6 +154,7 @@ public class WorldDominationView implements Observer {
 	 * @return
 	 */
 	public static PieDataset createDataset(String[] plname,Float[] value){
+
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(int i =0; i< plname.length;i++){
 			//dataset.addChangeListener(Object::notify);
@@ -161,10 +176,10 @@ public class WorldDominationView implements Observer {
 	 */
 	public static JFreeChart createChart(PieDataset dataset ) {
 		JFreeChart chart = ChartFactory.createPieChart(
-				"Player Map Domination: Territorywise",   // chart title
+				"Territories Domination",   // chart title
 				dataset,          // data
 				true,             // include legend
-				true,
+				false,
 				false);
 		/*PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setStartAngle(0);

@@ -262,9 +262,9 @@ public class Game extends Observable {
 			PhaseView.getInstance().getResetAttackerBtn().setVisible(true);
 			this.setPrevPhase(2);
 			if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
-                System.out.println("Please select the attacker territory..");
+                System.out.println("***********");
 			else
-                System.out.println("ATTACK PHASE");
+			System.out.println("STRATEGIC ATTACK APPLIED");
 
 		}
         else if(this.gamePhase == 4) {

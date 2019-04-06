@@ -82,7 +82,7 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
                 Game.getInstance().setAttackedObj(potentialDefender);
             else {
                 System.out.println("Adjacent territory "+potentialDefender.getName()+" does not have enough armies..");
-                Game.getInstance().getCurrPlayer().diceThrowResults.add("Adjacent territory "+potentialDefender+" does not have enough armies..<br/>");
+                Game.getInstance().getCurrPlayer().diceThrowResults.add("Adjacent territory "+potentialDefender.getName()+" does not have enough armies..<br/>");
                 continue;
             }
             String prevOwner = potentialDefender.getOwner().getName();

@@ -111,7 +111,7 @@ public class GameController extends Observable {
 			switch (Game.getInstance().getNumPlayers())
 			{
 				case 2:
-					initArmies = 8;
+					initArmies = 26;
 					break;
 				case 3:
 					initArmies = 35;
@@ -145,7 +145,6 @@ public class GameController extends Observable {
 
 				StrategyContextSetter strategy = new StrategyContextSetter();
                 Game.getInstance().getPlayerById(j).setStrategy((strategy.getStrategyObject(Game.getInstance().getPlayerById(j).getPlayerType())));
-
 
 				j++;
 			}
@@ -249,9 +248,9 @@ public class GameController extends Observable {
 
 			case 3: //Attack Phase...
 
+				if(Game.getInstance().getAttackedObj() == null && Game.getInstance().getAttackerObj() == null)
+					System.out.println("Proceed further.......");
 
-				System.out.println("Attacker:"+Game.getInstance().getAttacker());
-				System.out.println("Attacked:"+Game.getInstance().getAttacked());
                 /*if(Game.getInstance().getAttackerObj()==null)
                     JOptionPane.showMessageDialog(null,"Please select attacker territory");
                 else if(Game.getInstance().getAttackedObj()==null)

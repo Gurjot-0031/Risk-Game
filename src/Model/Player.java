@@ -331,7 +331,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
      * @return the event data and info
      */
     public String fortify(String info){
-        if(Game.getInstance().getCurrPlayer().getPlayerType() == "HUMAN"){
+        if(this.playerType.equalsIgnoreCase("HUMAN")){
             boolean fortificationPossible = false;
             for(Territory t : Game.getInstance().getGameMap().getTerritories()) {
                 if(t.getOwner().getId() == Game.getInstance().getGameTurn() &&
@@ -416,7 +416,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
                 }
             }
         }
-        else if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("AGGRESSIVE")){
+        else if(this.playerType.equalsIgnoreCase("AGGRESSIVE")){
             int toMove;
             Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
             Territory destinationT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_destination);
@@ -426,7 +426,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
             System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + destinationT.getName());
             Game.getInstance().fortification_source = null;
         }
-        else if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("BENEVOLENT")){
+        else if(this.playerType.equalsIgnoreCase("BENEVOLENT")){
             int toMove;
             Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
             Territory destinationT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_destination);
@@ -458,24 +458,29 @@ public class Player extends Observable implements PlayerStrategyInterface{
 
         if(attackerObj == null && attackedObj == null){
 
-                if (clickedTerritoryObj.getArmies() >= 2) {
+            if (clickedTerritoryObj.getArmies() >= 2) {
 
-                    if (Game.getInstance().getCurrPlayer() == clickedTerritoryObj.getOwner()) {
-                        Game.getInstance().setAttacker(clickedTerritoryObj.getName());
-                        System.out.println("Please select a target territory to attack..");
+                if (Game.getInstance().getCurrPlayer() == clickedTerritoryObj.getOwner()) {
+                    Game.getInstance().setAttacker(clickedTerritoryObj.getName());
+                    Game.getInstance().setAttackerObj(clickedTerritoryObj);
 
-                        if (attackedObj==null && attackerObj != null)
-                            PhaseView.getInstance().getInfoLog2().setText("Please select a target territory to attack..");
-                    }
-                    else {
-                        System.out.println("Territory does not belong to current player..");
-                        PhaseView.getInstance().getInfoLog2().setText("<html><body>Territory does not belong to current player..<br/></body></html>");
-                    }
+                    attackerObj = Game.getInstance().getAttackerObj();
+                    System.out.println("Attacker:"+Game.getInstance().getAttacker());
+
+                    System.out.println("Please select a target territory to attack..");
+
+                    if (attackedObj==null && attackerObj != null)
+                        PhaseView.getInstance().getInfoLog2().setText("Please select a target territory to attack..");
                 }
                 else {
-                    System.out.println("Territory selected have less than 2 armies..");
-                    PhaseView.getInstance().getInfoLog2().setText("<html><body>Territory selected have less than 2 armies..<br/></body></html>");
+                    System.out.println("Territory does not belong to current player..");
+                    PhaseView.getInstance().getInfoLog2().setText("<html><body>Territory does not belong to current player..<br/></body></html>");
                 }
+            }
+            else {
+                System.out.println("Territory selected have less than 2 armies..");
+                PhaseView.getInstance().getInfoLog2().setText("<html><body>Territory selected have less than 2 armies..<br/></body></html>");
+            }
         }
         else if (attackerObj != null && attackedObj == null) {
 
@@ -495,14 +500,14 @@ public class Player extends Observable implements PlayerStrategyInterface{
                             Game.getInstance().setAttacked(clickedTerritoryObj.getName());
                             Game.getInstance().setAttackedObj(clickedTerritoryObj);
                             attackedObj = Game.getInstance().getAttackedObj();
+
                         }
                     }
                     catch (Exception e1){
                         System.out.println(e1.getMessage());
                     }
-
-
                 }
+                System.out.println("Attacked:"+Game.getInstance().getAttacked());
                 if (attackedObj == null) {
                     System.out.println("Select an adjacent territory...");
                     PhaseView.getInstance().getInfoLog2().setText("<html><body>Select an adjacent territory...<br/></body></html>");

@@ -3,6 +3,7 @@ package View;
 import Controller.GameController;
 import Model.Game;
 import Event.GameEvents;
+import Model.Player;
 import Model.Territory;
 
 import javax.swing.*;
@@ -262,7 +263,7 @@ public class DiceRollView implements Observer {
             public void actionPerformed(ActionEvent actionEvent) {
                 diceRollFrame.setVisible(false);
                 Game.getInstance().nextPhase();
-                if(Game.getInstance().getCurrPlayer().getPlayerType() == "HUMAN")
+                if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
                     Game.getInstance().getCurrPlayer().fortify(fromPhaseViewActionListener);
                 else
                     Game.getInstance().getCurrPlayer().getStrategy().fortify("ABCD");
