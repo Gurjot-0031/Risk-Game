@@ -289,10 +289,15 @@ public class DiceRollView implements Observer {
      */
     public void displayContent (ArrayList < String > runTimeMessagesFromAttack) {
 
-        String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttackerObj().getName()+
+        /*String uiOutput="<html><head><h2>Attacker: "+ Game.getInstance().getAttackerObj().getName()+
                 "("+Game.getInstance().getAttackerObj().getOwner().getPlayerType()+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "Defender: "+Game.getInstance().getAttackedObj().getName()+
-                "("+Game.getInstance().getAttackedObj().getOwner().getPlayerType()+")</h2></head><body>";
+                "("+Game.getInstance().getAttackedObj().getOwner().getPlayerType()+")</h2></head><body>";*/
+
+        String uiOutput="<html><head><h2>Attacker: "+ "Attacker" +
+                "("+"Armies"+")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                "Defender: "+"Defender "+
+                "("+"Armies"+")</h2></head><body>";
 
         for(String s:runTimeMessagesFromAttack){
             uiOutput+=s;

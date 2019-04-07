@@ -23,7 +23,7 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         if(Game.getInstance().getGameTurn() == 0)
             Game.getInstance().nextPhase();
 
-        return "aggressiVE player reinforcement completed";
+        return "Aggresive Player Reinforcement completed";
     }
 
     @Override
@@ -48,16 +48,16 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
                 System.out.println("No armies left in all the territories except "+territoryWithMaxArmies.getName());
                 System.out.println("Next Player's turn");
                 Game.getInstance().nextTurn();
-                if(Game.getInstance().getGameTurn() == 0)
-                    Game.getInstance().nextPhase();
+                /*if(Game.getInstance().getGameTurn() == 0)
+                    Game.getInstance().nextPhase();*/
             }
         }
         else{
             System.out.println("There is no territory with atleast 1 army");
             System.out.println("Next Player's turn");
             Game.getInstance().nextTurn();
-            if(Game.getInstance().getGameTurn() == 0)
-                Game.getInstance().nextPhase();
+            /*if(Game.getInstance().getGameTurn() == 0)
+                Game.getInstance().nextPhase();*/
         }
 
         return null;
@@ -83,7 +83,7 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
             else {
                 System.out.println("Adjacent territory "+potentialDefender.getName()+" does not have enough armies..");
                 Game.getInstance().getCurrPlayer().diceThrowResults.add("Adjacent territory "+potentialDefender.getName()+" does not have enough armies..<br/>");
-                continue;
+                continue ;
             }
             String prevOwner = potentialDefender.getOwner().getName();
             System.out.println("Defender territory :"+potentialDefender.getName());
@@ -116,6 +116,7 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
             }
         }
 
+        Game.getInstance().nextPhase();
         DiceRollView.getInstance().displayContent(Game.getInstance().getCurrPlayer().diceThrowResults);
         return null;
     }

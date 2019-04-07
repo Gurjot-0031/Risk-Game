@@ -520,7 +520,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
         attackerObj = Game.getInstance().getAttackerObj();
         attackedObj = Game.getInstance().getAttackedObj();
 
-        if(attackerObj != null && attackedObj !=null && allOutInput == -1 ){
+        if(attackerObj != null && attackedObj !=null && allOutInput == -1 && Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
             allOutInput = JOptionPane.showConfirmDialog(null,"Press YES for all out mode, else press NO","SELECT ATTACK MODE",JOptionPane.YES_NO_OPTION);
             if(allOutInput == 0)
                 Game.getInstance().setAlloutMode(true);
@@ -540,8 +540,14 @@ public class Player extends Observable implements PlayerStrategyInterface{
                 defenderDiceLimit = Game.getInstance().getAttackedObj().getArmies();
             else
                 defenderDiceLimit = 2;
-            Game.getInstance().setNumOfDiceAttacker(attackerDiceLimit);
-            Game.getInstance().setNumOfDiceAttacked(defenderDiceLimit);
+            if(attackerDiceLimit>0 && defenderDiceLimit>0){
+                Game.getInstance().setNumOfDiceAttacker(attackerDiceLimit);
+                Game.getInstance().setNumOfDiceAttacked(defenderDiceLimit);
+            }
+            else{
+                return "Attacker or defender ran out of armies..";
+            }
+
             /*DiceRollView.getInstance().loadFrame();
             DiceRollView.getInstance().setFromPhaseViewActionListener(clickedTerritory);*/
 
@@ -832,7 +838,13 @@ public class Player extends Observable implements PlayerStrategyInterface{
             System.out.println("Attacker armies left:"+Game.getInstance().getAttackerObj().getArmies());
             if(Game.getInstance().getAttackerObj().getArmies()==0){
                 System.out.println("Attacker lost all his armies, attacker can now fortify:");
-                JOptionPane.showMessageDialog(null,"Attacker lost all his armies, attacker can now fortify:");
+                if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
+                    JOptionPane.showMessageDialog(null,"Attacker lost all his armies, attacker can now fortify:");
+                else {
+                    DiceRollView.getInstance().getDiceRollFrame().setVisible(false);
+                    Game.getInstance().nextPhase();
+                    Game.getInstance().getCurrPlayer().getStrategy().fortify("ABCD");
+                }
                 //runTimeMessage = "Attacker lost all his armies, attacker can now fortify..";
                 DiceRollView.getInstance().getContinueAttackBtn().setVisible(false);
                 attackFinished = true;

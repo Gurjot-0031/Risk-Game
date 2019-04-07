@@ -2,9 +2,7 @@ package Model;
 
 import View.PhaseView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * This class is game model
@@ -244,13 +242,19 @@ public class Game extends Observable {
 	public void nextPhase() {
 		this.gamePhase += 1;
 		if(this.gamePhase == 5) {
-			this.setPrevPhase(5);
+			this.setPrevPhase(4);
 			this.gamePhase = 2;
+			Game.getInstance().setAttackerObj(null);
+			Game.getInstance().setAttackedObj(null);
+			Game.getInstance().setAttacker(null);
+			Game.getInstance().setAttacked(null);
+			Game.getInstance().fortification_destination = null;
+			Game.getInstance().fortification_source = null;
 		}
 
 		if(this.gamePhase == 2) {		//Reinforcement phase
-			this.setPrevPhase(1);
-			System.out.println("Setup Phase ends..");
+			if(this.prevPhase != 4)
+				System.out.println("Setup Phase ends..");
 			System.out.println("Reinforcement Phase starts..");
 			for(int i = 0; i < this.numPlayers; i++) {
 				int armies = this.calcReinforcementArmies(i);
@@ -264,7 +268,7 @@ public class Game extends Observable {
 			if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
                 System.out.println("***********");
 			else
-			System.out.println("STRATEGIC ATTACK APPLIED");
+				System.out.println("STRATEGY APPLIED");
 
 		}
         else if(this.gamePhase == 4) {
@@ -281,9 +285,14 @@ public class Game extends Observable {
 	 * Changes the game turn
 	 */
 	public void nextTurn() {
+		//System.out.println("Previous Player"+ Game.getInstance().getCurrPlayer().getName());
 		this.gameTurn += 1;
+		//if(this.getGameTurn()!=this.numPlayers)
+		//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
+
 		if(this.gameTurn == this.numPlayers) {
 			this.gameTurn = 0;
+		//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
 			if(this.gamePhase == 4) {
 				this.nextPhase();
 			}
@@ -322,6 +331,29 @@ public class Game extends Observable {
 		}
 	}
 
+
+	public void assignArmyToPlayersAutomatically() {
+		ArrayList<Territory> territories = this.gameMap.getTerritories();
+		Collections.shuffle(territories);
+		Iterator<Player> iterator = Game.getInstance().players.iterator();
+
+		while(iterator.hasNext()){
+			Player tempPlayer = iterator.next();
+			Random random = new Random();
+
+			if(!tempPlayer.getPlayerType().equalsIgnoreCase("HUMAN")){
+				//int avg = Game.getInstance().getCurrPlayerArmies()/Game.getInstance().getCurrPlayer().getTerritoriesOwned().size();
+				if(Game.getInstance().getCurrPlayer().armies!=0){
+
+					Territory tempTerr = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
+					tempTerr.addArmy(1);
+					Game.getInstance().getCurrPlayer().removeArmy(1);
+				}
+			}
+		}
+
+
+	}
 	/**
 	 * Adds player to game
 	 * @param player The input player
