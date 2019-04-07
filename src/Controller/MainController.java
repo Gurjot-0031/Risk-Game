@@ -19,6 +19,7 @@ public class MainController
         HomeController objHomeController = new HomeController();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
                 objHomeController.initHomeWindow();
             }
         });

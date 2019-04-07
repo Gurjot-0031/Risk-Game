@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class checkStartupPhase {
+public class CheckStartupPhase {
     String invalidcheckPhase;
 
     /**
