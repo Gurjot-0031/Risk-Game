@@ -34,6 +34,11 @@ public class WorldDominationView implements Observer {
 	ArrayList<Territory> territoriesList;
 	ArrayList<Territory> continentTerritory;
 	String[] continentList;
+
+	public JPanel getChartPanel() {
+		return chartPanel;
+	}
+
 	JPanel chartPanel;
 	JFrame frameFromPhase;
 	PieDataset dt;
@@ -101,7 +106,7 @@ public class WorldDominationView implements Observer {
 		//chartPanel.repaint();
 		chartPanel.setBounds(1024,0,310,300);//390
 		chartPanel.setVisible(true);
-		chartPanel.add(new JButton(new AbstractAction("Refresh Chart") {
+		/*chartPanel.add(new JButton(new AbstractAction("Refresh Chart") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //createDataset(name,value);
@@ -111,7 +116,7 @@ public class WorldDominationView implements Observer {
             }
         }),BorderLayout.SOUTH);
 
-		frameFromPhase.add(chartPanel);
+*/		frameFromPhase.add(chartPanel);
 
 		worldDominationViewLabel.setText(label + "</body></html>");
 

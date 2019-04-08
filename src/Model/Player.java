@@ -928,7 +928,9 @@ public class Player extends Observable implements PlayerStrategyInterface{
             if(!ter.getOwner().getName().equalsIgnoreCase(Game.getInstance().getAttackerObj().getOwner().getName()))
                 return false;
         }
+        System.out.println("GIT TESTING");
         return true;
+
     }
 
     /*public void setStrategy(PlayerStrategyInterface strategy) {
@@ -947,5 +949,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
     public String fortify() {
         return this.strategy.fortify(null);
     }*/
+
+
 }
 

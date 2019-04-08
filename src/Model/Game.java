@@ -477,4 +477,8 @@ public class Game extends Observable {
 		}
 		return reinforcment;
 	}
+
+	public boolean isThereAGameWinner{
+		for
+	}
 }
