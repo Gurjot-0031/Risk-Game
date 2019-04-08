@@ -3,6 +3,7 @@ package Model;
 import View.CardExchangeView;
 import View.DiceRollView;
 import View.PhaseView;
+import View.WorldDominationView;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
@@ -82,6 +83,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
         this.setName(name);
         this.armies = armies;
         this.playerType = playerType;
+        //this.addObserver(WorldDominationView.getInstance());
         //addObserver(PhaseView.getInstance());
     }
 
