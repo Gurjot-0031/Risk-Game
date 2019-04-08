@@ -15,6 +15,15 @@ public class Game extends Observable {
 	private int numPlayers;
 	Map gameMap;
 
+	public int getGameCycleCounter() {
+		return gameCycleCounter;
+	}
+
+	public void setGameCycleCounter(int gameCycleCounter) {
+		this.gameCycleCounter = gameCycleCounter;
+	}
+
+	public int gameCycleCounter = 1;
 	public boolean isAlloutMode() {
 		return alloutMode;
 	}
@@ -243,13 +252,23 @@ public class Game extends Observable {
 		this.gamePhase += 1;
 		if(this.gamePhase == 5) {
 			this.setPrevPhase(4);
-			this.gamePhase = 2;
-			Game.getInstance().setAttackerObj(null);
-			Game.getInstance().setAttackedObj(null);
-			Game.getInstance().setAttacker(null);
-			Game.getInstance().setAttacked(null);
-			Game.getInstance().fortification_destination = null;
-			Game.getInstance().fortification_source = null;
+			if(Game.getInstance().getCurrPlayer().getId()==0) {
+				this.gameTurn = 0;
+				this.gamePhase = 2;
+				//this.setGameCycleCounter(Game.getInstance().getGameCycleCounter() + 1);
+			}
+			else
+				this.gamePhase = 3;
+
+			this.setAttackerObj(null);
+			this.setAttackedObj(null);
+			this.setAttacker(null);
+			this.setAttacked(null);
+			this.fortification_destination = null;
+			this.fortification_source = null;
+
+
+
 		}
 
 		if(this.gamePhase == 2) {		//Reinforcement phase
@@ -286,17 +305,23 @@ public class Game extends Observable {
 	 */
 	public void nextTurn() {
 		//System.out.println("Previous Player"+ Game.getInstance().getCurrPlayer().getName());
-		this.gameTurn += 1;
+		if(this.gameTurn == (this.numPlayers-1) && Game.getInstance().getGamePhase()==4)
+			this.nextPhase();
+		else{
+			this.gameTurn += 1;
+			if(this.gameTurn == this.numPlayers) {
+				this.gameTurn = 0;
+				//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
+				if(this.gamePhase == 4) {
+					this.nextPhase();
+				}
+			}
+		}
+
 		//if(this.getGameTurn()!=this.numPlayers)
 		//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
 
-		if(this.gameTurn == this.numPlayers) {
-			this.gameTurn = 0;
-		//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
-			if(this.gamePhase == 4) {
-				this.nextPhase();
-			}
-		}
+
 		setChanged();
 		notifyObservers(this);
 	}

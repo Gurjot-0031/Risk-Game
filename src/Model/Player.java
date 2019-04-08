@@ -774,7 +774,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
                         btn.setBackground(Game.getInstance().getCurrPlayer().getColor());
                     }
                 }
-                if(isThereAWinner()){
+                /*if(isThereAWinner()){
                     JOptionPane.showMessageDialog(null,Game.getInstance().getAttackerObj().getOwner().getName()+" has won the Game");
 
                     try {
@@ -784,7 +784,7 @@ public class Player extends Observable implements PlayerStrategyInterface{
                     catch (Exception e){
                         System.out.println(e.getMessage());
                     }
-                }
+                }*/
                 int input=-1;
                 if(!isThereAWinner() && !Game.getInstance().isAlloutMode()) {
                     input = JOptionPane.showConfirmDialog(null, Game.getInstance().getCurrPlayerName() + " continue attacking other territories?", "Continue Attack", JOptionPane.YES_NO_OPTION);
@@ -825,7 +825,8 @@ public class Player extends Observable implements PlayerStrategyInterface{
         }
         else{
             System.out.println("Defender Won a dice roll");
-            Game.getInstance().getAttackerObj().removeArmies(1);
+            if(Game.getInstance().getAttackerObj().getArmies()>1)
+                Game.getInstance().getAttackerObj().removeArmies(1);
             runTimeMessage = "Attacker Dice Value: "+highValue[0]+"&nbsp; Defender Dice Value: "+highValue[1]+"<br/>Defender won a dice roll, so, Attacker lost an army<br/>" +
                     "Remaining armies for Attacker: "+ Game.getInstance().getAttackerObj().getArmies()+"<br/>"+
                     "Remaining armies for defender: "+ Game.getInstance().getAttackedObj().getArmies()+"<br/>";
@@ -836,14 +837,15 @@ public class Player extends Observable implements PlayerStrategyInterface{
 
             System.out.println("Attacker lost a army");
             System.out.println("Attacker armies left:"+Game.getInstance().getAttackerObj().getArmies());
-            if(Game.getInstance().getAttackerObj().getArmies()==0){
+            if(Game.getInstance().getAttackerObj().getArmies()==1){
                 System.out.println("Attacker lost all his armies, attacker can now fortify:");
                 if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
                     JOptionPane.showMessageDialog(null,"Attacker lost all his armies, attacker can now fortify:");
                 else {
                     DiceRollView.getInstance().getDiceRollFrame().setVisible(false);
+                    //Game.getInstance().getAttackerObj().addArmy(2);
                     Game.getInstance().nextPhase();
-                    Game.getInstance().getCurrPlayer().getStrategy().fortify("ABCD");
+                    //Game.getInstance().getCurrPlayer().getStrategy().fortify("ABCD");
                 }
                 //runTimeMessage = "Attacker lost all his armies, attacker can now fortify..";
                 DiceRollView.getInstance().getContinueAttackBtn().setVisible(false);
@@ -864,11 +866,11 @@ public class Player extends Observable implements PlayerStrategyInterface{
             }
             if(attackerDiceValues.size()==0){
                 attackFinished = true;
-                System.out.println("Attacker rolled all his Dices");
+                //System.out.println("Attacker rolled all his Dices");
 
-                if(Game.getInstance().getAttackerObj().getArmies()==0){
+                /*if(Game.getInstance().getAttackerObj().getArmies()==0){
                     System.out.println("Attacker Territory lost all armies");
-                }
+                }*/
             }
         }
         setChanged();
