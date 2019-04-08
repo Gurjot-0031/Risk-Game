@@ -30,7 +30,6 @@ public class HomeView {
         homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homeFrame.getContentPane().setBackground(Color.WHITE);
         homeFrame.setVisible(true);
-        Image background = Toolkit.getDefaultToolkit().createImage("61PP3WD555L._AC_SX215_.jpg");
     }
 
 }

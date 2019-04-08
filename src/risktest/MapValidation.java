@@ -1,4 +1,4 @@
-//package risktest;
+package risktest;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ import Model.Territory;
  * @author Team38
  *
  */
-public class mapValidation {
+public class MapValidation {
 
     String validMap;
     String invalidEmptyContinentMap;

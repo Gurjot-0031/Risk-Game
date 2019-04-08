@@ -68,6 +68,9 @@ public class HomeMenu {
         JMenu fileMenu = new JMenu("File");
 
         JMenuItem newGame = new JMenuItem("New Game");
+        JMenuItem loadSavedGame = new JMenuItem("Load Saved Game");
+        JMenuItem tournament = new JMenuItem("Tournament Mode");
+
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -255,6 +258,8 @@ public class HomeMenu {
             }
         });
         fileMenu.add(newGame);
+        fileMenu.add(loadSavedGame);
+        fileMenu.add(tournament);
 
         homeMenuBar.add(fileMenu);
         homeMenus.put("File", fileMenu);

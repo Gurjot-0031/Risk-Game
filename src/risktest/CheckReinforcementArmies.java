@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class checkReinforcementArmies {
+public class CheckReinforcementArmies {
     int reinforced;
     /**
      * Function called before each test case

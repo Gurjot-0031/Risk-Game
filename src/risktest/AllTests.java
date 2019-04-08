@@ -1,4 +1,4 @@
-/*
+
 package risktest;
 
 
@@ -8,12 +8,13 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 
-        mapValidation.class,
+        MapValidation.class,
         TestPlayer.class,
-        checkStartupPhase.class,
-        checkReinforcementArmies.class
+        CheckStartupPhase.class,
+        CheckReinforcementArmies.class,
+        TestAggresivePlayer.class
 })
 public class AllTests {
 
 }
-*/
+

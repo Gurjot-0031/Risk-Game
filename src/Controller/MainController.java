@@ -21,6 +21,7 @@ public class MainController
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+
                 objHomeController.initHomeWindow();
             }
         });
