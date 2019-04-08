@@ -68,9 +68,6 @@ public class HomeMenu {
         JMenu fileMenu = new JMenu("File");
 
         JMenuItem newGame = new JMenuItem("New Game");
-        JMenuItem loadSavedGame = new JMenuItem("Load Saved Game");
-        JMenuItem tournament = new JMenuItem("Tournament Mode");
-
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,66 +140,7 @@ public class HomeMenu {
                     }
                 });
 
-                /*final JFileChooser fileChooser2 = new JFileChooser();
 
-                JButton loadMap2 = new JButton("Choose Map 2");
-                loadMap.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        int returnValue = fileChooser2.showOpenDialog(null);
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser2.getSelectedFile();
-                            System.out.println("File Selected: " + selectedFile.getAbsolutePath());
-                        }
-                    }
-                });
-
-                final JFileChooser fileChooser3 = new JFileChooser();
-
-                JButton loadMap3 = new JButton("Choose Map3");
-                loadMap.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        int returnValue = fileChooser3.showOpenDialog(null);
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser3.getSelectedFile();
-                            System.out.println("File Selected: " + selectedFile.getAbsolutePath());
-                        }
-                    }
-                });
-
-                final JFileChooser fileChooser4 = new JFileChooser();
-
-                JButton loadMap4 = new JButton("Choose Map 4");
-                loadMap.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        int returnValue = fileChooser4.showOpenDialog(null);
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser4.getSelectedFile();
-                            System.out.println("File Selected: " + selectedFile.getAbsolutePath());
-                        }
-                    }
-                });
-
-                final JFileChooser fileChooser5 = new JFileChooser();
-
-                JButton loadMap5 = new JButton("Choose Map 5");
-                loadMap.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        int returnValue = fileChooser5.showOpenDialog(null);
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser5.getSelectedFile();
-                            System.out.println("File Selected: " + selectedFile.getAbsolutePath());
-                        }
-                    }
-                });*/
-                //configPanel.add(typePlayers);
                 configPanel.add(loadMap);
                /* configPanel.add(loadMap2);
                 configPanel.add(loadMap3);
@@ -258,8 +196,6 @@ public class HomeMenu {
             }
         });
         fileMenu.add(newGame);
-        fileMenu.add(loadSavedGame);
-        fileMenu.add(tournament);
 
         homeMenuBar.add(fileMenu);
         homeMenus.put("File", fileMenu);

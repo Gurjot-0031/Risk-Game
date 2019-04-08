@@ -26,7 +26,7 @@ import View.WorldDominationView;
 public class GameController extends Observable {
 	private static GameController instance;
 	public int numOfGames;
-	public String[] output;
+	public ArrayList<String> output = new ArrayList<>();
 	/**
 	 * This is the constructor
 	 */
@@ -364,9 +364,9 @@ public class GameController extends Observable {
 								System.out.println(Game.getInstance().getGameCycleCounter() + " turns completed..");
 
 								if (Game.getInstance().getCurrPlayer().isThereAWinner())
-									output[countGame] = (Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " WINNER");
+									output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " WINNER");
 								else
-									output[countGame] = "DRAW";
+									output.add("DRAW");
 								break;
 							}
 							else
@@ -374,9 +374,9 @@ public class GameController extends Observable {
 						}
 					}
 				}
-				for(int i=0; i<output.length; i++)
-					System.out.print(output[i] + "  ");
-				System.out.println("\n");
+				for(int i=0; i<output.size(); i++)
+					System.out.print(output.get(i) + "  ");
+				System.out.println();
 				break;
 
 			case "Territory Clicked":
