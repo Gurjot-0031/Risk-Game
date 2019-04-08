@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class checkAttackPhase {
+public class CheckAttackPhase {
     int gamePhase;
     String attacker;
     String defender;

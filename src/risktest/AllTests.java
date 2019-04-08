@@ -1,17 +1,16 @@
 package risktest;
 
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 
-        mapValidation.class,
+        MapValidation.class,
         TestPlayer.class,
-        checkStartupPhase.class,
-        checkReinforcementArmies.class,
-        checkAttackPhase.class
+        CheckStartupPhase.class,
+        CheckReinforcementArmies.class,
+        CheckAttackPhase.class
 })
 public class AllTests {
 
