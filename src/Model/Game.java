@@ -259,19 +259,11 @@ public class Game extends Observable {
 			}
 		}
 		else if(this.gamePhase == 3) {
-			PhaseView.getInstance().getResetAttackerBtn().setVisible(true);
 			this.setPrevPhase(2);
-			if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
-                System.out.println("***********");
-			else
-			System.out.println("STRATEGIC ATTACK APPLIED");
-
+			PhaseView.getInstance().getResetAttackerBtn().setVisible(true);
+			System.out.println("Reinforcement Phase ends..");
+			System.out.println("Attack Phase starts..");
 		}
-        else if(this.gamePhase == 4) {
-            this.setPrevPhase(3);
-            System.out.println("Fortification Phase");
-
-        }
 
 		setChanged();
 		notifyObservers(this);
