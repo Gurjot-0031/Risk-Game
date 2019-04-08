@@ -5,9 +5,11 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 
 import javax.swing.*;
 
+import Event.GameEvents;
 import Event.IEvent;
 import Model.*;
 import View.CardExchangeView;
@@ -23,7 +25,8 @@ import View.WorldDominationView;
  */
 public class GameController extends Observable {
 	private static GameController instance;
-
+	public int numOfGames;
+	public ArrayList<String> output = new ArrayList<>();
 	/**
 	 * This is the constructor
 	 */
@@ -48,44 +51,48 @@ public class GameController extends Observable {
 	 */
 	public void gameLoop(String[] info) {
 		String clickedTerritory = null;
-		switch (Game.getInstance().getGamePhase()) {
-			case 0:
-				this.startNewGame(info);
-				Game.getInstance().nextPhase();
-				break;
-			case 1:
-				System.out.println("Game in Setup Phase");
-				clickedTerritory = info[0];
-				this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
-				break;
-			case 2:
-				System.out.println("Game in Reinforcement Phase");
-				clickedTerritory = info[0];
-                System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
-				break;
-			case 3:
-				System.out.println("Game in Attack Phase");
-				//System.out.println("Select attacker territory");
-				clickedTerritory = info[0];
-				//String evntInfo = info[1];
+			switch (Game.getInstance().getGamePhase()) {
+				case 0:
+					this.startNewGame(info);
+					Game.getInstance().nextPhase();
+					break;
+				case 1:
+					System.out.println("Game in Setup Phase");
+					clickedTerritory = info[0];
+					this.handleClick(clickedTerritory, Game.getInstance().getGamePhase());
+					break;
+				case 2:
+					System.out.println("Game in Reinforcement Phase");
+					clickedTerritory = info[0];
+					System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
+					break;
+				case 3:
+					System.out.println("Game in Attack Phase");
+					Game.getInstance().setGameCycleCounter(Game.getInstance().getGameCycleCounter() - 1);
+					System.out.println(Game.getInstance().getGameCycleCounter());
+					//System.out.println("Select attacker territory");
+					clickedTerritory = info[0];
+					//String evntInfo = info[1];
 
-				//System.out.println("Please select a territory to attack..");
-				//if(clickedTerritory.equalsIgnoreCase("Continue Attack"))
-				//    this.handleClick("Continue Attack",Game.getInstance().getGamePhase());
-				//else
-                System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
+					//System.out.println("Please select a territory to attack..");
+					//if(clickedTerritory.equalsIgnoreCase("Continue Attack"))
+					//    this.handleClick("Continue Attack",Game.getInstance().getGamePhase());
+					//else
+					System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
 
-				break;
-			case 4:
-				System.out.println("Game in Fortification Phase");
-				clickedTerritory = info[0];
-                System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
-				break;
-			default:
-				System.out.println("Invalid Game Game. Critical Error");
-				return;
+					break;
+				case 4:
+					System.out.println("Game in Fortification Phase");
+					clickedTerritory = info[0];
+					System.out.println(this.handleClick(clickedTerritory, Game.getInstance().getGamePhase()));
+					break;
+				default:
+					System.out.println("Invalid Game Game. Critical Error");
+					return;
+			}
 		}
-	}
+
+
 
 	/**
 	 * This functions starts the new game
@@ -111,7 +118,7 @@ public class GameController extends Observable {
 			switch (Game.getInstance().getNumPlayers())
 			{
 				case 2:
-					initArmies = 26;
+					initArmies = 100;
 					break;
 				case 3:
 					initArmies = 35;
@@ -148,7 +155,12 @@ public class GameController extends Observable {
 
 				j++;
 			}
+			/*if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))*/
 			Game.getInstance().assignTerritoryToPlayers();
+
+			/*else
+
+				Game.getInstance().assignTerritoriesAndArmiesToPlayersAutomatically();*/
 			//Game.getInstance().getpla
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
@@ -165,6 +177,7 @@ public class GameController extends Observable {
 
 		System.out.println("Starting New Game");
 	}
+
 
 	/**
 	 * This function handles the clicks made by user on territories
@@ -186,55 +199,55 @@ public class GameController extends Observable {
 		switch (gamePhase)
 		{
 			case 1:		//Setup Phase
-				if (Game.getInstance().getGameTurn() ==
-						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
-				{
+					if (Game.getInstance().getGameTurn() ==
+							Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
+					{
 
 
-					if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
-						Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
-						setChanged();
-						notifyObservers(this);
-					}
+						if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
+							Game.getInstance().getGameMap().getTerritory(info).addArmy(1);
+							setChanged();
+							notifyObservers(this);
+						}
 
-					boolean nextPhase = true;
-					for (int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
-						if (Game.getInstance().getPlayerById(i).getArmies() != 0) {
-							nextPhase = false;		//until all of the armies which belong to the players
-							break;					//are not deployed, game cannot go to next phase.
+						boolean nextPhase = true;
+						for (int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
+							if (Game.getInstance().getPlayerById(i).getArmies() != 0) {
+								nextPhase = false;		//until all of the armies which belong to the players
+								break;					//are not deployed, game cannot go to next phase.
+							}
+						}
+
+						if (nextPhase == true)
+						{
+							Game.getInstance().setTurn(0);
+							Game.getInstance().nextPhase();
+							return "Next Phase";
+						}
+						Game.getInstance().nextTurn();
+						while (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0)
+						{
+							Game.getInstance().nextTurn();
+							return "Event Processed";
 						}
 					}
-
-					if (nextPhase == true)
-					{
-						Game.getInstance().setTurn(0);
-						Game.getInstance().nextPhase();
-						return "Next Phase";
-					}
-					Game.getInstance().nextTurn();
-					while (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0)
-					{
-						Game.getInstance().nextTurn();
-						return "Event Processed";
-					}
-				}
                 break;
 
 			case 2:			//Reinforcement phase
-				if(Game.getInstance().getPrevPhase()!=1) {
+				/*if(Game.getInstance().getPrevPhase()==4) {
 					CardExchangeView.getInstance().loadCardExchangeView();
 
 				}
-				/*else if(Game.getInstance().getGameTurn() ==
-						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())*/
-				else {
+				*//*else if(Game.getInstance().getGameTurn() ==
+						Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())*//*
+				else {*/
                     switch (currentPlayer.getPlayerType()) {
                         case "HUMAN":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
-                        case "AGGRESSIVE":
+                        default:
                             return Game.getInstance().getCurrPlayer().getStrategy().reinforce(info);
-                        case "BENEVOLENT":
-                            return Game.getInstance().getCurrPlayer().getStrategy().reinforce(info);
+                        /*case "BENEVOLENT":
+                            return Game.getInstance().getCurrPlayer().getStrategy().reinforce(info);*/
                         /*case "RANDOM":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         case "CHEATER":
@@ -242,14 +255,15 @@ public class GameController extends Observable {
                         default:*/
 
 
-                    }
+                    /*}*/
                 }
-				break;
+				//break;
 
 			case 3: //Attack Phase...
 
 				if(Game.getInstance().getAttackedObj() == null && Game.getInstance().getAttackerObj() == null)
 					System.out.println("Proceed further.......");
+
 
                 /*if(Game.getInstance().getAttackerObj()==null)
                     JOptionPane.showMessageDialog(null,"Please select attacker territory");
@@ -268,23 +282,22 @@ public class GameController extends Observable {
             switch (currentPlayer.getPlayerType()) {
                 case "HUMAN":
                     return Game.getInstance().getCurrPlayer().attack(info);
-                case "AGGRESSIVE":
+                default:
                     return Game.getInstance().getCurrPlayer().getStrategy().attack(info);
-                case "BENEVOLENT":
-                    return Game.getInstance().getCurrPlayer().getStrategy().attack(info);
+                /*case "BENEVOLENT":
+                    return Game.getInstance().getCurrPlayer().getStrategy().attack(info);*/
                         /*case "RANDOM":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         case "CHEATER":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         default:*/
             }
-            break;
 
 			case 4:
                 switch (currentPlayer.getPlayerType()) {
                     case "HUMAN":
                         return Game.getInstance().getCurrPlayer().fortify(info);
-                    case "AGGRESSIVE":
+                    default:
                         return Game.getInstance().getCurrPlayer().getStrategy().fortify(info);
                         /*case "BENEVOLENT":
                             return Game.getInstance().getCurrPlayer().reinforce(info);
@@ -294,7 +307,6 @@ public class GameController extends Observable {
                             return Game.getInstance().getCurrPlayer().reinforce(info);
                         default:*/
                 }
-                break;
 			default:
 				System.out.println("Invalid Game");
 				return "Invalid Game";
@@ -309,31 +321,95 @@ public class GameController extends Observable {
 	 */
 	public String eventTriggered(IEvent event)
 	{
-		switch (event.getEventInfo())
+		String[] input = event.getEventData().split(",");
+		String temp="";
+		for(int i=0; i<input.length-2;i++){
+			temp = temp+input[i]+",";
+
+		}
+		GameEvents evnt = new GameEvents();
+		evnt.setEventInfo(event.getEventInfo());
+		evnt.setEventData(temp);
+
+		System.out.println(input[input.length-2]);
+		Game.getInstance().setGameCycleCounter(Integer.parseInt(input[input.length-2]));
+
+		this.numOfGames = Integer.parseInt(input[input.length-1]);
+
+		switch (evnt.getEventInfo())
 		{
 			case "New Game":
-				this.gameLoop(event.getEventData().split(","));
+				this.gameLoop(evnt.getEventData().split(","));
+
+				for(int countGame=0; countGame< this.numOfGames; countGame++ )
+				{
+					//reset resources
+
+					while(true){
+						if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
+							break;
+						}
+						else{
+							//GameEvents evnt = new GameEvents();
+							//evnt.setEventInfo("Territory Clicked");
+							Random random = new Random();
+							Territory tempTerritory;
+							if(Game.getInstance().getGamePhase() == 1)
+								tempTerritory = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
+							else
+								tempTerritory = Game.getInstance().getGameMap().getTerritories().get(0);
+
+							String paraToPass = tempTerritory.getName() + "," + tempTerritory.getArmies();
+							if(Game.getInstance().getGameCycleCounter() == 0) {
+								System.out.println(Game.getInstance().getGameCycleCounter() + " turns completed..");
+
+								if (Game.getInstance().getCurrPlayer().isThereAWinner())
+									output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " WINNER");
+								else
+									output.add("DRAW");
+								break;
+							}
+							else
+								this.gameLoop(paraToPass.split(","));
+						}
+					}
+				}
+				for(int i=0; i<output.size(); i++)
+					System.out.print(output.get(i) + "  ");
+				System.out.println();
 				break;
+
 			case "Territory Clicked":
-				this.gameLoop(event.getEventData().split(","));
+				this.gameLoop(evnt.getEventData().split(","));
+				while(true){
+					if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
+						break;
+					}
+					else{
+						Random random = new Random();
+						Territory tempTerritory = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
+
+						String paraToPass = tempTerritory.getName() + "," + tempTerritory.getArmies();
+						if(Game.getInstance().getGameCycleCounter()==0) {
+                            System.out.println(Game.getInstance().getGameCycleCounter() + " turns completed..");
+                            if (Game.getInstance().getCurrPlayer().isThereAWinner())
+                                System.out.println(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " is the winner..");
+                            else
+                                System.out.println("Game ended in a Draw");
+                            break;
+                        }
+						else
+                            this.gameLoop(paraToPass.split(","));
+					}
+				}
 				break;
-			/*case "Attack Phase:attacked territory selected":
-				//this.gameLoop(event.getEventData().split(","));
-				if(Game.getInstance().getAttackedObj()!=null)
-                    DiceRollView.getInstance().loadFrame();
-				DiceRollView.getInstance().setFromPhaseViewActionListener(event.getEventData().split(",")[0]);
-				break;*/
-			/*case "Roll Dices Event":
-				setChanged();
-				notifyObservers();
-				this.gameLoop(event.getEventData().split(","));
-				break;*/
+
 			case "Continue Attack":
 				//this.gameLoop(new String[]{event.getEventData().split(",")[0],event.getEventInfo()});
 				setChanged();
 				notifyObservers();
 				//this.gameLoop(new String[]{"Continue Attack",""});
-				this.gameLoop(event.getEventData().split(","));
+				this.gameLoop(evnt.getEventData().split(","));
 
 				break;
 			default:

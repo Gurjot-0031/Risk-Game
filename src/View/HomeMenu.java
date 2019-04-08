@@ -8,16 +8,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashMap;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import Controller.HomeController;
 import Event.GameEvents;
@@ -81,21 +72,57 @@ public class HomeMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("New Game");
+                JFrame configFrame = new JFrame("Config");
                 JPanel configPanel = new JPanel();
+                configFrame.setSize(600,600);
                 configPanel.setSize(600, 600);
+                configFrame.add(configPanel);
+
 
                 Integer[] values = { 2, 3, 4, 5, 6 };
+                Integer[] mapValues = { 1, 2, 3, 4, 5 };
+                JLabel plLabel = new JLabel("Players #");
+                //plLabel.setBounds(10,10,30,15);
                 JComboBox<Integer> numPlayers = new JComboBox<Integer>(values);
+                //numPlayers.setBounds(45, 10,30,15);
 
+                JLabel mapLabel = new JLabel("Map #");
+                //mapLabel.setBounds(10,30,30,15);
+                JComboBox<Integer> numOfMaps = new JComboBox<Integer>(mapValues);
+                //numOfMaps.setBounds(45,30,30,15);
+
+                JLabel gameLabel = new JLabel("Game #");
+                //gameLabel.setBounds(10,50,30,15);
+                Integer[] gameValues = { 1, 2, 3, 4, 5 };
+                JComboBox<Integer> numOfGames = new JComboBox<Integer>(gameValues);
+                //numOfGames.setBounds(45,50,30,15);
+
+
+
+
+
+                //Integer[] turns = { 1, 2, 3, 4, 5 };
+                JTextField noOfTurns = new JTextField("Enter number of Turns");
                 for (int i = 0; i < Integer.parseInt(numPlayers.getSelectedItem().toString()) ; i++) {
                     JLabel templabel = new JLabel("Player");
                 }
 
 
+                configPanel.add(plLabel);
+                configPanel.add(numPlayers);
+
+                configPanel.add(mapLabel);
+                configPanel.add(numOfMaps);
+
+                configPanel.add(gameLabel);
+                configPanel.add(numOfGames);
+
+                configPanel.add(noOfTurns);
 
 
 
                 final JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setMultiSelectionEnabled(true);
 
                 JButton loadMap = new JButton("Choose Map");
                 loadMap.addActionListener(new ActionListener() {
@@ -104,19 +131,25 @@ public class HomeMenu {
 
                         int returnValue = fileChooser.showOpenDialog(null);
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser.getSelectedFile();
-                            System.out.println("File Selected: " + selectedFile.getAbsolutePath());
+                            File[] selectedFiles = fileChooser.getSelectedFiles();
+                            for(int i=0;i<selectedFiles.length;i++){
+                                System.out.println("File Selected: " + selectedFiles[i].getAbsolutePath());
+                            }
+
                         }
                     }
                 });
 
-                configPanel.add(numPlayers);
-                //configPanel.add(typePlayers);
+
                 configPanel.add(loadMap);
+               /* configPanel.add(loadMap2);
+                configPanel.add(loadMap3);
+                configPanel.add(loadMap4);
+                configPanel.add(loadMap5);*/
                 int result = JOptionPane.showConfirmDialog(null, configPanel, "Please Configure",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
-                    if (fileChooser.getSelectedFile() != null) {
+                    if (fileChooser.getSelectedFiles() != null) {
                         String names = "";
                         String[] playerType = {"HUMAN", "AGGRESSIVE", "BENEVOLENT", "RANDOM", "CHEATER"};
 
@@ -146,12 +179,16 @@ public class HomeMenu {
                             }
                             names += "," + name + "," + type;
                         }
-                        GameEvents objEvent = new GameEvents();
-                        objEvent.setEventInfo("New Game");
-                        String eventData = numPlayers.getSelectedItem().toString() + ","
-                                + fileChooser.getSelectedFile().getAbsolutePath() + names;
-                        objEvent.setEventData(eventData);
-                        objHomeController.eventTriggered(objEvent);
+                        for(int i=0;i<fileChooser.getSelectedFiles().length;i++){
+                            GameEvents objEvent = new GameEvents();
+                            objEvent.setEventInfo("New Game");
+                            String eventData = numPlayers.getSelectedItem().toString() + ","
+                                    + fileChooser.getSelectedFiles()[i].getAbsolutePath() + names+
+                                    ","+noOfTurns.getText() +"," + numOfGames.getSelectedItem().toString();
+                            objEvent.setEventData(eventData);
+                            objHomeController.eventTriggered(objEvent);
+                        }
+
                     } else {
                         System.out.println("Cannot start new game. Invalid Configuration");
                     }

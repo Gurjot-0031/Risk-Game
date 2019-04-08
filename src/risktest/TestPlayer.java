@@ -20,6 +20,7 @@ public class TestPlayer {
     //Territory chn= new Territory("India",10,20,new ArrayList<>());
     //ArrayList<Territory> adj = new ArrayList<>();
     //adj.add(chn[3]);
+
     Territory ind = new Territory("India",10,20,new ArrayList<>());
 
     Card cardObject = new Card();

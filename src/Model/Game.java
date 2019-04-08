@@ -2,9 +2,7 @@ package Model;
 
 import View.PhaseView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * This class is game model
@@ -17,6 +15,15 @@ public class Game extends Observable {
 	private int numPlayers;
 	Map gameMap;
 
+	public int getGameCycleCounter() {
+		return gameCycleCounter;
+	}
+
+	public void setGameCycleCounter(int gameCycleCounter) {
+		this.gameCycleCounter = gameCycleCounter;
+	}
+
+	public int gameCycleCounter = 1;
 	public boolean isAlloutMode() {
 		return alloutMode;
 	}
@@ -244,13 +251,29 @@ public class Game extends Observable {
 	public void nextPhase() {
 		this.gamePhase += 1;
 		if(this.gamePhase == 5) {
-			this.setPrevPhase(5);
-			this.gamePhase = 2;
+			this.setPrevPhase(4);
+			if(Game.getInstance().getCurrPlayer().getId()==0) {
+				this.gameTurn = 0;
+				this.gamePhase = 2;
+				//this.setGameCycleCounter(Game.getInstance().getGameCycleCounter() + 1);
+			}
+			else
+				this.gamePhase = 3;
+
+			this.setAttackerObj(null);
+			this.setAttackedObj(null);
+			this.setAttacker(null);
+			this.setAttacked(null);
+			this.fortification_destination = null;
+			this.fortification_source = null;
+
+
+
 		}
 
 		if(this.gamePhase == 2) {		//Reinforcement phase
-			this.setPrevPhase(1);
-			System.out.println("Setup Phase ends..");
+			if(this.prevPhase != 4)
+				System.out.println("Setup Phase ends..");
 			System.out.println("Reinforcement Phase starts..");
 			for(int i = 0; i < this.numPlayers; i++) {
 				int armies = this.calcReinforcementArmies(i);
@@ -259,11 +282,19 @@ public class Game extends Observable {
 			}
 		}
 		else if(this.gamePhase == 3) {
-			this.setPrevPhase(2);
 			PhaseView.getInstance().getResetAttackerBtn().setVisible(true);
-			System.out.println("Reinforcement Phase ends..");
-			System.out.println("Attack Phase starts..");
+			this.setPrevPhase(2);
+			if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
+                System.out.println("***********");
+			else
+				System.out.println("STRATEGY APPLIED");
+
 		}
+        else if(this.gamePhase == 4) {
+            this.setPrevPhase(3);
+            System.out.println("Fortification Phase");
+
+        }
 
 		setChanged();
 		notifyObservers(this);
@@ -273,13 +304,24 @@ public class Game extends Observable {
 	 * Changes the game turn
 	 */
 	public void nextTurn() {
-		this.gameTurn += 1;
-		if(this.gameTurn == this.numPlayers) {
-			this.gameTurn = 0;
-			if(this.gamePhase == 4) {
-				this.nextPhase();
+		//System.out.println("Previous Player"+ Game.getInstance().getCurrPlayer().getName());
+		if(this.gameTurn == (this.numPlayers-1) && Game.getInstance().getGamePhase()==4)
+			this.nextPhase();
+		else{
+			this.gameTurn += 1;
+			if(this.gameTurn == this.numPlayers) {
+				this.gameTurn = 0;
+				//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
+				if(this.gamePhase == 4) {
+					this.nextPhase();
+				}
 			}
 		}
+
+		//if(this.getGameTurn()!=this.numPlayers)
+		//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
+
+
 		setChanged();
 		notifyObservers(this);
 	}
@@ -314,6 +356,29 @@ public class Game extends Observable {
 		}
 	}
 
+
+	public void assignArmyToPlayersAutomatically() {
+		ArrayList<Territory> territories = this.gameMap.getTerritories();
+		Collections.shuffle(territories);
+		Iterator<Player> iterator = Game.getInstance().players.iterator();
+
+		while(iterator.hasNext()){
+			Player tempPlayer = iterator.next();
+			Random random = new Random();
+
+			if(!tempPlayer.getPlayerType().equalsIgnoreCase("HUMAN")){
+				//int avg = Game.getInstance().getCurrPlayerArmies()/Game.getInstance().getCurrPlayer().getTerritoriesOwned().size();
+				if(Game.getInstance().getCurrPlayer().armies!=0){
+
+					Territory tempTerr = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
+					tempTerr.addArmy(1);
+					Game.getInstance().getCurrPlayer().removeArmy(1);
+				}
+			}
+		}
+
+
+	}
 	/**
 	 * Adds player to game
 	 * @param player The input player

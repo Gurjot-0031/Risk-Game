@@ -8,9 +8,10 @@ public class StrategyContextSetter {
 
         if(strategyType.equals("AGGRESSIVE"))
             strategyObj = new AggressiveStrategyPlayer();
-        /*else if(strategyType.equals("BENEVOLENT"))
+        else if(strategyType.equals("BENEVOLENT"))
             strategyObj = new BenevolentStrategyPlayer();
-*/
+        else if(strategyType.equals("CHEATER"))
+            strategyObj = new CheaterStrategyPlayer();
         return strategyObj;
 
 

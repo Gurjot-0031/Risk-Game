@@ -22,7 +22,7 @@ import Model.Territory;
  * @author Team38
  *
  */
-public class mapValidation {
+public class MapValidation {
 
     String validMap;
     String invalidEmptyContinentMap;

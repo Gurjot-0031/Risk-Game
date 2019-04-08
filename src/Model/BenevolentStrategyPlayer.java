@@ -33,7 +33,7 @@ public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
         Game.getInstance().nextTurn();
         if(Game.getInstance().getGameTurn() == 0)
             Game.getInstance().nextPhase();
-        return "Benevolent Reinforce completed";
+        return "Benevolent Player Reinforcement completed";
     }
 
     @Override
@@ -65,8 +65,6 @@ public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
             System.out.println("Territory "+territory.getName()+" updated armies: "+territory.getArmies());
 
         Game.getInstance().nextTurn();
-        if(Game.getInstance().getGameTurn() == 0)
-            Game.getInstance().nextPhase();
         return "Benevolent Fortification completed";
     }
 

@@ -69,6 +69,16 @@ public class Territory {
         this.armies = 0;
     }
 
+    int arms;
+
+    public Territory(String name, int x, int y, ArrayList<String> adjacents, int arm) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.adjacents = adjacents;
+        this.arms = arm;
+    }
+
     /**
      * Gets the armies on territory
      *
@@ -132,10 +142,7 @@ public class Territory {
      * @return Success or failure
      */
     public boolean checkAdjacent(String adjacent) {
-        if (this.adjacents.contains(adjacent)) {
-            return true;
-        }
-        return false;
+        return this.adjacents.contains(adjacent);
     }
 
     /**
@@ -176,9 +183,7 @@ public class Territory {
      *            Input adjacent
      */
     public void removeAdjacent(String adjacent) {
-        if (this.adjacents.contains(adjacent)) {
-            this.adjacents.remove(adjacent);
-        }
+        this.adjacents.remove(adjacent);
     }
 
     /**
