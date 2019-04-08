@@ -1,4 +1,3 @@
-/*
 package risktest;
 
 
@@ -11,9 +10,10 @@ import org.junit.runners.Suite;
         mapValidation.class,
         TestPlayer.class,
         checkStartupPhase.class,
-        checkReinforcementArmies.class
+        checkReinforcementArmies.class,
+        checkAttackPhase.class
 })
 public class AllTests {
 
 }
-*/
+
