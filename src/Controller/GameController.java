@@ -343,6 +343,7 @@ public class GameController extends Observable {
 
 				for(int countGame=0; countGame< this.numOfGames; countGame++ )
 				{
+				    WorldDominationView.getInstance().getChartPanel().repaint();
 					//reset resources
 
 					while(true){

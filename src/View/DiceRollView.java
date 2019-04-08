@@ -302,8 +302,10 @@ public class DiceRollView implements Observer {
         for(String s:runTimeMessagesFromAttack){
             uiOutput+=s;
         }
-        diceInfoLabel.setVisible(true);
-        diceInfoLabel.setText(uiOutput+"</body></html>");
+        if(!Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")) {
+            diceInfoLabel.setVisible(true);
+            diceInfoLabel.setText(uiOutput + "</body></html>");
+        }
 
 
     }
