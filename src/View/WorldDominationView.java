@@ -22,14 +22,15 @@ import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.Serializable;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class WorldDominationView implements Observer {
+public class WorldDominationView implements Observer, Serializable {
 
-	private static WorldDominationView instance;
+	public static WorldDominationView instance;
 	JLabel worldDominationViewLabel = new JLabel();
 	ArrayList<Territory> territoriesList;
 	ArrayList<Territory> continentTerritory;

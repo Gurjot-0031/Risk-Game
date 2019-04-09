@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.io.Serializable;
 
 import javax.swing.*;
 import javax.tools.Tool;
 
 import Controller.HomeController;
 
-public class HomeView {
+public class HomeView implements Serializable {
 
     private HomeController objHomeController;
     private JFrame homeFrame;

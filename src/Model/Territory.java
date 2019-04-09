@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -10,7 +11,7 @@ import java.util.Observer;
  * @author Team38
  *
  */
-public class Territory {
+public class Territory implements Serializable {
     String name;
     int x;
     int y;

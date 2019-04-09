@@ -1,6 +1,7 @@
 package Event;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * This class is used to pass map editor events from view to controller
@@ -8,7 +9,7 @@ import java.io.File;
  * @author Team38
  *
  */
-public class MapEditorEvents implements IEvent {
+public class MapEditorEvents implements IEvent, Serializable {
     String eventInfo;
     File eventFile;
     String eventData;

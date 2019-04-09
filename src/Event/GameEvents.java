@@ -1,6 +1,7 @@
 package Event;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * This class is used to pass events from view to controller
@@ -8,7 +9,7 @@ import java.io.File;
  * @author Team38
  *
  */
-public class GameEvents implements IEvent {
+public class GameEvents implements IEvent, Serializable {
     String eventInfo;
     File eventFile;
     String eventData;

@@ -6,17 +6,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 
 import javax.swing.*;
 
+import Controller.GameController;
 import Controller.HomeController;
 import Event.GameEvents;
 import Event.MapEditorEvents;
 import Model.Game;
 //import javafx.stage.FileChooser;
 
-public class HomeMenu {
+public class HomeMenu implements Serializable {
     private HomeController objHomeController;
 
     private JMenuBar homeMenuBar;
@@ -32,6 +34,47 @@ public class HomeMenu {
     }
 
     private void initMapEditorMenu(JMenuBar homeMenuBar) {
+        JMenu loadGameMenu = new JMenu("Load Game");
+        loadGameMenu.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                JFileChooser fileChooser = new JFileChooser();
+                int retValue = fileChooser.showOpenDialog(null);
+                File selectedFile = null;
+                if (retValue == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = fileChooser.getSelectedFile();
+                    System.out.println("Game File Selected: " + selectedFile.getAbsolutePath());
+                }
+
+                Game.getNewInstance();
+                Game.getNewInstance().loadSavedGame(selectedFile);
+                GameController.getInstance();
+                //Game.getInstance().loadSavedGame(selectedFile);
+                //PhaseView.getInstance().loadFrame();
+                PhaseView.getInstance().loadMap(Game.getInstance().getGameMap());
+                return;
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
+            }
+        });
         JMenu mapEditorMenu = new JMenu("MapEditor");
         mapEditorMenu.addMouseListener(new MouseListener() {
 
@@ -61,6 +104,7 @@ public class HomeMenu {
             }
         });
 
+        homeMenuBar.add(loadGameMenu);
         homeMenuBar.add(mapEditorMenu);
         homeMenus.put("MapEditor", mapEditorMenu);
     }

@@ -3,6 +3,7 @@ package Model;
 import View.PhaseView;
 
 import javax.swing.*;
+import java.io.Serializable;
 
 /**
  *
@@ -16,6 +17,7 @@ public class CheaterStrategyPlayer implements PlayerStrategyInterface {
      * @param territoryClicked the territory selected
      * @return the completion message
      */
+public class CheaterStrategyPlayer implements PlayerStrategyInterface, Serializable {
     @Override
     public String reinforce(String territoryClicked) {
         Player curP = Game.getInstance().getCurrPlayer();

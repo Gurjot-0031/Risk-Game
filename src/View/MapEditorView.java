@@ -8,6 +8,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.Serializable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -28,7 +29,7 @@ import Event.MapEditorEvents;
  * @author Team38
  *
  */
-public class MapEditorView {
+public class MapEditorView implements Serializable {
     private static MapEditorController objController;
     private JFrame mapEditorFrame;
     private static MapEditorView instance;

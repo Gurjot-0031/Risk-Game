@@ -1,10 +1,6 @@
 package Model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +10,7 @@ import java.util.HashMap;
  * @author Team38
  *
  */
-public class Map {
+public class Map implements Serializable {
     String author;
     String wrap;
     String scroll;

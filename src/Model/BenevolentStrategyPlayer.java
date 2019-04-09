@@ -1,10 +1,12 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+public class BenevolentStrategyPlayer implements PlayerStrategyInterface, Serializable {
 /**
  *
  * This class contains the implementation of the Benevolent

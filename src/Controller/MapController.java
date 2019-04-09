@@ -3,6 +3,7 @@ package Controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Model.Continent;
@@ -15,7 +16,7 @@ import Model.Territory;
  * @author Team38
  *
  */
-public class MapController {
+public class MapController implements Serializable {
     private Map map;
     private static MapController instance;
 

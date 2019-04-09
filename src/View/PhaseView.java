@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -24,8 +25,9 @@ import Model.Territory;
  * @author Team38
  *
  */
-public class PhaseView extends MouseAdapter implements Observer {
-	private static PhaseView instance;
+public class PhaseView extends MouseAdapter implements Observer, Serializable {
+	public static PhaseView instance;
+	public JButton saveBtn = new JButton("SAVE GAME");
 
 	String[] source;
 
@@ -165,7 +167,10 @@ public class PhaseView extends MouseAdapter implements Observer {
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.getContentPane().setBackground(Color.WHITE);
 		gameFrame.getContentPane().setLayout(null);
+		gameFrame.add(saveBtn);
 
+		saveBtn.setBounds(200,10,25,20);
+		saveBtn.setVisible(true);
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(0, 620, 1024, 118);
 		this.infoLog = new JLabel();
@@ -197,6 +202,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 			System.out.println("Map not loaded correctly. Cannot be rendered");
 			return;
 		}
+		gameFrame.setVisible(true);
 		Game.getInstance().addObserver(PhaseView.getInstance());   //.........*****************************
 		GameController.getInstance().addObserver(PhaseView.getInstance());
 
@@ -218,6 +224,43 @@ public class PhaseView extends MouseAdapter implements Observer {
 		gameFrame.add(resetAttackerBtn);
 		gameFrame.add(nextEventBtn);
 
+		saveBtn.addActionListener(new Action() {
+			@Override
+			public Object getValue(String s) {
+				return null;
+			}
+
+			@Override
+			public void putValue(String s, Object o) {
+
+			}
+
+			@Override
+			public void setEnabled(boolean b) {
+
+			}
+
+			@Override
+			public boolean isEnabled() {
+				return false;
+			}
+
+			@Override
+			public void addPropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+			}
+
+			@Override
+			public void removePropertyChangeListener(PropertyChangeListener propertyChangeListener) {
+
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+
+				Game.getInstance().saveGame("ABC");
+			}
+		});
 		nextEventBtn.setVisible(true);
 		nextEventBtn.addActionListener(new Action() {
             @Override
@@ -379,7 +422,7 @@ public class PhaseView extends MouseAdapter implements Observer {
 
 			infoLog2.setText("");
 			objEvent.setEventInfo("Territory Clicked");
-			objEvent.setEventData(territory.getName() + "," + territory.getArmies());
+			objEvent.setEventData(territory.getName() + "," + territory.getArmies()+","+1+","+1+","+1);
 
 
 			GameController.getInstance().eventTriggered(objEvent);

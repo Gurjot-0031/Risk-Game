@@ -1,12 +1,14 @@
 package Controller;
 
+import java.io.Serializable;
+
 /**
  * This is the main starting point
  *
  * @author Team38
  *
  */
-public class MainController
+public class MainController implements Serializable
 {
 
     /**

@@ -7,13 +7,15 @@ import View.HomeMenu;
 import View.HomeView;
 import View.MapEditorView;
 
+import java.io.Serializable;
+
 /**
  * This class acts as controller for Home Screen
  *
  * @author Team38
  *
  */
-public class HomeController {
+public class HomeController implements Serializable {
 
     HomeView objHomeView;
     HomeMenu objHomeMenu;

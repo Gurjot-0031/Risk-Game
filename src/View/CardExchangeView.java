@@ -7,6 +7,7 @@ import Model.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,7 +21,7 @@ import Model.Card;
  * @author Team 38(Ufuoma Ubor)
  * CardExchangeView class, implements an Observer class
  */
-public class CardExchangeView implements Observer {
+public class CardExchangeView implements Observer, Serializable {
 
     public JButton getExcBtn() {
         return excSame;
@@ -29,7 +30,7 @@ public class CardExchangeView implements Observer {
     private JButton excSame = new JButton("EXCHANGE SIMILAR");
     private JButton excDiff= new JButton("EXCHANGE DIFFERENT");
     private JButton closeBtn = new JButton("CLOSE");
-    private static CardExchangeView instance;
+    public static CardExchangeView instance;
     private JLabel cardExchangeViewLabel = new JLabel();
     //ArrayList<Territory> territoriesList;
     //ArrayList<Territory> continentTerritory;

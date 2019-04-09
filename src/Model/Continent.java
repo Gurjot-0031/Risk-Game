@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -8,7 +9,7 @@ import java.util.HashMap;
  * @author Team38
  *
  */
-public class Continent {
+public class Continent implements Serializable {
 
     String name;
     int reward;

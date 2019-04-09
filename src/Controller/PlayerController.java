@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Territory;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Team38
  *
  */
-public class PlayerController {
+public class PlayerController implements Serializable {
     private String playerName;
     private List<Territory> territoriesOwned;
 

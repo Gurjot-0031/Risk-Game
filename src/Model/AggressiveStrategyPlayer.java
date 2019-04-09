@@ -2,6 +2,7 @@ package Model;
 
 import View.DiceRollView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -12,6 +13,7 @@ import java.util.Iterator;
  * Strategy for reinforcement, attack and fortify methods
  */
 public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
+public class AggressiveStrategyPlayer implements PlayerStrategyInterface, Serializable {
 
 
     /**

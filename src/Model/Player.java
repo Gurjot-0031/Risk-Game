@@ -8,6 +8,7 @@ import View.WorldDominationView;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.util.*;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ import javax.swing.*;
  * @author Team38
  *d
  */
-public class Player extends Observable implements PlayerStrategyInterface{
+public class Player extends Observable implements PlayerStrategyInterface, Serializable {
     private int id;
     private String name;
     private Color color;

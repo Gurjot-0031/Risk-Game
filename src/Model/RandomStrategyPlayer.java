@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class RandomStrategyPlayer implements PlayerStrategyInterface {
+public class RandomStrategyPlayer implements PlayerStrategyInterface, Serializable {
     @Override
     public String reinforce(String territoryClicked) {
         Random random = new Random();

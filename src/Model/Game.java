@@ -1,7 +1,15 @@
 package Model;
 
+import Controller.GameController;
+import View.CardExchangeView;
+import View.DiceRollView;
 import View.PhaseView;
+import View.WorldDominationView;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -10,7 +18,7 @@ import java.util.*;
  * @author Team38
  *
  */
-public class Game extends Observable {
+public class Game extends Observable implements Serializable {
 	private static Game instance;
 	private int numPlayers;
 	Map gameMap;
@@ -573,4 +581,81 @@ public class Game extends Observable {
 		}
 		return "DRAW";
 	}
+
+	public void saveGame(String filename) {
+		try {
+			// Saving of object in a file
+			filename = filename.endsWith(".ser") ? filename : filename + ".ser";
+			FileOutputStream file = new FileOutputStream(filename);
+			ObjectOutputStream out = new ObjectOutputStream(file);
+
+
+			/*out.writeObject(this.gameMap);
+			out.writeObject(this.players);
+			out.writeObject(this.gameCycleCounter);
+			out.writeObject(this.alloutMode);
+			out.writeObject(this.prevPhase);
+			out.writeObject(this.fortification_source);
+			out.writeObject(this.attacker);
+			out.writeObject(this.attacked);*/
+			out.writeObject(this);
+			out.writeObject(PhaseView.getInstance());
+			out.writeObject(WorldDominationView.getInstance());
+			out.writeObject(GameController.getInstance());
+			out.writeObject(CardExchangeView.getInstance());
+			out.writeObject(DiceRollView.getInstance());
+			/*out.writeObject(this.fortification_destination);
+			out.writeObject(this.fortification_destination);
+			out.writeObject(this.fortification_destination);
+			out.writeObject(this.fortification_destination);*/
+
+
+			out.close();
+			file.close();
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
+
+	@SuppressWarnings("unchecked")
+	public void loadSavedGame (File inputFile) {
+		try {
+			FileInputStream file = new FileInputStream(inputFile);
+			ObjectInputStream in = new ObjectInputStream(file);
+			try {
+				/*this.bmpFile = (File) in.readObject();
+				this.continentDataList = (ArrayList<ContinentData>) in.readObject();
+				this.countryDataList = (ArrayList<CountryData>) in.readObject();
+				this.playerList = (HashMap<String,Player>) in.readObject();
+				this.playersArmiesList = (HashMap<Integer,Integer>) in.readObject();
+				System.out.println(this.playersArmiesList.size());
+				this.conqueredPlayerList = (List<Player>) in.readObject();
+				this.updatePlayer((Player) in.readObject());
+				this.phaseData = (PhaseData) in.readObject();*/
+				//Game gameObj = new Game();
+				Game.instance = (Game) in.readObject();
+				PhaseView.instance = (PhaseView) in.readObject();
+				WorldDominationView.instance = (WorldDominationView) in.readObject();
+				GameController.instance = (GameController) in.readObject();
+				CardExchangeView.instance = (CardExchangeView) in.readObject();
+				DiceRollView.instance = (DiceRollView) in.readObject();
+
+			} catch (ClassNotFoundException e) {
+
+				e.printStackTrace();
+			}
+
+			in.close();
+			file.close();
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+
+
 }

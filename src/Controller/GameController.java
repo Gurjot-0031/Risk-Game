@@ -3,6 +3,7 @@ package Controller;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
@@ -23,8 +24,8 @@ import View.WorldDominationView;
  * @author Team38
  *
  */
-public class GameController extends Observable {
-	private static GameController instance;
+public class GameController extends Observable implements Serializable {
+	public static GameController instance;
 	public int numOfGames;
 	public int numOfMaps;
 	public ArrayList<String> output = new ArrayList<>();
@@ -334,12 +335,14 @@ public class GameController extends Observable {
 
 
 
-		System.out.println(input[input.length-3]);
-		int turns = Integer.parseInt(input[input.length-3])*Integer.parseInt(input[0]);
-		Game.getInstance().setGameCycleCounter(turns);
+		//System.out.println(input[input.length-3]);
+		if(event.getEventInfo().equalsIgnoreCase("New Game")){
+			int turns = Integer.parseInt(input[input.length-3])*Integer.parseInt(input[0]);
+			Game.getInstance().setGameCycleCounter(turns);
 
-		this.numOfGames = Integer.parseInt(input[input.length-2]);
-		this.numOfMaps = Integer.parseInt(input[input.length-1]);
+			this.numOfGames = Integer.parseInt(input[input.length-2]);
+			this.numOfMaps = Integer.parseInt(input[input.length-1]);
+		}
 
 		switch (evnt.getEventInfo())
 		{
@@ -415,27 +418,72 @@ public class GameController extends Observable {
 
 			case "Territory Clicked":
 				this.gameLoop(evnt.getEventData().split(","));
-				while(true){
-					if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
-						break;
-					}
-					else{
-						Random random = new Random();
-						Territory tempTerritory = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
 
-						String paraToPass = tempTerritory.getName() + "," + tempTerritory.getArmies();
-						if(Game.getInstance().getGameCycleCounter()==0) {
-                            System.out.println(Game.getInstance().getGameCycleCounter() + " turns completed..");
-                            if (Game.getInstance().getCurrPlayer().isThereAWinner())
-                                System.out.println(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " is the winner..");
-                            else
-                                System.out.println("Game ended in a Draw");
-                            break;
-                        }
-						else
-                            this.gameLoop(paraToPass.split(","));
+				for(int countGame=0; countGame< 1; countGame++ )
+				{
+
+					WorldDominationView.getInstance().createChart(WorldDominationView.getInstance().getDt());
+					WorldDominationView.getInstance().getChartPanel().repaint();
+					//reset resources
+					//Game.getNewInstance();
+
+					while(true){
+						if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
+							break;
+						}
+						else{
+							//GameEvents evnt = new GameEvents();
+							//evnt.setEventInfo("Territory Clicked");
+							Random random = new Random();
+							Territory tempTerritory;
+							if(Game.getInstance().getGamePhase() == 1)
+								tempTerritory = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
+							else
+								tempTerritory = Game.getInstance().getGameMap().getTerritories().get(0);
+
+							String paraToPass = tempTerritory.getName() + "," + tempTerritory.getArmies();
+							if(Game.getInstance().getGameCycleCounter() == 0) {
+								System.out.println(Game.getInstance().getGameCycleCounter() + " turns completed..");
+
+								if (Game.getInstance().isThereAGameWinner()) {
+									output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getPlayerType());
+								}
+								//output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " WINNER");
+								else {
+									output.add(Game.getInstance().getGameWinner());
+
+								}
+								break;
+							}
+							else
+								this.gameLoop(paraToPass.split(","));
+						}
 					}
 				}
+
+				//System.out.println("OP size:" +output.size());
+				//System.out.println("G+M"+(numOfMaps+numOfGames));
+				if(output.size() == (numOfGames*numOfMaps))
+				{
+					System.out.print("        ");
+					for(int j=0; j<numOfGames;j++)
+					{
+						System.out.print("Game " + (j+1) +"    ");
+					}
+					System.out.println();
+					int countLove=0;
+					for(int i=0; i<numOfMaps; i++)
+					{
+						System.out.print("Map " + (i+1) +":  ");
+						for(int j=0; j<numOfGames; j++) {
+							System.out.print(output.get(countLove) + "  ");
+							countLove++;
+						}
+						System.out.println();
+					}
+
+				}
+
 				break;
 
 			case "Continue Attack":

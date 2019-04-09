@@ -1,11 +1,14 @@
 package Model;
 
+import java.io.Serializable;
+
+public class StrategyContextSetter implements Serializable {
 /**
  *
  * This class is used to create the object of the particular strategy
  * based on the type of strategy set in the interface object
  */
-public class StrategyContextSetter {
+
 
 
     public PlayerStrategyInterface getStrategyObject(String strategyType) {

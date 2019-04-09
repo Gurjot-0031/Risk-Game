@@ -4,13 +4,15 @@ import Event.IEvent;
 import Event.MapEditorEvents;
 import View.MapEditorView;
 
+import java.io.Serializable;
+
 /**
  * This class acts as controller for map editor events
  *
  * @author Team38
  *
  */
-public class MapEditorController {
+public class MapEditorController implements Serializable {
 
     /**
      * Handles the events triggered from view
