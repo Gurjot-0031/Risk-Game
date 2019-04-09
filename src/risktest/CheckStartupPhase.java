@@ -34,9 +34,9 @@ public class CheckStartupPhase {
      * Tests the valid phase
      */
     @Test
-    public void testValidPhase(){
+    public void testValidPhase() {
         System.out.println("Test case testValidPhase");
-        try{
+        try {
             int gamePhase = 1;
             String s = null;
             Game.getInstance().setGamePhase(1);
@@ -45,7 +45,7 @@ public class CheckStartupPhase {
             System.out.println("Phase Match successful");
 
         }
-        catch(Exception e){
+        catch(Exception e) {
             e.printStackTrace();
         }
 

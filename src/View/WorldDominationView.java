@@ -121,8 +121,8 @@ public class WorldDominationView implements Observer, Serializable {
 
             }
         }),BorderLayout.SOUTH);
-
-*/		frameFromPhase.add(chartPanel);
+*/
+		frameFromPhase.add(chartPanel);
 
 		worldDominationViewLabel.setText(label + "</body></html>");
 

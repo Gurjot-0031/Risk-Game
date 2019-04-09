@@ -100,25 +100,21 @@ public class GameController extends Observable implements Serializable {
 	 * This functions starts the new game
 	 * @param info Information received from view
 	 */
-	public void startNewGame(String[] info)
-	{
+	public void startNewGame(String[] info) {
 		try {
-			if(info.length < 2)
-			{
+			if(info.length < 2) {
 				System.out.println("Invalid data received at HomeController:New Game");
 				System.out.println("New Game cannot be started");
 			}
 			Game.getInstance().setNumPlayers(Integer.parseInt(info[0]));
 			Map map = new Map(info[1]);
-			if (map.readMapFile() == false)
-			{
+			if (map.readMapFile() == false) {
 				System.out.println("Selected map is invalid.");
 				return;
 			}
 			Game.getInstance().setMap(map);
 			int initArmies = 0;
-			switch (Game.getInstance().getNumPlayers())
-			{
+			switch (Game.getInstance().getNumPlayers()) {
 				case 2:
 					initArmies = 100;
 					break;
@@ -167,8 +163,9 @@ public class GameController extends Observable implements Serializable {
 			PhaseView.getInstance().loadFrame();
 			PhaseView.getInstance().loadMap(map);
 			WorldDominationView.getInstance().initWorldDominationView();
-		}
-		catch (NumberFormatException e){
+
+        }
+		catch (NumberFormatException e) {
 			System.out.println("Number of players invalid");
 		}
 		catch (Exception e) {
@@ -189,7 +186,7 @@ public class GameController extends Observable implements Serializable {
 	 */
 	public String handleClick(String info, int gamePhase) {
 		Player currentPlayer = Game.getInstance().getCurrPlayer();
-		if(info.equalsIgnoreCase("Continue_Button_Clicked")){
+		if(info.equalsIgnoreCase("Continue_Button_Clicked")) {
             if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN"))
                 return "Please click the territory owned by "+Game.getInstance().getCurrPlayer().getName();
         }
@@ -198,12 +195,9 @@ public class GameController extends Observable implements Serializable {
 			return "Invalid Click";
 		}*/
 
-		switch (gamePhase)
-		{
+		switch (gamePhase) {
 			case 1:		//Setup Phase
-					if (Game.getInstance().getGameTurn() ==
-							Game.getInstance().getGameMap().getTerritory(info).getOwner().getId())
-					{
+					if (Game.getInstance().getGameTurn() == Game.getInstance().getGameMap().getTerritory(info).getOwner().getId()) {
 
 
 						if (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).removeArmy(1) == true) {
@@ -220,15 +214,13 @@ public class GameController extends Observable implements Serializable {
 							}
 						}
 
-						if (nextPhase == true)
-						{
+						if (nextPhase == true) {
 							Game.getInstance().setTurn(0);
 							Game.getInstance().nextPhase();
 							return "Next Phase";
 						}
 						Game.getInstance().nextTurn();
-						while (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0)
-						{
+						while (Game.getInstance().getPlayerById(Game.getInstance().getGameTurn()).getArmies() == 0) {
 							Game.getInstance().nextTurn();
 							return "Event Processed";
 						}
@@ -321,8 +313,7 @@ public class GameController extends Observable implements Serializable {
 	 * @param event The event received
 	 * @return The processed result
 	 */
-	public String eventTriggered(IEvent event)
-	{
+	public String eventTriggered(IEvent event) {
 		String[] input = event.getEventData().split(",");
 		String temp="";
 		for(int i=0; i<input.length-3;i++){
@@ -336,7 +327,7 @@ public class GameController extends Observable implements Serializable {
 
 
 		//System.out.println(input[input.length-3]);
-		if(event.getEventInfo().equalsIgnoreCase("New Game")){
+		if(event.getEventInfo().equalsIgnoreCase("New Game")) {
 			int turns = Integer.parseInt(input[input.length-3])*Integer.parseInt(input[0]);
 			Game.getInstance().setGameCycleCounter(turns);
 
@@ -344,24 +335,22 @@ public class GameController extends Observable implements Serializable {
 			this.numOfMaps = Integer.parseInt(input[input.length-1]);
 		}
 
-		switch (evnt.getEventInfo())
-		{
+		switch (evnt.getEventInfo()) {
 			case "New Game":
 				this.gameLoop(evnt.getEventData().split(","));
 
-				for(int countGame=0; countGame< 1; countGame++ )
-				{
+				for(int countGame=0; countGame< 1; countGame++ ) {
 
 					WorldDominationView.getInstance().createChart(WorldDominationView.getInstance().getDt());
 				    WorldDominationView.getInstance().getChartPanel().repaint();
 					//reset resources
 					//Game.getNewInstance();
 
-					while(true){
-						if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
+					while(true) {
+						if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")) {
 							break;
 						}
-						else{
+						else {
 							//GameEvents evnt = new GameEvents();
 							//evnt.setEventInfo("Territory Clicked");
 							Random random = new Random();
@@ -381,7 +370,6 @@ public class GameController extends Observable implements Serializable {
 									//output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " WINNER");
 								else {
 									output.add(Game.getInstance().getGameWinner());
-
 								}
 								break;
 							}
@@ -393,17 +381,14 @@ public class GameController extends Observable implements Serializable {
 
 				//System.out.println("OP size:" +output.size());
 				//System.out.println("G+M"+(numOfMaps+numOfGames));
-				if(output.size() == (numOfGames*numOfMaps))
-				{
+				if(output.size() == (numOfGames*numOfMaps)) {
 					System.out.print("        ");
-					for(int j=0; j<numOfGames;j++)
-					{
+					for(int j=0; j<numOfGames;j++) {
 						System.out.print("Game " + (j+1) +"    ");
 					}
 					System.out.println();
 					int countLove=0;
-					for(int i=0; i<numOfMaps; i++)
-					{
+					for(int i=0; i<numOfMaps; i++) {
 						System.out.print("Map " + (i+1) +":  ");
 						for(int j=0; j<numOfGames; j++) {
 							System.out.print(output.get(countLove) + "  ");
@@ -411,7 +396,6 @@ public class GameController extends Observable implements Serializable {
 						}
 						System.out.println();
 					}
-
 				}
 
 				break;
@@ -419,19 +403,18 @@ public class GameController extends Observable implements Serializable {
 			case "Territory Clicked":
 				this.gameLoop(evnt.getEventData().split(","));
 
-				for(int countGame=0; countGame< 1; countGame++ )
-				{
+				for(int countGame=0; countGame< 1; countGame++ ) {
 
 					WorldDominationView.getInstance().createChart(WorldDominationView.getInstance().getDt());
 					WorldDominationView.getInstance().getChartPanel().repaint();
 					//reset resources
 					//Game.getNewInstance();
 
-					while(true){
-						if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
+					while(true) {
+						if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")) {
 							break;
 						}
-						else{
+						else {
 							//GameEvents evnt = new GameEvents();
 							//evnt.setEventInfo("Territory Clicked");
 							Random random = new Random();
@@ -463,17 +446,14 @@ public class GameController extends Observable implements Serializable {
 
 				//System.out.println("OP size:" +output.size());
 				//System.out.println("G+M"+(numOfMaps+numOfGames));
-				if(output.size() == (numOfGames*numOfMaps))
-				{
+				if(output.size() == (numOfGames*numOfMaps)){
 					System.out.print("        ");
-					for(int j=0; j<numOfGames;j++)
-					{
+					for(int j=0; j<numOfGames;j++){
 						System.out.print("Game " + (j+1) +"    ");
 					}
 					System.out.println();
 					int countLove=0;
-					for(int i=0; i<numOfMaps; i++)
-					{
+					for(int i=0; i<numOfMaps; i++) {
 						System.out.print("Map " + (i+1) +":  ");
 						for(int j=0; j<numOfGames; j++) {
 							System.out.print(output.get(countLove) + "  ");

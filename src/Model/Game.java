@@ -6,6 +6,7 @@ import View.DiceRollView;
 import View.PhaseView;
 import View.WorldDominationView;
 
+import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -558,19 +559,20 @@ public class Game extends Observable implements Serializable {
 		return reinforcment;
 	}
 
-	public boolean isThereAGameWinner(){
+	public boolean isThereAGameWinner() {
 		Player player = Game.getInstance().getGameMap().getTerritories().iterator().next().owner;
-		for(Territory territory:Game.getInstance().getGameMap().getTerritories()){
+		for(Territory territory:Game.getInstance().getGameMap().getTerritories()) {
 			if(!territory.getOwner().getName().equalsIgnoreCase(player.getName()))
 				return false;
 		}
+		JOptionPane.showMessageDialog(null,"Player " + player.getName() +" has won the game");
 		return true;
 	}
 
 
 	public String getGameWinner() {
 		int[] playerTerritoriesCount = new int[this.players.size()];
-		for(Player player:this.players){
+		for(Player player:this.players) {
 			playerTerritoriesCount[player.getId()] = player.getTerritoriesOwned().size();
 		}
 
@@ -579,6 +581,7 @@ public class Game extends Observable implements Serializable {
 			if(playerTerritoriesCount[i] >= totalTerr*0.75)
 				return this.players.get(i).getPlayerType();
 		}
+		JOptionPane.showMessageDialog(null,"Game Draw");
 		return "DRAW";
 	}
 

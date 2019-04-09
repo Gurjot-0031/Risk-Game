@@ -6,13 +6,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class BenevolentStrategyPlayer implements PlayerStrategyInterface, Serializable {
 /**
  *
  * This class contains the implementation of the Benevolent
  * Strategy for reinforcement, attack and fortify methods
  */
-public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
+public class BenevolentStrategyPlayer implements PlayerStrategyInterface, Serializable {
 
     /**
      * This method performs reinforcement for benevolent player

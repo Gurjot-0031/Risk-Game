@@ -57,8 +57,7 @@ public class CheckAttackPhase {
                 assertEquals("is Attack Phase correct?", gamePhase, dummyPhase);
                 System.out.println("Attack Phase Test Successful");
             }
-            else
-            {
+            else {
                 System.out.println("Attack Phase not correct");
             }
         }
@@ -71,9 +70,9 @@ public class CheckAttackPhase {
      * Test if the army removal is valid or not
      */
     @Test
-    public void testArmyRemoval(){
+    public void testArmyRemoval() {
         System.out.println("Test case testArmyRemoval");
-        try{
+        try {
             p1.setArmies(3);
             assertFalse(p1.removeArmy(4));
             System.out.println("Test Passed");
@@ -88,15 +87,15 @@ public class CheckAttackPhase {
      * Test if the correct armies are allocated
      */
     @Test
-    public void testArmyAllocation(){
+    public void testArmyAllocation() {
         System.out.println("Test case testArmyAllocation");
-        try{
+        try {
             p1.setArmies(3);
             p1.addArmy(3);
             assertEquals("Is Army allocated correct?",6,p1.getArmies());
             System.out.println("Test Passed");
         }
-        catch(Exception e){
+        catch(Exception e) {
 
         }
     }
@@ -105,9 +104,9 @@ public class CheckAttackPhase {
      * Tests the correct Attacker
      */
     @Test
-    public void testAttacker(){
+    public void testAttacker() {
         System.out.println("Test case testAttacker");
-        try{
+        try {
             Territory t1 = new Territory("india",10,20,t1adj);
             t1adj.add("china");
             t1adj.add("siam");
@@ -118,15 +117,15 @@ public class CheckAttackPhase {
             Game.getInstance().setAttacker(t1.getName());
             String attacker = Game.getInstance().getAttacker();
 
-            if(t1.getName() == "india"){
+            if(t1.getName() == "india") {
                 assertEquals("Is Attacker correct?",dummyAttacker,attacker);
                 System.out.println("Correct Attacker test successful");
             }
-            else{
+            else {
 
             }
         }
-        catch(Exception e){
+        catch(Exception e) {
 
         }
     }
@@ -136,9 +135,9 @@ public class CheckAttackPhase {
      * Tests the correct Defender
      */
     @Test
-    public void testDefender(){
+    public void testDefender() {
         System.out.println("Test case testDefender");
-        try{
+        try {
             Territory t2 = new Territory("japan",10,20,t2adj);
             t2adj.add("china");
             t2adj.add("korea");
@@ -149,11 +148,11 @@ public class CheckAttackPhase {
             Game.getInstance().setAttacked(t2.getName());
             String defender = Game.getInstance().getAttacked();
 
-            if(t2.getName() == "japan"){
+            if(t2.getName() == "japan") {
                 assertEquals("Is Defender correct?",dummyDefender,defender);
                 System.out.println("Correct Defefender test successful");
             }
-            else{
+            else {
 
             }
         }
@@ -167,7 +166,7 @@ public class CheckAttackPhase {
      * Tests the maximum values of the attacker and defender dice value
      */
     @Test
-    public void testDiceResult(){
+    public void testDiceResult() {
         System.out.println("Test case testDiceResult");
 
         attackerDiceValues.add(3);
@@ -182,7 +181,7 @@ public class CheckAttackPhase {
             Player.attackedDiceValues = attackedDiceValues;
             int[] p1Max = p1.getMax();
 
-            if(p1Max[0] == 6 && p1Max[1] == 5){
+            if(p1Max[0] == 6 && p1Max[1] == 5) {
                 assertEquals(6,p1Max[0]);
                 System.out.println("Test Case Passed");
             }
@@ -193,12 +192,12 @@ public class CheckAttackPhase {
      * Tests the owner of the territory
      */
     @Test
-    public void testOwner(){
+    public void testOwner() {
         System.out.println("Test case testOwner");
-        try{
+        try {
             Territory t1 = new Territory("india",10,20,t1adj);
             t1.setOwner(p1);
-            if(t1.getOwner().getName() == "p1"){
+            if(t1.getOwner().getName() == "p1") {
                 assertEquals("Is Owner Correct?","p1",p1.getName());
                 System.out.println("Correct Owner identified. Test Passed");
             }
@@ -217,9 +216,9 @@ public class CheckAttackPhase {
         System.out.println("Test case testStrategy");
         PlayerStrategyInterface s1 = new AggressiveStrategyPlayer();
         PlayerStrategyInterface s2 = new BenevolentStrategyPlayer();
-        try{
+        try {
             p1.setStrategy(s1);
-            if(p1.getStrategy() != null){
+            if(p1.getStrategy() != null) {
                assertEquals("Is strategy correct?",s1.getClass(),p1.getStrategy().getClass());
                System.out.println("Correct Strategy test passed");
             }
@@ -232,26 +231,32 @@ public class CheckAttackPhase {
     }
 
     /**
-     * Test the fortify method
+     *
+     * Tests the attack method of the game
      */
     @Test
-    public void testFortify(){
-        System.out.println("Test Case testFortify");
+    public void testAttack() {
+        System.out.println("Test Case testAttack");
         try{
             Territory t1 = new Territory("india",10,20,t1adj);
+            t1.addArmy(3);
             t1.setOwner(p1);
-            p1.addArmy(3);
             t1adj.add("china");
             Territory t2 = new Territory("china",10,20,t1adj);
             t2.setOwner(p1);
+            t2.addArmy(0);
+            Game.getInstance().setAttackerObj(t1);
+            Game.getInstance().setAttackedObj(t2);
+            t1.getArmies();
+            t1.getOwner();
             Game.getInstance().setMap(new Map("../Resources/World.map"));
-            Game.getInstance().fortification_source = "india";
-            Game.getInstance().fortification_destination = "china";
-            assertFalse(p1.fortify("india").equals(true));
+            Game.getInstance().setAlloutMode(true);
+            assertEquals("Is Attack Correct?",p1.attack("india"),p2.attack("china"));
+            //assertFalse(p1.attack("india").equals(true));
+            System.out.println("Attack Test Passed");
         }
-        catch(IndexOutOfBoundsException ie){
-            ie.printStackTrace();
-            System.out.println("Test cannot be validated");
+        catch(Exception c) {
+
         }
     }
 }

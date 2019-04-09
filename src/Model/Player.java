@@ -464,7 +464,14 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
     ArrayList<String> diceThrowResults= new ArrayList<>();
     int allOutInput =-1;
     /*public String attack(Territory attacker, Territory attacked,int numOfDiceAttacker,int numOfDiceAttacked) throws NullPointerException{*/
-    public String attack(String clickedTerritory) throws NullPointerException{
+
+    /**
+     *
+     * @param clickedTerritory the attacking territory
+     * @return the related attack message
+     * @throws NullPointerException in case the attacker or defender is not set
+     */
+    public String attack(String clickedTerritory) throws NullPointerException {
         Territory clickedTerritoryObj = Game.getInstance().getGameMap().getTerritory(clickedTerritory);
         Territory attackerObj = Game.getInstance().getAttackerObj();
         Territory attackedObj = Game.getInstance().getAttackedObj();
@@ -557,7 +564,7 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
                 Game.getInstance().setNumOfDiceAttacker(attackerDiceLimit);
                 Game.getInstance().setNumOfDiceAttacked(defenderDiceLimit);
             }
-            else{
+            else {
                 return "Attacker or defender ran out of armies..";
             }
 
@@ -566,7 +573,7 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
 
         }
 
-        else if(attackerObj!=null && attackedObj!=null && !Game.getInstance().isAlloutMode()){
+        else if(attackerObj!=null && attackedObj!=null && !Game.getInstance().isAlloutMode()) {
             int attackerDiceLimit;
             int defenderDiceLimit;
             if(Game.getInstance().getAttackerObj().getArmies()<3)
@@ -601,7 +608,7 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         int numOfDiceAttacker = Game.getInstance().getNumOfDiceAttacker();
         int numOfDiceAttacked = Game.getInstance().getNumOfDiceAttacked();
 
-        if(attackerObj !=null && attackedObj != null){
+        if(attackerObj !=null && attackedObj != null) {
             DiceRollView.getInstance().loadFrame();
             DiceRollView.getInstance().setFromPhaseViewActionListener(clickedTerritory);
         }
@@ -623,8 +630,8 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
 
             diceThrowResults.add("First dice roll<br/>");
             //this.defenderConqueredFlag = false;
-            try{
-                while(Game.getInstance().getAttackerObj().ContinueAttacking()==true){
+            try {
+                while(Game.getInstance().getAttackerObj().ContinueAttacking()==true) {
                     if(Game.getInstance().isAlloutMode()){
                         int attackerDiceLimit;
                         int defenderDiceLimit;
@@ -898,11 +905,11 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
      * during a fresh attack and also if attack is continued
      * @return
      */
-    public int[] getMax(){
+    public int[] getMax() {
         int attackerHighest = 0;
         int attackedHighest = 0;
         int index=-1;
-        for(int i=0;i<attackerDiceValues.size();i++){
+        for(int i=0;i<attackerDiceValues.size();i++) {
             if(attackerHighest<attackerDiceValues.get(i)) {
                 attackerHighest = attackerDiceValues.get(i);
                 index = i;
@@ -918,7 +925,7 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
 
         index = -1;
 
-        for(int i=0;i<attackedDiceValues.size();i++){
+        for(int i=0;i<attackedDiceValues.size();i++) {
             if(attackedHighest<attackedDiceValues.get(i)) {
                 attackedHighest = attackedDiceValues.get(i);
                 index = i;
@@ -935,8 +942,8 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return new int[]{attackerHighest,attackedHighest};
     }
 
-    public boolean isThereAWinner(){
-        for(Territory ter:Game.getInstance().getGameMap().getTerritories()){
+    public boolean isThereAWinner() {
+        for(Territory ter:Game.getInstance().getGameMap().getTerritories()) {
             if(!ter.getOwner().getName().equalsIgnoreCase(Game.getInstance().getAttackerObj().getOwner().getName()))
                 return false;
         }

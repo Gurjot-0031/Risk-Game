@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author Team38
  *
  */
-public class HomeController implements Serializable {
+public class HomeController implements Serializable{
 
     HomeView objHomeView;
     HomeMenu objHomeMenu;

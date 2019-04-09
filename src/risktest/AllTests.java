@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
         MapValidation.class,
         TestPlayer.class,
         CheckStartupPhase.class,
-        CheckReinforcementArmies.class,
+        CheckReinforcementPhase.class,
         CheckAttackPhase.class,
         CheckFortifyPhase.class
 })

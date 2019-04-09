@@ -10,14 +10,13 @@ import java.io.Serializable;
  * This class contains the implementation of the Cheater
  * Strategy for reinforcement, attack and fortify methods
  */
-public class CheaterStrategyPlayer implements PlayerStrategyInterface {
+public class CheaterStrategyPlayer implements PlayerStrategyInterface, Serializable {
 
     /**
      * This method performs reinforcement for cheater player
      * @param territoryClicked the territory selected
      * @return the completion message
      */
-public class CheaterStrategyPlayer implements PlayerStrategyInterface, Serializable {
     @Override
     public String reinforce(String territoryClicked) {
         Player curP = Game.getInstance().getCurrPlayer();
