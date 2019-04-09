@@ -41,6 +41,11 @@ public class WorldDominationView implements Observer {
 
 	JPanel chartPanel;
 	JFrame frameFromPhase;
+
+	public PieDataset getDt() {
+		return dt;
+	}
+
 	PieDataset dt;
 
 

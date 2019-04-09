@@ -439,6 +439,16 @@ public class Player extends Observable implements PlayerStrategyInterface{
             System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + destinationT.getName());
             Game.getInstance().fortification_source = null;
         }
+        else if(this.playerType.equalsIgnoreCase("RANDOM")){
+            int toMove = Integer.parseInt(info);
+            Territory sourceT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_source);
+            Territory destinationT = Game.getInstance().getGameMap().getTerritory(Game.getInstance().fortification_destination);
+
+            sourceT.removeArmies(toMove);
+            destinationT.addArmy(toMove);
+            System.out.println(toMove + " armies moved from " + sourceT.getName() + " to " + destinationT.getName());
+            Game.getInstance().fortification_source = null;
+        }
         return "";
     }
 
@@ -586,10 +596,11 @@ public class Player extends Observable implements PlayerStrategyInterface{
 
 
 
+
         int numOfDiceAttacker = Game.getInstance().getNumOfDiceAttacker();
         int numOfDiceAttacked = Game.getInstance().getNumOfDiceAttacked();
 
-        if(attackedObj !=null && attackedObj != null){
+        if(attackerObj !=null && attackedObj != null){
             DiceRollView.getInstance().loadFrame();
             DiceRollView.getInstance().setFromPhaseViewActionListener(clickedTerritory);
         }

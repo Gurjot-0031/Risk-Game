@@ -13,6 +13,7 @@ import javax.swing.*;
 import Controller.HomeController;
 import Event.GameEvents;
 import Event.MapEditorEvents;
+import Model.Game;
 //import javafx.stage.FileChooser;
 
 public class HomeMenu {
@@ -180,13 +181,30 @@ public class HomeMenu {
                             names += "," + name + "," + type;
                         }
                         for(int i=0;i<fileChooser.getSelectedFiles().length;i++){
-                            GameEvents objEvent = new GameEvents();
-                            objEvent.setEventInfo("New Game");
-                            String eventData = numPlayers.getSelectedItem().toString() + ","
-                                    + fileChooser.getSelectedFiles()[i].getAbsolutePath() + names+
-                                    ","+noOfTurns.getText() +"," + numOfGames.getSelectedItem().toString();
-                            objEvent.setEventData(eventData);
-                            objHomeController.eventTriggered(objEvent);
+
+                            for(int j=0; j<Integer.parseInt(numOfGames.getSelectedItem().toString()); j++){
+                                GameEvents objEvent = new GameEvents();
+                                objEvent.setEventInfo("New Game");
+                                String eventData = numPlayers.getSelectedItem().toString() + ","
+                                        + fileChooser.getSelectedFiles()[i].getAbsolutePath() + names+
+                                        ","+noOfTurns.getText() +"," + numOfGames.getSelectedItem().toString()+
+                                        ","+ fileChooser.getSelectedFiles().length;
+                                objEvent.setEventData(eventData);
+
+                                HomeController newHomeControllerObject = new HomeController();
+                                Game.getNewInstance();
+                                newHomeControllerObject.eventTriggered(objEvent);
+                            }
+
+
+
+
+                            /*try{
+                                Thread.sleep(20000);
+                            }
+                            catch (InterruptedException E){
+                                E.printStackTrace();
+                            }*/
                         }
 
                     } else {

@@ -337,6 +337,12 @@ public class Game extends Observable {
 		return instance;
 	}
 
+	public static Game getNewInstance() {
+		instance = null;
+		return getInstance();
+	}
+
+
 	/**
 	 * Assigns territory to players in a round robin fashion.
 	 */
@@ -478,7 +484,27 @@ public class Game extends Observable {
 		return reinforcment;
 	}
 
-	public boolean isThereAGameWinner{
-		for
+	public boolean isThereAGameWinner(){
+		Player player = Game.getInstance().getGameMap().getTerritories().iterator().next().owner;
+		for(Territory territory:Game.getInstance().getGameMap().getTerritories()){
+			if(!territory.getOwner().getName().equalsIgnoreCase(player.getName()))
+				return false;
+		}
+		return true;
+	}
+
+
+	public String getGameWinner() {
+		int[] playerTerritoriesCount = new int[this.players.size()];
+		for(Player player:this.players){
+			playerTerritoriesCount[player.getId()] = player.getTerritoriesOwned().size();
+		}
+
+		int totalTerr = this.gameMap.getTerritories().size();
+		for(int i=0;i<playerTerritoriesCount.length;i++){
+			if(playerTerritoriesCount[i] >= totalTerr*0.75)
+				return this.players.get(i).getPlayerType();
+		}
+		return "DRAW";
 	}
 }

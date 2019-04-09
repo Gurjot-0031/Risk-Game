@@ -26,6 +26,7 @@ import View.WorldDominationView;
 public class GameController extends Observable {
 	private static GameController instance;
 	public int numOfGames;
+	public int numOfMaps;
 	public ArrayList<String> output = new ArrayList<>();
 	/**
 	 * This is the constructor
@@ -323,7 +324,7 @@ public class GameController extends Observable {
 	{
 		String[] input = event.getEventData().split(",");
 		String temp="";
-		for(int i=0; i<input.length-2;i++){
+		for(int i=0; i<input.length-3;i++){
 			temp = temp+input[i]+",";
 
 		}
@@ -331,20 +332,27 @@ public class GameController extends Observable {
 		evnt.setEventInfo(event.getEventInfo());
 		evnt.setEventData(temp);
 
-		System.out.println(input[input.length-2]);
-		Game.getInstance().setGameCycleCounter(Integer.parseInt(input[input.length-2]));
 
-		this.numOfGames = Integer.parseInt(input[input.length-1]);
+
+		System.out.println(input[input.length-3]);
+		int turns = Integer.parseInt(input[input.length-3])*Integer.parseInt(input[0]);
+		Game.getInstance().setGameCycleCounter(turns);
+
+		this.numOfGames = Integer.parseInt(input[input.length-2]);
+		this.numOfMaps = Integer.parseInt(input[input.length-1]);
 
 		switch (evnt.getEventInfo())
 		{
 			case "New Game":
 				this.gameLoop(evnt.getEventData().split(","));
 
-				for(int countGame=0; countGame< this.numOfGames; countGame++ )
+				for(int countGame=0; countGame< 1; countGame++ )
 				{
+
+					WorldDominationView.getInstance().createChart(WorldDominationView.getInstance().getDt());
 				    WorldDominationView.getInstance().getChartPanel().repaint();
 					//reset resources
+					//Game.getNewInstance();
 
 					while(true){
 						if(Game.getInstance().getCurrPlayer().getPlayerType().equalsIgnoreCase("HUMAN")){
@@ -364,10 +372,14 @@ public class GameController extends Observable {
 							if(Game.getInstance().getGameCycleCounter() == 0) {
 								System.out.println(Game.getInstance().getGameCycleCounter() + " turns completed..");
 
-								if (Game.getInstance().getCurrPlayer().isThereAWinner())
-									output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " WINNER");
-								else
-									output.add("DRAW");
+								if (Game.getInstance().isThereAGameWinner()) {
+									output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getPlayerType());
+								}
+									//output.add(Game.getInstance().getGameMap().getTerritories().get(0).getOwner().getName() + " WINNER");
+								else {
+									output.add(Game.getInstance().getGameWinner());
+
+								}
 								break;
 							}
 							else
@@ -375,9 +387,30 @@ public class GameController extends Observable {
 						}
 					}
 				}
-				for(int i=0; i<output.size(); i++)
-					System.out.print(output.get(i) + "  ");
-				System.out.println();
+
+				//System.out.println("OP size:" +output.size());
+				//System.out.println("G+M"+(numOfMaps+numOfGames));
+				if(output.size() == (numOfGames*numOfMaps))
+				{
+					System.out.print("        ");
+					for(int j=0; j<numOfGames;j++)
+					{
+						System.out.print("Game " + (j+1) +"    ");
+					}
+					System.out.println();
+					int countLove=0;
+					for(int i=0; i<numOfMaps; i++)
+					{
+						System.out.print("Map " + (i+1) +":  ");
+						for(int j=0; j<numOfGames; j++) {
+							System.out.print(output.get(countLove) + "  ");
+							countLove++;
+						}
+						System.out.println();
+					}
+
+				}
+
 				break;
 
 			case "Territory Clicked":

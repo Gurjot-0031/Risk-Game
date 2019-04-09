@@ -30,9 +30,18 @@ public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
             System.out.println("Territory " + tempTerr.getName()+" Updated armies: "+tempTerr.armies);
         }
 
-        Game.getInstance().nextTurn();
+        if(Game.getInstance().getGameTurn() == Game.getInstance().getNumPlayers()-1) {
+            Game.getInstance().setTurn(0);
+            Game.getInstance().setGamePhase(3);
+
+        }
+        else{
+            Game.getInstance().setTurn(Game.getInstance().getGameTurn()+1);
+            Game.getInstance().setGamePhase(2);
+        }
+        /*Game.getInstance().nextTurn();
         if(Game.getInstance().getGameTurn() == 0)
-            Game.getInstance().nextPhase();
+            Game.getInstance().nextPhase();*/
         return "Benevolent Player Reinforcement completed";
     }
 
@@ -64,14 +73,31 @@ public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
         for(Territory territory:Game.getInstance().getCurrPlayer().getTerritoriesOwned())
             System.out.println("Territory "+territory.getName()+" updated armies: "+territory.getArmies());
 
-        Game.getInstance().nextTurn();
+        //Game.getInstance().nextTurn();
+        if(Game.getInstance().getGameTurn() == Game.getInstance().getNumPlayers()-1) {
+            Game.getInstance().setTurn(0);
+            Game.getInstance().setGamePhase(2);
+
+        }
+        else{
+            Game.getInstance().setTurn(Game.getInstance().getGameTurn()+1);
+            Game.getInstance().setGamePhase(3);
+        }
         return "Benevolent Fortification completed";
     }
 
     @Override
     public String attack(String territoryClicked) {
         //Fortification phase will begin
-        Game.getInstance().nextPhase();
+        //Game.getInstance().nextPhase();
+        Game.getInstance().setGamePhase(4);
+        /*if(Game.getInstance().getGameTurn() == Game.getInstance().getNumPlayers()-1) {
+            Game.getInstance().setGamePhase(4);
+        }
+        else{
+            Game.getInstance().setTurn(Game.getInstance().getGameTurn()+1);
+            Game.getInstance().setGamePhase(3);
+        }*/
         return "Benevolent Player: Attack skipped";
     }
 
