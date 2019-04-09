@@ -1,4 +1,4 @@
-/*package risktest;
+package risktest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -10,9 +10,10 @@ import org.junit.runners.Suite;
         TestPlayer.class,
         CheckStartupPhase.class,
         CheckReinforcementArmies.class,
-        CheckAttackPhase.class
+        CheckAttackPhase.class,
+        CheckFortifyPhase.class
 })
 public class AllTests {
 
-}*/
+}
 

@@ -15,41 +15,74 @@ public class Game extends Observable {
 	private int numPlayers;
 	Map gameMap;
 
+	/**
+	 * Get the Counter for number of games in tournament
+	 * @return the game counter value
+	 */
 	public int getGameCycleCounter() {
 		return gameCycleCounter;
 	}
 
+	/**
+	 * Set the game counter
+	 * @param gameCycleCounter integer value
+	 */
 	public void setGameCycleCounter(int gameCycleCounter) {
 		this.gameCycleCounter = gameCycleCounter;
 	}
 
 	public int gameCycleCounter = 1;
+
+	/**
+	 * Check if the current mode is all out
+	 * @return true or false
+	 */
 	public boolean isAlloutMode() {
 		return alloutMode;
 	}
 
+	/**
+	 * Set the game to allout mode
+	 * @param alloutMode
+	 */
 	public void setAlloutMode(boolean alloutMode) {
 		this.alloutMode = alloutMode;
 	}
 
 	private boolean alloutMode = false;
 
+	/**
+	 * Get the previous phase
+	 * @return integer value
+	 */
 	public int getPrevPhase() {
 		return prevPhase;
 	}
 
+	/**
+	 * Set the previous phase
+	 * @param prevPhase
+	 */
 	public void setPrevPhase(int prevPhase) {
 		this.prevPhase = prevPhase;
 	}
 
 	private int prevPhase = 1;
 
+	/**
+	 * This method stores the players in form of Player object
+	 * @return arraylist
+	 */
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 
 	ArrayList<Player> players;
 
+	/**
+	 * Set the game phase
+	 * @param gamePhase
+	 */
 	public void setGamePhase(int gamePhase) {
 		this.gamePhase = gamePhase;
 	}
@@ -61,37 +94,69 @@ public class Game extends Observable {
 	private String attacked;
 	private Territory attackerObj;
 
-
+	/**
+	 * Set the attacker territory object
+	 * @param attackerObj
+	 */
 	public void setAttackerObj(Territory attackerObj) {
 		this.attackerObj = attackerObj;
 	}
 
+	/**
+	 * Set the defender territory object
+	 * @param attackedObj
+	 */
 	public void setAttackedObj(Territory attackedObj) {
 		this.attackedObj = attackedObj;
 	}
 
+	/**
+	 * Get the attacker territory object
+	 * @return object of type territory
+	 */
 	public Territory getAttackerObj() {
 		return attackerObj;
 	}
 
+	/**
+	 * Get the defender territory object
+	 * @return object of type territory
+	 */
 	public Territory getAttackedObj() {
 		return attackedObj;
 	}
 
 	private Territory attackedObj = null;
+
+	/**
+	 * Get the number of dice used by attacker
+	 * @return integer value
+	 */
 	public int getNumOfDiceAttacker() {
 		return numOfDiceAttacker;
 	}
 
+	/**
+	 * Get the number of dice used by defender
+	 * @return integer value
+	 */
 	public int getNumOfDiceAttacked() {
 		return numOfDiceAttacked;
 	}
 
 
+	/**
+	 * Set the number of dice used by attacker
+	 * @return
+	 */
 	public void setNumOfDiceAttacker(int numOfDiceAttacker) {
 		this.numOfDiceAttacker = numOfDiceAttacker;
 	}
 
+	/**
+	 * Set the number of dice used by defender
+	 * @return
+	 */
 	public void setNumOfDiceAttacked(int numOfDiceAttacked) {
 		this.numOfDiceAttacked = numOfDiceAttacked;
 	}
@@ -320,8 +385,6 @@ public class Game extends Observable {
 
 		//if(this.getGameTurn()!=this.numPlayers)
 		//	System.out.println("Current Player"+ Game.getInstance().getCurrPlayer().getName());
-
-
 		setChanged();
 		notifyObservers(this);
 	}
@@ -362,7 +425,10 @@ public class Game extends Observable {
 		}
 	}
 
-
+	/**
+	 *
+	 * This method is used to assign armies to players in setup phase during tournament mode
+	 */
 	public void assignArmyToPlayersAutomatically() {
 		ArrayList<Territory> territories = this.gameMap.getTerritories();
 		Collections.shuffle(territories);

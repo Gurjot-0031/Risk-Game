@@ -5,7 +5,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+/**
+ *
+ * This class contains the implementation of the Benevolent
+ * Strategy for reinforcement, attack and fortify methods
+ */
 public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
+
+    /**
+     * This method performs reinforcement for benevolent player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String reinforce(String territoryClicked) {
         Iterator<Territory> territoryIterator = getWeakestTerritories().iterator();
@@ -45,6 +56,11 @@ public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
         return "Benevolent Player Reinforcement completed";
     }
 
+    /**
+     * This method performs fortification for benevolent player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String fortify(String territoryClicked) {
         System.out.println("Weakest territories, where fortifications need to be sent::");
@@ -86,6 +102,11 @@ public class BenevolentStrategyPlayer implements PlayerStrategyInterface {
         return "Benevolent Fortification completed";
     }
 
+    /**
+     * This method performs attack for benevolent player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String attack(String territoryClicked) {
         //Fortification phase will begin

@@ -1,5 +1,10 @@
 package Model;
 
+/**
+ *
+ * This class is used to create the object of the particular strategy
+ * based on the type of strategy set in the interface object
+ */
 public class StrategyContextSetter {
 
 

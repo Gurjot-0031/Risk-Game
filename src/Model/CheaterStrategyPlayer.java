@@ -4,7 +4,18 @@ import View.PhaseView;
 
 import javax.swing.*;
 
+/**
+ *
+ * This class contains the implementation of the Cheater
+ * Strategy for reinforcement, attack and fortify methods
+ */
 public class CheaterStrategyPlayer implements PlayerStrategyInterface {
+
+    /**
+     * This method performs reinforcement for cheater player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String reinforce(String territoryClicked) {
         Player curP = Game.getInstance().getCurrPlayer();
@@ -30,6 +41,11 @@ public class CheaterStrategyPlayer implements PlayerStrategyInterface {
         return "Cheater Player Reinforcement completed";
     }
 
+    /**
+     * This method performs fortification for cheater player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String fortify(String territoryClicked) {
         Player curP = Game.getInstance().getCurrPlayer();
@@ -61,6 +77,11 @@ public class CheaterStrategyPlayer implements PlayerStrategyInterface {
         return "Cheater Player fortification completed";
     }
 
+    /**
+     * This method performs attack for cheater player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String attack(String territoryClicked) {
         Player curP = Game.getInstance().getCurrPlayer();

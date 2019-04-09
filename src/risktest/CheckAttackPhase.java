@@ -8,7 +8,9 @@ import org.junit.Test;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 public class CheckAttackPhase {
     int gamePhase;
@@ -64,6 +66,40 @@ public class CheckAttackPhase {
         }
     }
 
+    /**
+     *
+     * Test if the army removal is valid or not
+     */
+    @Test
+    public void testArmyRemoval(){
+        System.out.println("Test case testArmyRemoval");
+        try{
+            p1.setArmies(3);
+            assertFalse(p1.removeArmy(4));
+            System.out.println("Test Passed");
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    /**
+     *
+     * Test if the correct armies are allocated
+     */
+    @Test
+    public void testArmyAllocation(){
+        System.out.println("Test case testArmyAllocation");
+        try{
+            p1.setArmies(3);
+            p1.addArmy(3);
+            assertEquals("Is Army allocated correct?",6,p1.getArmies());
+            System.out.println("Test Passed");
+        }
+        catch(Exception e){
+
+        }
+    }
     /**
      *
      * Tests the correct Attacker
@@ -192,6 +228,30 @@ public class CheckAttackPhase {
         }
         catch(Exception c){
 
+        }
+    }
+
+    /**
+     * Test the fortify method
+     */
+    @Test
+    public void testFortify(){
+        System.out.println("Test Case testFortify");
+        try{
+            Territory t1 = new Territory("india",10,20,t1adj);
+            t1.setOwner(p1);
+            p1.addArmy(3);
+            t1adj.add("china");
+            Territory t2 = new Territory("china",10,20,t1adj);
+            t2.setOwner(p1);
+            Game.getInstance().setMap(new Map("../Resources/World.map"));
+            Game.getInstance().fortification_source = "india";
+            Game.getInstance().fortification_destination = "china";
+            assertFalse(p1.fortify("india").equals(true));
+        }
+        catch(IndexOutOfBoundsException ie){
+            ie.printStackTrace();
+            System.out.println("Test cannot be validated");
         }
     }
 }

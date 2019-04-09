@@ -6,9 +6,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ *
+ * This class contains the implementation of the Aggressive
+ * Strategy for reinforcement, attack and fortify methods
+ */
 public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
 
 
+    /**
+     * This method performs reinforcement for aggressive player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String reinforce(String territoryClicked) {
         Player curP = Game.getInstance().getCurrPlayer();
@@ -33,6 +43,11 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         return "Aggresive Player Reinforcement completed";
     }
 
+    /**
+     * This method performs fortification for aggressive player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String fortify(String territoryClicked) {
         Territory territoryWithMaxArmies = null;
@@ -81,6 +96,11 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         return null;
     }
 
+    /**
+     * This method performs attack for aggressive player
+     * @param territoryClicked the territory selected
+     * @return the completion message
+     */
     @Override
     public String attack(String territoryClicked) throws NullPointerException{
         //Attack will happen in all out mode
@@ -187,6 +207,11 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         return null;
     }
 
+    /**
+     * This method searches the territory with maximum adjacents and
+     * then makes the territory with highest armies as the strongest one.
+     * @return the Strongest Terrritory object
+     */
     public Territory getStrongestTerritory(){
         int maxArmiesAndAdjacents = 0;
         //int maxNotOwnedAdjacents =0;
@@ -210,6 +235,12 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         return retTerr;
     }
 
+    /**
+     *
+     * This method counts the number of adjacent terrritory that are not owned by current player
+     * @param territory the territory object
+     * @return count of the adjacents not owned by current player
+     */
     public int getNotOwnedAdjacentsCount(Territory territory){
         int retVal = 0;
         for(String adj:territory.getAdjacents()){
@@ -221,6 +252,13 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         }
         return retVal;
     }
+
+    /**
+     *
+     * This method returns the arraylist of type territory not owned by current player
+     * @param territory the territory object
+     * @return a list of object (of type territory) of territories not owned by current player
+     */
     public ArrayList<Territory> getNotOwnedAdjTerrObjects(Territory territory){
         ArrayList<Territory> retList = new ArrayList<>();
         for(String adj:territory.getAdjacents()){
@@ -230,6 +268,13 @@ public class AggressiveStrategyPlayer implements PlayerStrategyInterface {
         }
         return retList;
     }
+
+    /**
+     *
+     * This method returns the arraylist of type territory owned by current player
+     * @param territory the territory object
+     * @return a list of object (of type territory) of territories owned by current player
+     */
     public ArrayList<Territory> getOwnedAdjTerrObjects(Territory territory){
         ArrayList<Territory> retList = new ArrayList<>();
         for(String adj:territory.getAdjacents()){
