@@ -11,7 +11,7 @@ South America=2
 
 [Territories]
 Alaska,70,126,North America,Alberta,Kamchatka
-Northwest Territory,80,24,South America,Alberta,Kamchatka
+Northwest Mexico,80,24,South America,Alberta,Kamchatka
 Kamchatka,56,34,North America,Northwest Territory,Alberta,Alaska
 Alberta,76,54,South America,Kamchatka,Northwest Territory,Alaska
 
