@@ -20,6 +20,8 @@ public class StrategyContextSetter implements Serializable {
             strategyObj = new BenevolentStrategyPlayer();
         else if(strategyType.equals("CHEATER"))
             strategyObj = new CheaterStrategyPlayer();
+        else if(strategyType.equals("RANDOM"))
+            strategyObj = new RandomStrategyPlayer();
         return strategyObj;
 
 

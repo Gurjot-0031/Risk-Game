@@ -589,10 +589,18 @@ public class Game extends Observable implements Serializable {
 
 		int totalTerr = this.gameMap.getTerritories().size();
 		for(int i=0;i<playerTerritoriesCount.length;i++){
-			if(playerTerritoriesCount[i] >= totalTerr*0.75)
+			if(playerTerritoriesCount[i] >= totalTerr*0.75) {
+
+				for(JButton btn:PhaseView.getInstance().getBtnTerritories().values()){
+					Territory territoryObj = this.gameMap.getTerritory(btn.getText());
+					territoryObj.setOwner(this.players.get(i));
+					btn.setBackground(this.players.get(i).getColor());
+				}
+
 				return this.players.get(i).getPlayerType();
+			}
 		}
-		JOptionPane.showMessageDialog(null,"Game Draw");
+		JOptionPane.showMessageDialog(null,"Game Drawn");
 		return "DRAW";
 	}
 
@@ -606,26 +614,12 @@ public class Game extends Observable implements Serializable {
 			filename = filename.endsWith(".ser") ? filename : filename + ".ser";
 			FileOutputStream file = new FileOutputStream(filename);
 			ObjectOutputStream out = new ObjectOutputStream(file);
-
-
-			/*out.writeObject(this.gameMap);
-			out.writeObject(this.players);
-			out.writeObject(this.gameCycleCounter);
-			out.writeObject(this.alloutMode);
-			out.writeObject(this.prevPhase);
-			out.writeObject(this.fortification_source);
-			out.writeObject(this.attacker);
-			out.writeObject(this.attacked);*/
 			out.writeObject(this);
 			out.writeObject(PhaseView.getInstance());
 			out.writeObject(WorldDominationView.getInstance());
 			out.writeObject(GameController.getInstance());
 			out.writeObject(CardExchangeView.getInstance());
 			out.writeObject(DiceRollView.getInstance());
-			/*out.writeObject(this.fortification_destination);
-			out.writeObject(this.fortification_destination);
-			out.writeObject(this.fortification_destination);
-			out.writeObject(this.fortification_destination);*/
 
 
 			out.close();
@@ -647,16 +641,6 @@ public class Game extends Observable implements Serializable {
 			FileInputStream file = new FileInputStream(inputFile);
 			ObjectInputStream in = new ObjectInputStream(file);
 			try {
-				/*this.bmpFile = (File) in.readObject();
-				this.continentDataList = (ArrayList<ContinentData>) in.readObject();
-				this.countryDataList = (ArrayList<CountryData>) in.readObject();
-				this.playerList = (HashMap<String,Player>) in.readObject();
-				this.playersArmiesList = (HashMap<Integer,Integer>) in.readObject();
-				System.out.println(this.playersArmiesList.size());
-				this.conqueredPlayerList = (List<Player>) in.readObject();
-				this.updatePlayer((Player) in.readObject());
-				this.phaseData = (PhaseData) in.readObject();*/
-				//Game gameObj = new Game();
 				Game.instance = (Game) in.readObject();
 				PhaseView.instance = (PhaseView) in.readObject();
 				WorldDominationView.instance = (WorldDominationView) in.readObject();

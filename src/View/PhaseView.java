@@ -25,7 +25,7 @@ import Model.Territory;
  * @author Team38
  *
  */
-public class PhaseView extends MouseAdapter implements Observer, Serializable {
+public class PhaseView  extends MouseAdapter implements Observer, Serializable  {
 	public static PhaseView instance;
 	public JButton saveBtn = new JButton("SAVE GAME");
 
@@ -170,7 +170,7 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 		gameFrame.getContentPane().setLayout(null);
 		gameFrame.add(saveBtn);
 
-		saveBtn.setBounds(200,60,60,20);
+		saveBtn.setBounds(200,10,110,20);
 		saveBtn.setVisible(true);
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(0, 620, 1024, 118);
@@ -351,7 +351,7 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 	 * @author Team38
 	 *
 	 */
-	 static class territoryMouseHover extends MouseAdapter   {
+	 static class territoryMouseHover extends MouseAdapter  {
 		public final Territory territory;
 
 		territoryMouseHover(final Territory territory) {

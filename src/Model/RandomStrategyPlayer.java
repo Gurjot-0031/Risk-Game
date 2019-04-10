@@ -18,6 +18,8 @@ public class RandomStrategyPlayer implements PlayerStrategyInterface, Serializab
         Territory randomOwnedTerritory = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random1.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
         randomOwnedTerritory.addArmy(armiesToReinforce);
         Game.getInstance().getCurrPlayer().removeArmy(armiesToReinforce);
+        System.out.println(armiesToReinforce+" armies reinforced to territory: "+ randomOwnedTerritory.getName());
+        System.out.println("Armies left with the player: "+Game.getInstance().getCurrPlayer().armies);
 
         if((Game.getInstance().getGameTurn()+1) < Game.getInstance().getNumPlayers()){
             Game.getInstance().setGamePhase(2);
@@ -53,6 +55,7 @@ public class RandomStrategyPlayer implements PlayerStrategyInterface, Serializab
         Game.getInstance().fortification_source = randomSourceTerritory.getName();
         Game.getInstance().fortification_destination = randomDestinationTerritory.getName();
         Game.getInstance().getCurrPlayer().fortify(armiesToMove);
+        System.out.println(armiesToMove+" armies moved from"+ Game.getInstance().fortification_source+" to "+Game.getInstance().fortification_destination);
 
         if(Game.getInstance().getGameTurn() == Game.getInstance().getNumPlayers()-1) {
             Game.getInstance().setGamePhase(2);
@@ -68,19 +71,40 @@ public class RandomStrategyPlayer implements PlayerStrategyInterface, Serializab
 
     @Override
     public String attack(String territoryClicked) {
-        /*Random random = new Random();
+        System.out.println("Random Player Attack completed");
+
+        Random random = new Random();
         int randomNoOfAttacks ;
         int n = 10 + 1;
         //int n = 20 - 5 + 1;
         int i = random.nextInt() % n;
-        armiesToMove =  ""+i;
+        randomNoOfAttacks=  i;
 
-        Territory randomAttackerTerritory;
-        while(true){
+        Territory randomAttackerTerritory = null;
+        int count = 0;
+        while(count < Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()){
             randomAttackerTerritory = Game.getInstance().getCurrPlayer().getTerritoriesOwned().get(random.nextInt(Game.getInstance().getCurrPlayer().getTerritoriesOwned().size()));
-            if(randomAttackerTerritory.)
-        }*/
+            if(randomAttackerTerritory.armies >2){
+                Game.getInstance().setAlloutMode(true);
+                Game.getInstance().setAttackerObj(randomAttackerTerritory);
+                System.out.println("Random attacker territory selected: " +randomAttackerTerritory.getName());
+                break;
+            }
+        }
 
-        return null;
+        if(randomAttackerTerritory!=null){
+            for(String territory:randomAttackerTerritory.getAdjacents()){
+                Territory defenderTerrObj = Game.getInstance().gameMap.getTerritory(territory);
+                if(defenderTerrObj.armies >1){
+                    Game.getInstance().setAttackedObj(defenderTerrObj);
+                    System.out.println("Random defender territory selected: " +defenderTerrObj.getName());
+                    Game.getNewInstance().getCurrPlayer().attack("RandomStrategyAttackCalled");
+                }
+
+            }
+        }
+
+        Game.getInstance().setGamePhase(4);
+        return "Random Player Attack completed";
     }
 }
