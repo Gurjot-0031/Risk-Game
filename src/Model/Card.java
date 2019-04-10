@@ -18,10 +18,17 @@ public class Card extends Observable implements Serializable {
     private String cardType;
     private Color cardColor;
 
+    /**
+     * Get the card color
+     * @return
+     */
     public Color getCardColor() {
         return cardColor;
     }
 
+    /**
+     * Set the card color
+     */
     public void setCardColor() {
         if(this.getCardType()=="INFANTRY")
             this.cardColor = new Color(255,0,0);
@@ -38,10 +45,17 @@ public class Card extends Observable implements Serializable {
 
     }
 
+    /**
+     * Get the card type
+     * @return
+     */
     public String getCardType() {
         return cardType;
     }
 
+    /**
+     * Set the card type
+     */
     public void setCardType() {
         ArrayList<String> types = new ArrayList<>();
         types.add("INFANTRY");

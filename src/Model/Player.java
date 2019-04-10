@@ -16,7 +16,7 @@ import javax.swing.*;
 /**
  * This class is the model player class
  * @author Team38
- *d
+ *
  */
 public class Player extends Observable implements PlayerStrategyInterface, Serializable {
     private int id;
@@ -24,6 +24,10 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
     private Color color;
     private String playerType;
 
+    /**
+     * Get the territories owned by current player
+     * @return territory object
+     */
     public ArrayList<Territory> getTerritoriesOwned() {
         ArrayList<Territory> retList = new ArrayList<>();
         for(Territory territory: Game.getInstance().getGameMap().getTerritories()){
@@ -33,16 +37,29 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return retList;
     }
 
+    /**
+     *
+     * Set the territories owned by current player
+     * @param territoriesOwned
+     */
     public void setTerritoriesOwned(ArrayList<Territory> territoriesOwned) {
         this.territoriesOwned = territoriesOwned;
     }
 
     private ArrayList<Territory> territoriesOwned;
 
+    /**
+     * Get the strategy of the player
+     * @return one of the methods of the interface
+     */
     public PlayerStrategyInterface getStrategy() {
         return strategy;
     }
 
+    /**
+     * Set the strategy of the player
+     * @param strategy
+     */
     public void setStrategy(PlayerStrategyInterface strategy) {
         this.strategy = strategy;
     }
@@ -60,10 +77,18 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return this.cardList;
     }
 
+    /**
+     * Get the player type
+     * @return
+     */
     public String getPlayerType() {
         return playerType;
     }
 
+    /**
+     * Set the player type
+     * @param playerType
+     */
     public void setPlayerType(String playerType) {
         this.playerType = playerType;
     }
@@ -88,6 +113,10 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         //addObserver(PhaseView.getInstance());
     }
 
+    /**
+     * Check if the card exchange is possible
+     * @return
+     */
     public boolean isCardExchangePossible() {
         if (hasArtilleryCard() && hasCalvaryCard() && hasInfantaryCard()) {
 
@@ -97,6 +126,10 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
             return hasThreeArtillery() || hasThreeCalvary() || hasThreeInfantry();
     }
 
+    /**
+     * Check if player has artillery card
+     * @return
+     */
     public boolean hasArtilleryCard() {
 
         for (Card o : this.getCardList()) {
@@ -107,6 +140,11 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         }
         return false;
     }
+
+    /**
+     * Check if player has infantary card
+     * @return
+     */
     public boolean hasInfantaryCard() {
 
         for (Card o : this.getCardList()) {
@@ -118,6 +156,10 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return false;
     }
 
+    /**
+     * Check if player has cavalry card
+     * @return
+     */
     public boolean hasCalvaryCard() {
 
         for (Card o : this.getCardList()) {
@@ -128,6 +170,11 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         }
         return false;
     }
+
+    /**
+     * Check if player has three artillery card
+     * @return
+     */
     public boolean hasThreeArtillery() {
 
         int count = 0;
@@ -140,6 +187,10 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return count == 3;
     }
 
+    /**
+     * Check if player has three cavalry card
+     * @return
+     */
     public boolean hasThreeCalvary() {
 
         int count = 0;
@@ -152,6 +203,10 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return count == 3;
     }
 
+    /**
+     * Check if player has three infantary card
+     * @return
+     */
     public boolean hasThreeInfantry() {
 
         int count = 0;
@@ -195,6 +250,11 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return true;
     }
 
+    /**
+     * Add the armies to the terrritory
+     * @param num number of armies to be added
+     * @return
+     */
     public boolean addArmy(int num) {
         this.armies += num;
         return true;
@@ -942,6 +1002,11 @@ public class Player extends Observable implements PlayerStrategyInterface, Seria
         return new int[]{attackerHighest,attackedHighest};
     }
 
+    /**
+     *
+     * This method is used to check if the game has a winner
+     * @return
+     */
     public boolean isThereAWinner() {
         for(Territory ter:Game.getInstance().getGameMap().getTerritories()) {
             if(!ter.getOwner().getName().equalsIgnoreCase(Game.getInstance().getAttackerObj().getOwner().getName()))

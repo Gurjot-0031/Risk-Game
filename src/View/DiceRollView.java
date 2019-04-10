@@ -20,6 +20,9 @@ public class DiceRollView implements Observer, Serializable {
 
     public static DiceRollView instance;
 
+    /**
+     * Get the fortify button
+     */
     public JButton getFortifyBtn() {
         return fortifyBtn;
     }
@@ -87,6 +90,11 @@ public class DiceRollView implements Observer, Serializable {
 
     private JLabel diceInfoLabel;
 
+    /**
+     *
+     * Get the singleton instance of the dice roll view
+     * @return the singleton instance
+     */
     public static DiceRollView getInstance() {
         if (instance == null) {
             instance = new DiceRollView();

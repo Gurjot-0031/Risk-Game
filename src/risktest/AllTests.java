@@ -11,7 +11,9 @@ import org.junit.runners.Suite;
         CheckStartupPhase.class,
         CheckReinforcementPhase.class,
         CheckAttackPhase.class,
-        CheckFortifyPhase.class
+        CheckFortifyPhase.class,
+        TestAggresivePlayer.class,
+        TestBenevolentPlayer.class
 })
 public class AllTests {
 

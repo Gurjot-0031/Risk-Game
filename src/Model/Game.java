@@ -105,7 +105,7 @@ public class Game extends Observable implements Serializable {
 
 	/**
 	 * Set the attacker territory object
-	 * @param attackerObj
+	 * @param attackerObj the attacker territory
 	 */
 	public void setAttackerObj(Territory attackerObj) {
 		this.attackerObj = attackerObj;
@@ -113,7 +113,7 @@ public class Game extends Observable implements Serializable {
 
 	/**
 	 * Set the defender territory object
-	 * @param attackedObj
+	 * @param attackedObj the defending territory
 	 */
 	public void setAttackedObj(Territory attackedObj) {
 		this.attackedObj = attackedObj;
@@ -409,6 +409,10 @@ public class Game extends Observable implements Serializable {
 		return instance;
 	}
 
+	/**
+	 * Gets the new instance for the tournament mode
+	 * @return the instance
+	 */
 	public static Game getNewInstance() {
 		instance = null;
 		return getInstance();
@@ -559,6 +563,10 @@ public class Game extends Observable implements Serializable {
 		return reinforcment;
 	}
 
+	/**
+	 * Check if the player is game winner of the tournament
+	 * @return result
+	 */
 	public boolean isThereAGameWinner() {
 		Player player = Game.getInstance().getGameMap().getTerritories().iterator().next().owner;
 		for(Territory territory:Game.getInstance().getGameMap().getTerritories()) {
@@ -569,7 +577,10 @@ public class Game extends Observable implements Serializable {
 		return true;
 	}
 
-
+	/**
+	 * Check if the game has winner based on the territories owned at the game end
+	 * @return result
+	 */
 	public String getGameWinner() {
 		int[] playerTerritoriesCount = new int[this.players.size()];
 		for(Player player:this.players) {
@@ -585,6 +596,10 @@ public class Game extends Observable implements Serializable {
 		return "DRAW";
 	}
 
+	/**
+	 * Save the game in tournament mode
+	 * @param filename name of the file
+	 */
 	public void saveGame(String filename) {
 		try {
 			// Saving of object in a file
@@ -624,6 +639,9 @@ public class Game extends Observable implements Serializable {
 
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * Load the saved game
+	 */
 	public void loadSavedGame (File inputFile) {
 		try {
 			FileInputStream file = new FileInputStream(inputFile);
