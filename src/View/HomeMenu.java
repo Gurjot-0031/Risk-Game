@@ -47,11 +47,14 @@ public class HomeMenu implements Serializable {
                 }
 
                 Game.getNewInstance();
-                Game.getNewInstance().loadSavedGame(selectedFile);
+                Game.getInstance().loadSavedGame(selectedFile);
                 GameController.getInstance();
                 //Game.getInstance().loadSavedGame(selectedFile);
                 //PhaseView.getInstance().loadFrame();
+                PhaseView.getInstance().initFrame();
                 PhaseView.getInstance().loadMap(Game.getInstance().getGameMap());
+                WorldDominationView.getInstance().initWorldDominationView();
+
                 return;
             }
 

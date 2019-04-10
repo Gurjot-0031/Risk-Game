@@ -17,6 +17,7 @@ public class CheaterStrategyPlayer implements PlayerStrategyInterface, Serializa
      * @param territoryClicked the territory selected
      * @return the completion message
      */
+
     @Override
     public String reinforce(String territoryClicked) {
         Player curP = Game.getInstance().getCurrPlayer();

@@ -40,7 +40,7 @@ public class WorldDominationView implements Observer, Serializable {
 		return chartPanel;
 	}
 
-	JPanel chartPanel;
+	JPanel chartPanel ;
 	JFrame frameFromPhase;
 
 	public PieDataset getDt() {
@@ -54,6 +54,39 @@ public class WorldDominationView implements Observer, Serializable {
 	 * Show the World domination panel on the right side of the game screen
 	 */
     public void initWorldDominationView() {
+		String label = "<html><head><h1>World Domination View</h1></head><body> ";
+
+		territoriesList = Game.getInstance().getGameMap().getTerritories();
+		String[] name = new String[Game.getInstance().getNumPlayers()] ;
+		Float[] value = new Float[Game.getInstance().getNumPlayers()];
+		for (int i = 0; i < Game.getInstance().getNumPlayers(); i++) {
+			int tempTerritoryCount = 0;
+			float percentage = 0;
+
+			for (Territory territory : territoriesList) {
+				if (territory.getOwner() == Game.getInstance().getPlayerById(i)) {
+					tempTerritoryCount += 1;
+				}
+			}
+			percentage = (float) 100.0 * tempTerritoryCount / Game.getInstance().getGameMap().getTerritories().size();
+			label = label + Game.getInstance().getPlayerById(i).getName() + " owns " + percentage
+					+ " % territories and owns " + PhaseView.getInstance().curPArmies + "<br/>";
+			worldDominationViewLabel.setText(label);
+			//dt = createDataset(Game.getInstance().getPlayerById(i).getName(),percentage);
+
+			//createDataset(Game.getInstance().getPlayerById(i).getName(),percentage);
+			//for(int j=0; j<Game.getInstance().getNumPlayers();j++){
+			name[i] = Game.getInstance().getPlayerById(i).getName();
+			//}
+			if(name[i] != null)
+			{
+				value[i] = percentage;
+			}
+			//dt = createDataset(name,value);
+			//chartPanel = new ChartPanel(createChart(createDataset(name,value)));
+
+		}
+		dt = createDataset(name,value);
 
 		worldDominationViewLabel.setBounds(1024, 0, 310, 300);
 		frameFromPhase = PhaseView.getInstance().getGameFrame();
@@ -64,6 +97,16 @@ public class WorldDominationView implements Observer, Serializable {
 		frameFromPhase.add(worldDominationViewPanel);
 
         Game.getInstance().addObserver(this);
+        frameFromPhase.setVisible(true);
+        worldDominationViewPanel.setVisible(true);
+        chartPanel = new ChartPanel(createChart(dt));
+        frameFromPhase.add(chartPanel);
+		chartPanel.setBounds(1024,0,310,300);
+		chartPanel.setVisible(true);
+		//worldDominationViewPanel.add(chartPanel);
+		//chartPanel.repaint();
+
+
 
     }
 

@@ -33,11 +33,12 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 
 	private JFrame gameFrame;
 
-	private PhaseView() {
 
-	}
+    public PhaseView() {
 
-	/**
+    }
+
+    /**
 	 * get the updated button property of territories on the game screen
 	 * @return
 	 */
@@ -54,7 +55,7 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 	}
 
 	private HashMap<String,JButton> btnTerritories = new HashMap<>();
-	private JLabel infoLog;
+	static private JLabel infoLog;
 	//public String playerBeforeClick = Game.getInstance().getCurrPlayerName();;
 	public JButton getResetAttackerBtn() {
 		return resetAttackerBtn;
@@ -75,10 +76,10 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 		return infoLog2;
 	}
 
-	private JLabel infoLog2;
-	String gamePhase = Game.getInstance().getGamePhaseDesc();
-	String curPlayer = Game.getInstance().getCurrPlayerName();
-	int curPArmies = Game.getInstance().getCurrPlayerArmies();
+	static private JLabel infoLog2;
+	static String gamePhase = Game.getInstance().getGamePhaseDesc();
+	static String curPlayer = Game.getInstance().getCurrPlayerName();
+	static int curPArmies = Game.getInstance().getCurrPlayerArmies();
 
 	public boolean isArmiesChanged() {
 		return armiesChanged;
@@ -89,8 +90,8 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 	}
 
 	//int curPArmies2 ;
-	boolean armiesChanged =false;
-	boolean phaseChanged =false;
+	static boolean armiesChanged =false;
+	static boolean phaseChanged =false;
 
 	/**
 	 * Get the frame in Game screen
@@ -169,7 +170,7 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 		gameFrame.getContentPane().setLayout(null);
 		gameFrame.add(saveBtn);
 
-		saveBtn.setBounds(200,10,25,20);
+		saveBtn.setBounds(200,60,60,20);
 		saveBtn.setVisible(true);
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBounds(0, 620, 1024, 118);
@@ -191,6 +192,7 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 		/*JPanel gameDetailsPanel = new JPanel();
 		gameDetailsPanel.setBounds(924, 0, 300, 768);
 		gameFrame.add(gameDetailsPanel);*/
+
 	}
 
 	/**
@@ -258,7 +260,8 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
 
-				Game.getInstance().saveGame("ABC");
+				Game.getInstance().saveGame("SavedGameFile");
+				JOptionPane.showMessageDialog(null,"Game has been saved in SavedGameFile.ser file..");
 			}
 		});
 		nextEventBtn.setVisible(true);
@@ -348,8 +351,8 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 	 * @author Team38
 	 *
 	 */
-	class territoryMouseHover extends MouseAdapter {
-		private final Territory territory;
+	 static class territoryMouseHover extends MouseAdapter   {
+		public final Territory territory;
 
 		territoryMouseHover(final Territory territory) {
 			this.territory = territory;
@@ -395,7 +398,7 @@ public class PhaseView extends MouseAdapter implements Observer, Serializable {
 	 * @author Team38
 	 *
 	 */
-	class territoryActionListener implements ActionListener {
+	static class territoryActionListener implements ActionListener {
 		private final Territory territory;
 
 
